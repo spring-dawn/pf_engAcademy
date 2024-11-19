@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 public class EamsApplication {
-	// English academy managemnt system.
+	// English academy management system.
 
 	public static void main(String[] args) {
 		SpringApplication.run(EamsApplication.class, args);

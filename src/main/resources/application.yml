@@ -1,12 +1,11 @@
 spring:
   application:
     name: eams
-# 디폴트 환경
-# 접속 정보 jasypt 적용.
+  # 디폴트 환경. 접속 정보 jasypt 적용.
   datasource:
-    url:
-    username:
-    password:
+    url: jdbc:mysql://localhost:3306/pf_eams?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+    username: ENC(u8gZUjsXwF6c0TS8f1klS9CfRmTl1auGPGFRxW9jFEDIOuLjnkHxneHP7cGTIk3H)
+    password: ENC(HviEW/kcbBKXCVMbDnQ4hSpF9Kqd0O+OdBwY9r9EuIQ/gMXXiU4HHUGL45kxdgR0)
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -18,20 +17,24 @@ spring:
       hibernate:
         format_sql: true # sql log 가독성 좋게 출력
 
-#  SSR 타임리프 템플릿 설정.
+#  SSR 타임리프 템플릿
   thymeleaf:
-#    대체로 디폴트 설정 그대로. 개발 중 캐시는 false.
-    cache: false
+    cache: false # 위치 등은 디폴트 설정 따름. 개발 중 캐시는 false.
 
 server:
-#  port: 8080 # 디폴트 값 8080
+#  port: 8080 # 디폴트
   servlet:
     session:
-      timeout: 30m
       cookie:
         name: JSESSIONID_EAMS # 디폴트 세션쿠키명 JSESSIONID 쓰면 별개 세션과 중복 가능성 있음
-    context-path: /hblee-pf1/
+      timeout: 30m
+    context-path: /
 
+# 프로퍼티 암호화. 패스워드는 vm option.
+jasypt:
+  encryptor:
+    algorithm: PBEWITHHMACSHA512ANDAES_256
+    iv-generator-classname: org.jasypt.iv.RandomIvGenerator
 
 
 ---

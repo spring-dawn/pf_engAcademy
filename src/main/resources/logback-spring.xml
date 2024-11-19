@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 주석처리는 log4j2.xml 양식-->
+<!--<Configuration status="INFO">-->
+<!--    <Properties>-->
+<!--        <Property name="logNm">smartParking_dev</Property>-->
+<!--        <Property name="layoutPattern">[${logNm}] %style{%d{yyyy-MM-dd HH:mm:ss}}{cyan} %highlight{%-5p}{FATAL=bg_red,-->
+<!--            ERROR=red, INFO=green, DEBUG=blue} -&#45;&#45; %style{[%thread]}{yellow} %logger[%method:%line] - %msg %n-->
+<!--        </Property>-->
+<!--        <Property name="basePath">../../logs</Property>-->
+<!--    </Properties>-->
+
+<!--    <Appenders>-->
+<!--        &lt;!&ndash;콘솔&ndash;&gt;-->
+<!--        <Console name="console" target="SYSTEM_OUT">-->
+<!--            <PatternLayout pattern="${layoutPattern}" disableAnsi="false"/>-->
+<!--        </Console>-->
+<!--        &lt;!&ndash;로그 파일. fileName 에서 저장 경로 설정 가능 &ndash;&gt;-->
+<!--        <RollingFile name="file" fileName="${basePath}/${logNm}.log" filePattern="/logs/${logNm}_%d{yyyyMMdd}.log">-->
+<!--            <PatternLayout pattern="${layoutPattern}"/>-->
+
+<!--            <Policies>-->
+<!--                &lt;!&ndash;                매일 새로운 로그 파일 생성&ndash;&gt;-->
+<!--                <TimeBasedTriggeringPolicy/>-->
+<!--            </Policies>-->
+<!--            <DefaultRolloverStrategy>-->
+<!--                &lt;!&ndash; 이전 로그 파일 삭제 설정 &ndash;&gt;-->
+<!--                <Delete basePath="${basePath}">-->
+<!--                    <IfFileName glob="${logNm}_*.log"/>-->
+<!--                    <IfLastModified age="180d"/>-->
+<!--                </Delete>-->
+<!--            </DefaultRolloverStrategy>-->
+<!--        </RollingFile>-->
+<!--    </Appenders>-->
+
+<!--    <Loggers>-->
+<!--        <Root level="INFO" additivity="false">-->
+<!--            <AppenderRef ref="console"/>-->
+<!--            &lt;!&ndash;            주석 해제 시 파일 로깅 시작 &ndash;&gt;-->
+<!--            <AppenderRef ref="file" />-->
+<!--        </Root>-->
+<!--    </Loggers>-->
+<!--</Configuration>-->
+
+<!-- *환경 분리는 springProfile 태그 사용 -->
+<configuration>
+    <!-- 공통 프로퍼티 -->
+    <property name="logNm" value="eams_dev"/>
+    <property name="basePath" value="../../logs_pf1"/>
+
+    <!-- 콘솔 로그 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--            [eams_dev] 2024-11-14 17:30:45 INFO  [main] com.example.MyClass - Application started successfully-->
+            <pattern>[${logNm}] %d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 파일 로그 (롤링 파일) -->
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${basePath}/${logNm}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${basePath}/${logNm}_%d{yyyyMMdd}.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>[${logNm}] %d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 최상위 로거 설정. 각 어펜더의 name 으로 연결. -->
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="rollingFile"/>
+    </root>
+</configuration>
