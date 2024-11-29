@@ -1,4 +1,4 @@
-package portfolio.eams.domain.system;
+package portfolio.eams.entity.system;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -6,7 +6,8 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import portfolio.eams.domain.CommonEntity;
+import portfolio.eams.entity.CommonEntity;
+import portfolio.eams.dto.system.UserDto;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -20,6 +21,7 @@ import java.util.Collection;
 public class User extends CommonEntity implements UserDetails {
     /*
     사용자: 학원 운영 간부, 평 강사. 모든 직원은 강사임을 전제.
+    포트폴리오이니만큼 단순하게 받음
      */
 
     @Id
@@ -27,7 +29,7 @@ public class User extends CommonEntity implements UserDetails {
     @Column(name = "USER_NO")
     private Long id;
 
-    @Column(name = "USER_ID", length = 20)
+    @Column(name = "USER_ID", length = 20, unique = true)
     @Comment("사용자 ID")
     private String userId;
 
@@ -49,25 +51,17 @@ public class User extends CommonEntity implements UserDetails {
     private Character useYn;
 
     @Column(name = "ADM_YN", length = 1)
-    @Comment("")
+    @Comment("관리자 여부. 개발자 등 마스터계정, 삭제 불가.")
     @ColumnDefault("'N'")
     private Character admYn;
 
     @Column(name = "TEL", length = 20)
-    @Comment("")
+    @Comment("연락처")
     private String tel;
 
-    @Column(name = "EML", length = 100)
-    @Comment("")
+    @Column(name = "EML", length = 100, unique = true)
+    @Comment("이메일")
     private String email;
-
-    @Column(name = "LGN_FAIL_CNT")
-    @Comment("로그인 실패 횟수")
-    private int loginFailCnt;
-
-    @Column(name = "PW_MOD_YMD")
-    @Comment("최신 비밀번호 변경일")
-    private LocalDate pwModYmd;
 
     @Column(name = "JOIN_YMD")
     @Comment("입사일")
@@ -77,6 +71,21 @@ public class User extends CommonEntity implements UserDetails {
     @Comment("퇴사일")
     private LocalDate quitYmd;
 
+    @Column(name = "LGN_FAIL_CNT")
+    @Comment("로그인 실패 횟수")
+    private int loginFailCnt;
+
+    @Column(name = "PW_MOD_YMD")
+    @Comment("최신 비밀번호 변경일")
+    private LocalDate pwModYmd;
+
+
+    /*
+    entity to response
+     */
+    public UserDto toRes() {
+        return UserDto.builder().build();
+    }
 
 
     /*
@@ -95,7 +104,7 @@ public class User extends CommonEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return userNm;
     }
 
     @Override
@@ -105,7 +114,7 @@ public class User extends CommonEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return loginFailCnt <= 5;
     }
 
     @Override
@@ -115,6 +124,6 @@ public class User extends CommonEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return useYn.equals('Y');
     }
 }

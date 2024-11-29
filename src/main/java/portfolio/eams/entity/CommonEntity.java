@@ -1,4 +1,4 @@
-package portfolio.eams.domain;
+package portfolio.eams.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
