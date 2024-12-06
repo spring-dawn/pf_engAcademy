@@ -52,5 +52,27 @@ public class UserDto {
         private LocalDate pwModYmd;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class DeleteReq {
+        private Long id;
+        private String userPw;
+        private String pwConfirm;
+    }
 
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SearchReq {
+        private Long id;
+        private String userId;
+        private String userNm;
+        private Character useYn;
+        private Character admYn;
+        private String tel;
+        private String email;
+        private LocalDate joinYmd;
+        private LocalDate quitYmd;
+    }
 }

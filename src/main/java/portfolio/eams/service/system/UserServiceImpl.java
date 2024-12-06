@@ -1,5 +1,6 @@
 package portfolio.eams.service.system;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,13 +9,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import portfolio.eams.dto.system.UserDto;
+import portfolio.eams.entity.system.User;
 import portfolio.eams.repo.system.UserRepo;
+import portfolio.eams.util.MyUtil;
+import portfolio.eams.util.enums.InfoMsg;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor // repo import
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserDetailsService, UserService {
+    private static final String THIS = "사용자";
+
     // 리포지토리 임포트. @Autowired 는 테스트 클래스에서 사용.
     private final UserRepo repo;
 
@@ -61,11 +67,27 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public void initLoginFailure(Long id) {
         // TODO document why this method is empty
+//        1) find target
+        User user = repo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(MyUtil.getEnum(InfoMsg.ENTITY_NOT_FOUND, THIS)));
+
     }
 
-    @Override
-    public UserDto deleteUser() {
-        return null;
+    @Transactional
+    public UserDto deleteUser(UserDto.DeleteReq req) {
+        //TODO: check session
+
+//        1) find target
+        User user = repo.findById(req.getId())
+                .orElseThrow(() -> new EntityNotFoundException(MyUtil.getEnum(InfoMsg.ENTITY_NOT_FOUND, THIS)));
+
+//        2) check auth
+
+
+//        ) delete
+        repo.delete(user);
+        return user.toRes();
+
     }
 
 }

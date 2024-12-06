@@ -2,11 +2,9 @@ package portfolio.eams.service.system;
 
 import portfolio.eams.dto.system.UserDto;
 
-import java.util.List;
-
 public interface UserService {
     /*
-    사용자 관리 api 정의.
+    사용자 관리 api, JPA 기본 기능을 디폴트 Service 로 선언.
     목록 조회는 검색을 겸하므로 최적화를 위해 별도 쿼리 작성.
      */
 
@@ -18,7 +16,7 @@ public interface UserService {
     public UserDto updateUser();
 
     // 사용자 삭제
-    public UserDto deleteUser();
+    public UserDto deleteUser(UserDto.DeleteReq req);
 
     // 사용자 퇴사
     public UserDto quitUser(Long id);

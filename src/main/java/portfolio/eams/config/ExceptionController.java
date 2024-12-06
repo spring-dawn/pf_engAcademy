@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import portfolio.eams.dto.ResponseDto;
-import portfolio.eams.util.TimeUtils;
+import portfolio.eams.util.MyUtil;
 
 @Slf4j
 @RestControllerAdvice
@@ -18,7 +18,7 @@ public class ExceptionController {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> defaultServerException(Exception e) {
         log.error("Exception!", e);
-        ResponseDto defaultRes = new ResponseDto("500", "내부 에러 발생", TimeUtils.timestamp());
+        ResponseDto defaultRes = new ResponseDto("500", "내부 에러 발생", MyUtil.timestamp());
 
         return new ResponseEntity<>(
                 defaultRes,
