@@ -9,11 +9,10 @@ import java.time.LocalDate;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
     /*
-
+    Builder 패턴 사용하는 경우 NoArgsConstructor 필요
      */
 
     // 일반 조회
