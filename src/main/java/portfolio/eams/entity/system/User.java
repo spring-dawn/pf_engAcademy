@@ -1,16 +1,21 @@
 package portfolio.eams.entity.system;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import portfolio.eams.entity.CommonEntity;
 import portfolio.eams.dto.system.UserDto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Builder
@@ -81,10 +86,19 @@ public class User extends CommonEntity implements UserDetails {
 
 
     /*
-    entity to response
+    User : Role = N : 1 단방향 참조.
+    연관 필드에는 반드시 @JsonIgnore 등 순환참조 방어 어노테이션을 붙입니다
+    @ManyToOne 의 기본 fetch 전략은 EAGER 이므로 LAZY 를 명시해줍니다.
      */
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Role role;
+
+
+    // res
     public UserDto toRes() {
-        return UserDto.builder().build();
+        return UserDto.builder()
+                .build();
     }
 
 
@@ -93,8 +107,13 @@ public class User extends CommonEntity implements UserDetails {
      */
 
     @Override
+    @Transactional(readOnly = true) // 권한 정보를 전달하기 위해 영속성 컨텍스트 유지.
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+//        authorities.add(new SimpleGrantedAuthority(this.role.getName()));
+        authorities.add(new SimpleGrantedAuthority(this.getRole().getRoleNm()));
+
+        return authorities;
     }
 
     @Override

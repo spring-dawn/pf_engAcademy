@@ -4,6 +4,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import portfolio.eams.entity.system.Menu;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface MenuRepo extends JpaRepository<Menu, Long> {
+
+    /**
+     * url 로 메뉴 조회
+     * @param url url(unique)
+     * @return 해당 메뉴 옵셔널
+     */
+    Optional<Menu> findByUrl(String url);
+
+    /**
+     * 상위 참조가 없는 메뉴 목록 조회
+     * @return 최상위 메뉴 목록
+     */
+    List<Menu> findByParentIsNull();
 }

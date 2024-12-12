@@ -44,4 +44,15 @@ public enum InfoMsg {
     // 공통 인자
     private final String msg;
 
+
+    /**
+     * enum 동적 재사용 메시지 불러오기
+     *
+     * @param str %s 자리에 들어갈 특정 문자열 혹은 엔티티명 ex) 사용자, 권한, 코드...
+     * @return 조합된 메시지 문자열
+     */
+    public String format(String str) {
+        return String.format(this.msg, str);
+    }
+
 }
