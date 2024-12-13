@@ -18,6 +18,7 @@ import java.util.List;
 public class Menu {
     /*
     메뉴. 탭, 모달 개념 등은 프론트에서 관리.
+    메뉴의 변경...은 DB에서 직접 이루어질 것 같은데. api 가 필요한가?
      */
 
     @Id
@@ -67,7 +68,7 @@ public class Menu {
                 .order(order)
                 .useYn(useYn)
                 .parentId(parent == null ? null : parent.getId())
-                .children(children.stream().map(Menu::toRes).toList())
+                .children(children == null? null : children.stream().map(Menu::toRes).toList())
                 .build();
     }
 
