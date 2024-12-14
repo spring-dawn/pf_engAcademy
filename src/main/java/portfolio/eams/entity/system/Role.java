@@ -6,6 +6,7 @@ import lombok.*;
 import org.apache.ibatis.annotations.One;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import portfolio.eams.dto.system.RoleDto;
 import portfolio.eams.entity.CommonEntity;
 
 import java.util.ArrayList;
@@ -31,9 +32,13 @@ public class Role extends CommonEntity {
     @Comment("역할(직책)명")
     private String roleNm;
 
-    @Column(name = "DESC", length = 50)
+    @Column(name = "DESCRIPTION", length = 50)
     @Comment("역할 내용 상세")
     private String desc;
+
+    @Column(name = "SORT_ORDER")
+    @Comment("역할 정렬 순서. 높은 권한이 우위?")
+    private int order;
 
     @Column(name = "USE_YN", length = 1)
     @Comment("사용여부. Y: 사용, N: 미사용(출력x)")
@@ -45,16 +50,30 @@ public class Role extends CommonEntity {
     연관관계
      */
     @JsonIgnore
-    @OneToMany
+    @OneToMany(mappedBy = "role", cascade = CascadeType.REMOVE)
     private List<RoleAuth> authList = new ArrayList<>();
 
 
     // update
-    public void update(){
+    public void update(RoleDto.Req req){
+        roleNm = req.getRoleNm();
+        desc = req.getDesc();
+        useYn = req.getUseYn();
+        order = req.getOrder();
     }
 
 
     // res
+    public RoleDto toRes(){
+        return RoleDto.builder()
+                .id(id)
+                .roleNm(roleNm)
+                .desc(desc)
+                .order(order)
+                .useYn(useYn)
+                .authList(authList == null ? null : authList.stream().map(RoleAuth::toRes).toList())
+                .build();
+    }
 
 
 }

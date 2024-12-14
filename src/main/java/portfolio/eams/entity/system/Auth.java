@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
+import portfolio.eams.dto.system.AuthDto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -20,25 +24,32 @@ public class Auth {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ROLE_NO")
+    @Column(name = "AUTH_NO")
     private Long id;
 
-//    @Column(name = "AUTH_TYPE", length = 5, nullable = false)
-//    @Comment("권한 종류. C, R, U, D... ")
-//    private String type;
-
-    @Column(name = "WRITE_YN", length = 1, nullable = false)
-    @Comment("편집권 여부. Y: 편집 가능 권한, N: 조회권")
-    private Character writeYn;
+    @Column(name = "AUTH_TYPE", length = 1, nullable = false)
+    @Comment("(실험적)권한 종류. C 등록, R 조회(디폴트), U 수정, D 삭제... ")
+    private Character type;
 
 
     /*
     Menu : Auth = 1 : N
-    단방향 매핑
+    단방향 매핑. 어떤 메뉴에 대한 권한인지를 표기.
      */
     @JoinColumn(name = "MENU_NO")
     @ManyToOne(fetch = FetchType.LAZY)
     private Menu menu;
 
+    /*
+    Role : Privilege = N : M
+     */
+    @JsonIgnore
+    @OneToMany(mappedBy = "auth")
+    private List<RoleAuth> roles = new ArrayList<>();
+
+    // res
+    public AuthDto toRes() {
+        return new AuthDto(id, type, menu);
+    }
 
 }

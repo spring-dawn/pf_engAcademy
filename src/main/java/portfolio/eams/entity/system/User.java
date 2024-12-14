@@ -84,35 +84,25 @@ public class User extends CommonEntity implements UserDetails {
     @Comment("최신 비밀번호 변경일")
     private LocalDate pwModYmd;
 
-
     /*
-    User : Role = N : 1 단방향 참조.
-    연관 필드에는 반드시 @JsonIgnore 등 순환참조 방어 어노테이션을 붙입니다
-    @ManyToOne 의 기본 fetch 전략은 EAGER 이므로 LAZY 를 명시해줍니다.
-     */
-    @JsonIgnore
+      User : Role = N : 1 단방향 참조.
+      연관 필드에는 반드시 @JsonIgnore 등 순환참조 방어 어노테이션을 붙입니다
+      @ManyToOne 의 기본 fetch 전략은 EAGER 이므로 LAZY 를 명시해줍니다.
+      양방향 매핑은 가능한 한 피하고, 필요한 만큼만 연관 짓습니다.
+   */
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ROLE_NO")
     private Role role;
-
-
-    // res
-    public UserDto toRes() {
-        return UserDto.builder()
-                .build();
-    }
 
 
     /*
     UserDetails 구현
      */
-
     @Override
     @Transactional(readOnly = true) // 권한 정보를 전달하기 위해 영속성 컨텍스트 유지.
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-//        authorities.add(new SimpleGrantedAuthority(this.role.getName()));
         authorities.add(new SimpleGrantedAuthority(this.getRole().getRoleNm()));
-
         return authorities;
     }
 
@@ -145,4 +135,13 @@ public class User extends CommonEntity implements UserDetails {
     public boolean isEnabled() {
         return useYn.equals('Y');
     }
+
+
+    // res
+    public UserDto toRes() {
+        return UserDto.builder()
+                .build();
+    }
+
+
 }

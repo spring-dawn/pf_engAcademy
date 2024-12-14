@@ -5,6 +5,7 @@ import portfolio.eams.dto.system.MenuDto;
 import portfolio.eams.entity.system.Menu;
 
 import java.util.List;
+import java.util.Set;
 
 public interface MenuService {
 
@@ -28,7 +29,7 @@ public interface MenuService {
      * @param allowed   접근권 있는 메뉴 전체의 id
      * @return 필터링 메뉴
      */
-    List<Menu> filterAllowedMenu(List<Menu> rootMenus, List<Long> allowed);
+    List<Menu> filterAllowedMenu(List<Menu> rootMenus, Set<Long> allowed);
 
 
     /**

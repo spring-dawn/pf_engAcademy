@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import portfolio.eams.dto.system.MenuDto;
 import portfolio.eams.entity.system.Menu;
 import portfolio.eams.entity.system.Role;
@@ -46,26 +47,31 @@ public class MenuServiceImpl implements MenuService {
 //        3) role 내부 메뉴 확인
         Role role = roleRepo.findByRoleNm(roleNm)
                 .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.ROLE)));
+        // TODO: 권한에 useYn 이 필요한가?
+//        if(role.getUseYn().equals('N')) throw new IllegalStateException("");
         List<RoleAuth> authList = role.getAuthList();
 
 //        4) 권한 있는 최상위 메뉴 우선, 이후 재귀 호출로 하위 메뉴까지 추려냄.
         List<Menu> root = new ArrayList<>();
-        List<Long> allowed = new ArrayList<>();
+        Set<Long> allowed = new HashSet<>();
 
         for (RoleAuth ra : authList) {
-            // 권한 있는 최상위 메뉴 우선 -> root 리스트 추리기
-            // authList 에 존재하며 패런트가 없는 메뉴가 최상위.
-            Character writeYn = ra.getAuth().getWriteYn();
+            // 권한 있는 모든 메뉴 id 수집
             Menu menu = ra.getAuth().getMenu();
+            if(menu.getUseYn().equals('N')) continue;
+            allowed.add(menu.getId());
 
-            if (writeYn.equals('Y') && menu.getParent() == null) root.add(menu);
+            // R(ead) 조회권한이 있는 최상위 메뉴를 root 목록에 추리기
+            if (menu.getParent() != null) continue;
+            Character type = ra.getAuth().getType();
+            if (type.equals('R')) root.add(menu);
         }
 
-//        5) 중복 한 번 더 털기... 근데 중복이 왜 나오지??
+//        5) TODO: 중복 한 번 더 털기... 근데 중복이 왜 나오지??
         List<Menu> menus = filterAllowedMenu(root, allowed);
-        Set<Menu> menuSet = new HashSet<>(menus);
+//        Set<Menu> menuSet = new HashSet<>(menus);
 
-        return menuSet.stream().map(Menu::toRes).toList();
+        return menus.stream().map(Menu::toRes).toList();
     }
 
 
@@ -75,24 +81,23 @@ public class MenuServiceImpl implements MenuService {
     }
 
 
-    public List<Menu> filterAllowedMenu(List<Menu> rootMenus, List<Long> allowed) {
+    public List<Menu> filterAllowedMenu(List<Menu> rootMenus, Set<Long> allowed) {
 //        1)
-        List<Menu> allowedList = new ArrayList<>();
+        List<Menu> myMenu = new ArrayList<>();
 
-//        2)
+//        2) 최상위 -> 하위 메뉴로 계층을 내려가며 탐색, List 에 추려내기.
         for (Menu m : rootMenus) {
-            // 상위 메뉴가 허용돼야 탭도 통과되므로 이중 검사 없이 바로 추가.
-            if (m.getUseYn().equals('Y')) allowedList.add(m);
-            if (m.getUseYn().equals('Y') && allowed.contains(m.getId())) {
-                //
-                if (m.getChildren() != null && !m.getChildren().isEmpty()) {
+            if (allowed.contains(m.getId())) {
+                // 하위 메뉴 재귀
+                if (!ObjectUtils.isEmpty(m.getChildren())) {
                     m.addChildren(filterAllowedMenu(m.getChildren(), allowed));
                 }
-                allowedList.add(m);
+                myMenu.add(m);
             }
         }
+
 //        3)
-        return allowedList;
+        return myMenu;
     }
 
 
