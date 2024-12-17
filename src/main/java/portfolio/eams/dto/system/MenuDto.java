@@ -19,10 +19,8 @@ public class MenuDto {
     private List<MenuDto> children;
 
 
-    // insert, update...
+    // insert, update... menu 는 사용자 제어가 아니어서 약식 req.
     @Data
-    @Builder
-    @NoArgsConstructor
     @AllArgsConstructor
     public static class Req {
         private String url;

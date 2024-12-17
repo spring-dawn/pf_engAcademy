@@ -104,20 +104,29 @@ public class MenuServiceImpl implements MenuService {
     @Transactional
     public MenuDto createMenu(MenuDto.Req req) {
 //        1) is exists already?
-        if(repo.existsByUrl(req.getUrl())) throw new EntityExistsException(InfoMsg.ALREADY_EXISTS.format(EntityNm.MENU));
+        if (repo.existsByUrl(req.getUrl()))
+            throw new EntityExistsException(InfoMsg.ALREADY_EXISTS.format(EntityNm.MENU));
 
 //        2) save
-        Menu parentMenu = repo.findByUrl(req.getParentUrl()).orElse(null);
         Menu menu = repo.save(
                 Menu.builder()
                         .menuNm(req.getMenuNm())
                         .url(req.getUrl())
                         .order(req.getOrder())
-                        .parent(parentMenu)
-                .build()
+                        .parent(req.getParentUrl() == null ? null : repo.findByUrl(req.getParentUrl()).orElse(null))
+//                        .useYn('Y')
+                        .build()
         );
 
 //        3) res
+        log.info("메뉴 생성: " + req.getMenuNm());
         return menu.toRes();
+    }
+
+
+    public MenuDto selectMenu(String url) {
+        return repo.findByUrl(url)
+                .map(Menu::toRes)
+                .orElse(null);
     }
 }

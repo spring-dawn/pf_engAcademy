@@ -18,6 +18,14 @@ public interface MenuService {
 
 
     /**
+     * 메뉴 단일건 조회
+     * @param url 메뉴 url
+     * @return dto
+     */
+    MenuDto selectMenu(String url);
+
+
+    /**
      * 권한 내역 변경 시 해당 역할의 캐시 삭제
      * @param roleNm 역할명(key)
      */
@@ -38,6 +46,7 @@ public interface MenuService {
      * @return 메뉴 dto. 커밋 전까지 id 없음에 주의.
      */
     MenuDto createMenu(MenuDto.Req req);
+
 
 
 }

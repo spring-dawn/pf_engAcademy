@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicInsert;
 import portfolio.eams.dto.system.MenuDto;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert // 디폴트값 자동 세팅
 @Entity
 @Table(name = "SYS_MENU_T")
 public class Menu {
@@ -34,11 +36,11 @@ public class Menu {
     @Comment("메뉴명")
     private String menuNm;
 
-    @Column(name = "SORT_ORDER", nullable = false, length = 1)
+    @Column(name = "SORT_ORDER", nullable = false)
     @Comment("정렬순서. 같은 깊이(depth)에서 숫자가 작을수록 우선")
     private int order;
 
-    @Column(name = "USE_YN", length = 1)
+    @Column(name = "USE_YN", length = 1, nullable = false)
     @Comment("사용여부. Y: 사용, N: 미사용(출력x)")
     @ColumnDefault("'Y'")
     private Character useYn;
