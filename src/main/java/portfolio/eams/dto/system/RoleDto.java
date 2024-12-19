@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import portfolio.eams.entity.system.Auth;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class RoleDto {
     private String desc;
     private Character useYn;
     private int order;
-    private List<RoleAuthDto> authList;
+    private List<RoleAuthDto> roleAuthList;
 
 
     // insert, update
@@ -27,7 +28,8 @@ public class RoleDto {
     public static class Req {
         private String roleNm;
         private String desc;
-        private Character useYn;
+//        private Character useYn;
         private int order;
+        private List<Long> authIdList;
     }
 }

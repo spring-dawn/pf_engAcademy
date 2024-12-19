@@ -11,20 +11,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import portfolio.eams.dto.system.AuthDto;
 import portfolio.eams.dto.system.MenuDto;
+import portfolio.eams.entity.system.Auth;
 import portfolio.eams.entity.system.Menu;
 import portfolio.eams.entity.system.Role;
 import portfolio.eams.entity.system.RoleAuth;
+import portfolio.eams.repo.system.AuthRepo;
 import portfolio.eams.repo.system.MenuRepo;
 import portfolio.eams.repo.system.RoleRepo;
 import portfolio.eams.util.MyUtil;
 import portfolio.eams.util.enums.EntityNm;
 import portfolio.eams.util.enums.InfoMsg;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -34,6 +34,10 @@ public class MenuServiceImpl implements MenuService {
 
     private final MenuRepo repo;
     private final RoleRepo roleRepo;
+    private final AuthRepo authRepo;
+
+    // Character[] 은 stream 사용 불가, Arrays.stream() 으로 감싸야 함
+    private static final Character[] AUTH_TYPE_ARR = {'C', 'R', 'U', 'D'};
 
 
     @Cacheable(value = "mymenu", key = "#authentication.getAuthorities().toArray()[0].toString()")
@@ -114,9 +118,19 @@ public class MenuServiceImpl implements MenuService {
                         .url(req.getUrl())
                         .order(req.getOrder())
                         .parent(req.getParentUrl() == null ? null : repo.findByUrl(req.getParentUrl()).orElse(null))
-//                        .useYn('Y')
                         .build()
         );
+
+
+        //
+        List<AuthDto> authDtoList = Arrays.stream(AUTH_TYPE_ARR)
+                .map(type -> authRepo.save(Auth.builder()
+                                .type(type)
+                                .menu(menu)
+                                .build())
+                        .toRes())
+                .toList();
+        if(authDtoList.isEmpty()) throw new RuntimeException("asdf");
 
 //        3) res
         log.info("메뉴 생성: " + req.getMenuNm());

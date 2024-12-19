@@ -5,12 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import portfolio.eams.dto.system.AuthDto;
 import portfolio.eams.dto.system.MenuDto;
+import portfolio.eams.dto.system.RoleDto;
+import portfolio.eams.entity.system.Auth;
 import portfolio.eams.repo.system.AuthRepo;
 import portfolio.eams.service.system.MenuService;
 import portfolio.eams.service.system.RoleService;
 import portfolio.eams.service.system.UserService;
+
+import java.util.List;
 
 @Slf4j
 @Component
@@ -24,9 +28,9 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
     private final AuthRepo authRepo;
 
+    private final MenuService menuService;
     private final UserService userService;
     private final RoleService roleService;
-    private final MenuService menuService;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -72,21 +76,45 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             MenuDto menu5 = menuService.createMenu(new MenuDto.Req("/analy", "통계", 4, null));
 
         } catch (Exception e) {
-            log.error("메뉴 생성 중 오류가 있습니다.");
+            log.error("메뉴 & 메뉴 권한 생성 중 오류가 있습니다.");
         }
 
 
-        // TODO: 메뉴별 권한 생성
-        try{
-            log.info("메뉴별 권한 생성");
+        // TODO: 역할(직책) 생성
+        try {
+            List<AuthDto> authDtoList = authRepo.findAll().stream().map(Auth::toRes).toList();
+            // 시스템 관리자(모든 조회, 편집권한)
+            List<Long> auth_admin = authDtoList.stream().map(AuthDto::id).toList();
 
-        }catch (Exception e){
-            log.error("권한 생성 중 오류가 있습니다.");
+            // 간부(코드관리 제외. 모든 조회, 편집권한)
+            List<Long> auth_manager = authDtoList.stream()
+                    .filter(dto ->
+                            !dto.menuUrl().contains("/code")
+                                    && !dto.type().equals('D')
+                    )
+                    .map(AuthDto::id)
+                    .toList();
+
+            // 평강사(시스템관리 제외. 일반적으로 조회만 가능)
+            List<Long> auth_teacher = authDtoList.stream()
+                    .filter(dto ->
+                            !dto.menuUrl().startsWith("/system")
+                                    && dto.type().equals('R')
+                    )
+                    .map(AuthDto::id)
+                    .toList();
+
+            RoleDto role_adm = roleService.createRole(new RoleDto.Req("관리자", "모든 조회, 편집 권한", 0, auth_admin));
+            RoleDto role_mng = roleService.createRole(new RoleDto.Req("간부", "코드관리 제외. 모든 조회, 편집권한", 1, auth_manager));
+            RoleDto role_teacher = roleService.createRole(new RoleDto.Req("평강사", "시스템관리 제외. 일반적으로 조회만 가능", 2, auth_teacher));
+
+
+            // TODO: 사용자 생성. 비밀번호 암호화 필요
+
+
+        } catch (Exception e) {
+            log.error("asdf!!!!");
         }
-
-        // TODO: 역할 생성
-
-        // TODO: 사용자 생성
 
         // TODO: 시스템코드 생성
 

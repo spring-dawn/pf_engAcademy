@@ -6,6 +6,7 @@ import lombok.*;
 import org.apache.ibatis.annotations.One;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicInsert;
 import portfolio.eams.dto.system.RoleDto;
 import portfolio.eams.entity.CommonEntity;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 @Entity
 @Table(name = "SYS_ROLE_T")
 public class Role extends CommonEntity {
@@ -50,16 +52,19 @@ public class Role extends CommonEntity {
     연관관계
      */
     @JsonIgnore
-    @OneToMany(mappedBy = "role", cascade = CascadeType.REMOVE)
-    private List<RoleAuth> authList = new ArrayList<>();
+    @OneToMany(mappedBy = "role", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<RoleAuth> roleAuthList = new ArrayList<>();
 
 
     // update
     public void update(RoleDto.Req req){
         roleNm = req.getRoleNm();
         desc = req.getDesc();
-        useYn = req.getUseYn();
         order = req.getOrder();
+    }
+
+    public void addAuthList(List<RoleAuth> roleAuthList){
+        this.roleAuthList = roleAuthList;
     }
 
 
@@ -71,7 +76,7 @@ public class Role extends CommonEntity {
                 .desc(desc)
                 .order(order)
                 .useYn(useYn)
-                .authList(authList == null ? null : authList.stream().map(RoleAuth::toRes).toList())
+                .roleAuthList(roleAuthList == null ? null : roleAuthList.stream().map(RoleAuth::toRes).toList())
                 .build();
     }
 

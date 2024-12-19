@@ -6,6 +6,7 @@ import lombok.*;
 import portfolio.eams.dto.system.RoleAuthDto;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity

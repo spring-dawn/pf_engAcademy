@@ -12,6 +12,7 @@ import java.util.List;
 
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -41,15 +42,16 @@ public class Auth {
     private Menu menu;
 
     /*
-    Role : Privilege = N : M
+    Role : Auth = N : M
      */
     @JsonIgnore
     @OneToMany(mappedBy = "auth")
     private List<RoleAuth> roles = new ArrayList<>();
 
+
     // res
     public AuthDto toRes() {
-        return new AuthDto(id, type, menu);
+        return new AuthDto(id, type, menu.getUrl());
     }
 
 }
