@@ -42,7 +42,7 @@ public class User extends CommonEntity implements UserDetails {
     @Comment("사용자 비밀번호")
     private String userPw;
 
-    @Column(name = "SALT", length = 20)
+    @Column(name = "SALT", length = 30)
     @Comment("암호화 솔트")
     private String salt;
 

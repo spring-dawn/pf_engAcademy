@@ -1,8 +1,6 @@
 package portfolio.eams.service.system;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,6 +41,7 @@ public class RoleServiceImpl implements RoleService {
                 .roleNm(req.getRoleNm())
                 .desc(req.getDesc())
                 .order(req.getOrder())
+                .useYn('Y') // ?? DynamicInsert 를 쓰고 있는데 왜 안 먹히지
                 .build();
         repo.save(role);
 
@@ -54,7 +53,9 @@ public class RoleServiceImpl implements RoleService {
                 .map(auth -> RoleAuth.builder()
                         .role(role)
                         .auth(auth)
-                        .build()).toList();
+                        .build())
+                .toList();
+        roleAuthRepo.saveAll(roleAuthList);
         role.addAuthList(roleAuthList);
 
         return role.toRes();

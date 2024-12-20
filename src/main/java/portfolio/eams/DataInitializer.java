@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import portfolio.eams.dto.system.AuthDto;
 import portfolio.eams.dto.system.MenuDto;
 import portfolio.eams.dto.system.RoleDto;
+import portfolio.eams.dto.system.UserDto;
 import portfolio.eams.entity.system.Auth;
 import portfolio.eams.repo.system.AuthRepo;
 import portfolio.eams.service.system.MenuService;
@@ -19,7 +21,6 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-//@Transactional(readOnly = true) // 이거 맞나?
 public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
     /*
     어플리케이션 실행 시 메뉴, 권한, 역할 등 시스템 기초 데이터 생성
@@ -32,11 +33,11 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     private final UserService userService;
     private final RoleService roleService;
 
-    @Override
+    @Transactional // 영속성 컨텍스트 유지를 위한 트랜잭셔널
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        // 이미 존재하는 경우 새로 실행하지 않는 조건
 
         try {
+            // 이미 존재하는 경우 새로 실행하지 않는 조건
             if (menuService.selectMenu("/dashboard") != null) return;
 
             // 메뉴 생성
@@ -76,18 +77,18 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             MenuDto menu5 = menuService.createMenu(new MenuDto.Req("/analy", "통계", 4, null));
 
         } catch (Exception e) {
-            log.error("메뉴 & 메뉴 권한 생성 중 오류가 있습니다.");
+            e.printStackTrace();
         }
 
 
-        // TODO: 역할(직책) 생성
+        // 역할(직책) 생성
         try {
             List<AuthDto> authDtoList = authRepo.findAll().stream().map(Auth::toRes).toList();
             // 시스템 관리자(모든 조회, 편집권한)
-            List<Long> auth_admin = authDtoList.stream().map(AuthDto::id).toList();
+            List<Long> authAdmin = authDtoList.stream().map(AuthDto::id).toList();
 
             // 간부(코드관리 제외. 모든 조회, 편집권한)
-            List<Long> auth_manager = authDtoList.stream()
+            List<Long> authManager = authDtoList.stream()
                     .filter(dto ->
                             !dto.menuUrl().contains("/code")
                                     && !dto.type().equals('D')
@@ -96,7 +97,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
                     .toList();
 
             // 평강사(시스템관리 제외. 일반적으로 조회만 가능)
-            List<Long> auth_teacher = authDtoList.stream()
+            List<Long> authTeacher = authDtoList.stream()
                     .filter(dto ->
                             !dto.menuUrl().startsWith("/system")
                                     && dto.type().equals('R')
@@ -104,16 +105,19 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
                     .map(AuthDto::id)
                     .toList();
 
-            RoleDto role_adm = roleService.createRole(new RoleDto.Req("관리자", "모든 조회, 편집 권한", 0, auth_admin));
-            RoleDto role_mng = roleService.createRole(new RoleDto.Req("간부", "코드관리 제외. 모든 조회, 편집권한", 1, auth_manager));
-            RoleDto role_teacher = roleService.createRole(new RoleDto.Req("평강사", "시스템관리 제외. 일반적으로 조회만 가능", 2, auth_teacher));
+            RoleDto roleAdmin = roleService.createRole(new RoleDto.Req("관리자", "모든 조회, 편집 권한", 0, authAdmin));
+            RoleDto roleManager = roleService.createRole(new RoleDto.Req("간부", "코드관리 제외. 모든 조회, 편집권한", 1, authManager));
+            RoleDto roleTeacher = roleService.createRole(new RoleDto.Req("평강사", "시스템관리 제외. 일반적으로 조회만 가능", 2, authTeacher));
 
 
             // TODO: 사용자 생성. 비밀번호 암호화 필요
+            userService.createUserByInitializer(new UserDto.InsertReq("test1", "test1", "test1", "010-1111-1111", "test1@test.com"), roleAdmin.getRoleNm());
+            userService.createUserByInitializer(new UserDto.InsertReq("test2", "test2", "test2", "010-1111-1111", "test2@test.com"), roleManager.getRoleNm());
+            userService.createUserByInitializer(new UserDto.InsertReq("test3", "test3", "test3", "010-1111-1111", "test3@test.com"), roleTeacher.getRoleNm());
 
 
         } catch (Exception e) {
-            log.error("asdf!!!!");
+            e.printStackTrace();
         }
 
         // TODO: 시스템코드 생성

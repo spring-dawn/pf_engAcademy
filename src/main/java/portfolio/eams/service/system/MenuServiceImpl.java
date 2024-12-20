@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import portfolio.eams.dto.system.AuthDto;
 import portfolio.eams.dto.system.MenuDto;
 import portfolio.eams.entity.system.Auth;
@@ -53,7 +54,7 @@ public class MenuServiceImpl implements MenuService {
                 .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.ROLE)));
         // TODO: 권한에 useYn 이 필요한가?
 //        if(role.getUseYn().equals('N')) throw new IllegalStateException("");
-        List<RoleAuth> authList = role.getAuthList();
+        List<RoleAuth> authList = role.getRoleAuthList();
 
 //        4) 권한 있는 최상위 메뉴 우선, 이후 재귀 호출로 하위 메뉴까지 추려냄.
         List<Menu> root = new ArrayList<>();
@@ -108,6 +109,7 @@ public class MenuServiceImpl implements MenuService {
     @Transactional
     public MenuDto createMenu(MenuDto.Req req) {
 //        1) is exists already?
+        if (!StringUtils.hasText(req.getUrl())) throw new IllegalArgumentException(InfoMsg.NPE.getMsg());
         if (repo.existsByUrl(req.getUrl()))
             throw new EntityExistsException(InfoMsg.ALREADY_EXISTS.format(EntityNm.MENU));
 
@@ -121,18 +123,16 @@ public class MenuServiceImpl implements MenuService {
                         .build()
         );
 
-
-        //
-        List<AuthDto> authDtoList = Arrays.stream(AUTH_TYPE_ARR)
+//        3) create authorities following menu
+        Arrays.stream(AUTH_TYPE_ARR)
                 .map(type -> authRepo.save(Auth.builder()
                                 .type(type)
                                 .menu(menu)
                                 .build())
                         .toRes())
                 .toList();
-        if(authDtoList.isEmpty()) throw new RuntimeException("asdf");
 
-//        3) res
+//        4) res
         log.info("메뉴 생성: " + req.getMenuNm());
         return menu.toRes();
     }

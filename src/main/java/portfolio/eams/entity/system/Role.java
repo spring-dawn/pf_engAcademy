@@ -3,7 +3,6 @@ package portfolio.eams.entity.system;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.ibatis.annotations.One;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
@@ -17,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@DynamicInsert
+@DynamicInsert //
 @Entity
 @Table(name = "SYS_ROLE_T")
 public class Role extends CommonEntity {
@@ -42,7 +41,7 @@ public class Role extends CommonEntity {
     @Comment("역할 정렬 순서. 높은 권한이 우위?")
     private int order;
 
-    @Column(name = "USE_YN", length = 1)
+    @Column(name = "USE_YN", nullable = false, length = 1)
     @Comment("사용여부. Y: 사용, N: 미사용(출력x)")
     @ColumnDefault("'Y'")
     private Character useYn;
@@ -52,7 +51,7 @@ public class Role extends CommonEntity {
     연관관계
      */
     @JsonIgnore
-    @OneToMany(mappedBy = "role", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "role", cascade = CascadeType.REMOVE)
     private List<RoleAuth> roleAuthList = new ArrayList<>();
 
 

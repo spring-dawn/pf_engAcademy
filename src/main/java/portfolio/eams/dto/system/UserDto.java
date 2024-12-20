@@ -27,6 +27,19 @@ public class UserDto {
     private LocalDate quitYmd;
 
 
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class InsertReq {
+        private String userId;
+        private String userNm;
+        private String userPw;
+        private String tel;
+        private String email;
+    }
+
+
     // update
     @Data
     @Builder

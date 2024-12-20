@@ -1,6 +1,7 @@
 package portfolio.eams.service.system;
 
 import portfolio.eams.dto.system.UserDto;
+import portfolio.eams.entity.system.Role;
 
 public interface UserService {
     /*
@@ -9,6 +10,8 @@ public interface UserService {
      */
 
     public UserDto insertUser();
+
+    public UserDto createUserByInitializer(UserDto.InsertReq req, String roleNm);
 
     // 사용자 정보 수정
     public UserDto updateUserByAdmin();

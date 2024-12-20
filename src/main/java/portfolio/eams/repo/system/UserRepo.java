@@ -12,4 +12,7 @@ public interface UserRepo extends JpaRepository<User, Long>, UserRepoCustom {
     // Jpa 디폴트 리포지토리 외에 QueryDsl 리포지토리 역시 상속하여 단일하게 사용.
 
     Optional<User> findByUserId(String userId);
+
+    boolean existsByUserId(String userId);
+
 }
