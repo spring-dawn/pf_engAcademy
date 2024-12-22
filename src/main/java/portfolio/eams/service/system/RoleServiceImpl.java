@@ -30,25 +30,24 @@ public class RoleServiceImpl implements RoleService {
 
 
     @Transactional
-    public RoleDto createRole(RoleDto.Req req) {
+    public RoleDto createRole4Init(RoleDto.Req req) {
 //        1) validation
+        Role isExist = repo.findByRoleNm(req.getRoleNm()).orElse(null);
+        if(isExist != null) return isExist.toRes();
         if (!StringUtils.hasText(req.getRoleNm())) throw new IllegalArgumentException(InfoMsg.NPE.getMsg());
-        if (repo.existsByRoleNm(req.getRoleNm()))
-            throw new EntityExistsException(InfoMsg.ALREADY_EXISTS.format(EntityNm.ROLE));
 
 //        2) create and save role
         Role role = Role.builder()
                 .roleNm(req.getRoleNm())
                 .desc(req.getDesc())
                 .order(req.getOrder())
-                .useYn('Y') // ?? DynamicInsert 를 쓰고 있는데 왜 안 먹히지
+//                .useYn('Y') // ?? DynamicInsert 를 쓰고 있는데 왜 안 먹히지
                 .build();
         repo.save(role);
 
-//        3) find authList
+//        3) find authList, save roleAuth
         List<Auth> authList = authRepo.findAllById(req.getAuthIdList());
 
-//        4) add authList to role
         List<RoleAuth> roleAuthList = authList.stream()
                 .map(auth -> RoleAuth.builder()
                         .role(role)
@@ -56,8 +55,9 @@ public class RoleServiceImpl implements RoleService {
                         .build())
                 .toList();
         roleAuthRepo.saveAll(roleAuthList);
-        role.addAuthList(roleAuthList);
 
+//        4) add authList to role
+        role.addAuthList(roleAuthList);
         return role.toRes();
     }
 

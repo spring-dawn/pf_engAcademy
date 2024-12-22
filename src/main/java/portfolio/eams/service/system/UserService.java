@@ -11,7 +11,7 @@ public interface UserService {
 
     public UserDto insertUser();
 
-    public UserDto createUserByInitializer(UserDto.InsertReq req, String roleNm);
+    public UserDto createUser4Init(String userId, Character admYn, String roleNm);
 
     // 사용자 정보 수정
     public UserDto updateUserByAdmin();

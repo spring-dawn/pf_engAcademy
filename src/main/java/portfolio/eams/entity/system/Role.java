@@ -16,12 +16,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@DynamicInsert //
+@DynamicInsert
 @Entity
 @Table(name = "SYS_ROLE_T")
-public class Role extends CommonEntity {
+public class Role {
     /*
     사용자 역할(권한 컨테이너). 사용자가 실제로 제어 가능한 부분은 이 엔티티로 제한.
+    241222 CommonEntity 상속 받으면 DynamicInsert 가 안 먹히는 이슈 있음
      */
 
     @Id
@@ -41,7 +42,7 @@ public class Role extends CommonEntity {
     @Comment("역할 정렬 순서. 높은 권한이 우위?")
     private int order;
 
-    @Column(name = "USE_YN", nullable = false, length = 1)
+    @Column(name = "USE_YN", length = 1, nullable = false)
     @Comment("사용여부. Y: 사용, N: 미사용(출력x)")
     @ColumnDefault("'Y'")
     private Character useYn;
@@ -56,19 +57,19 @@ public class Role extends CommonEntity {
 
 
     // update
-    public void update(RoleDto.Req req){
+    public void update(RoleDto.Req req) {
         roleNm = req.getRoleNm();
         desc = req.getDesc();
         order = req.getOrder();
     }
 
-    public void addAuthList(List<RoleAuth> roleAuthList){
+    public void addAuthList(List<RoleAuth> roleAuthList) {
         this.roleAuthList = roleAuthList;
     }
 
 
     // res
-    public RoleDto toRes(){
+    public RoleDto toRes() {
         return RoleDto.builder()
                 .id(id)
                 .roleNm(roleNm)

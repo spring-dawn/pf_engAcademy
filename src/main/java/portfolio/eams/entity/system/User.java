@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 @Entity
 @Table(name = "DIM_USER_T")
 public class User extends CommonEntity implements UserDetails {
@@ -50,12 +52,12 @@ public class User extends CommonEntity implements UserDetails {
     @Comment("사용자명")
     private String userNm;
 
-    @Column(name = "USE_YN", length = 1)
+    @Column(name = "USE_YN", length = 1, nullable = false)
     @Comment("재직여부")
     @ColumnDefault("'Y'")
     private Character useYn;
 
-    @Column(name = "ADM_YN", length = 1)
+    @Column(name = "ADM_YN", length = 1, nullable = false)
     @Comment("관리자 여부. 개발자 등 마스터계정, 삭제 불가.")
     @ColumnDefault("'N'")
     private Character admYn;

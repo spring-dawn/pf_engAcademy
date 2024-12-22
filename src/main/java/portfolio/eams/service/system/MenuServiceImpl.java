@@ -107,11 +107,11 @@ public class MenuServiceImpl implements MenuService {
 
 
     @Transactional
-    public MenuDto createMenu(MenuDto.Req req) {
+    public MenuDto createMenu4Init(MenuDto.Req req) {
 //        1) is exists already?
+        Menu isExist = repo.findByUrl(req.getUrl()).orElse(null);
+        if(isExist != null) return isExist.toRes();
         if (!StringUtils.hasText(req.getUrl())) throw new IllegalArgumentException(InfoMsg.NPE.getMsg());
-        if (repo.existsByUrl(req.getUrl()))
-            throw new EntityExistsException(InfoMsg.ALREADY_EXISTS.format(EntityNm.MENU));
 
 //        2) save
         Menu menu = repo.save(

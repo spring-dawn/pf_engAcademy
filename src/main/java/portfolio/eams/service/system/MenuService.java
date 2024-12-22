@@ -45,7 +45,7 @@ public interface MenuService {
      * @param req 파라미터
      * @return 메뉴 dto. 커밋 전까지 id 없음에 주의.
      */
-    MenuDto createMenu(MenuDto.Req req);
+    MenuDto createMenu4Init(MenuDto.Req req);
 
 
 

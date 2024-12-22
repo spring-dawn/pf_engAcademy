@@ -4,12 +4,13 @@ import portfolio.eams.dto.system.RoleDto;
 
 public interface RoleService {
 
+
     /**
      *
      * @param req
      * @return
      */
-    RoleDto createRole(RoleDto.Req req);
+    RoleDto createRole4Init(RoleDto.Req req);
 
 
     /**

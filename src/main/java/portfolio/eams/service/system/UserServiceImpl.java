@@ -22,6 +22,7 @@ import portfolio.eams.util.enums.EntityNm;
 import portfolio.eams.util.enums.InfoMsg;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 
 @Slf4j
 @Service
@@ -58,18 +59,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Transactional
-    public UserDto createUserByInitializer(UserDto.InsertReq req, String roleNm) {
+    public UserDto createUser4Init(String userId, Character admYn, String roleNm) {
 //        1) validation
-        if (!StringUtils.hasText(req.getUserId()))
+        User isExist = repo.findByUserId(userId).orElse(null);
+        if(isExist != null) return isExist.toRes();
+        if (!StringUtils.hasText(userId))
             throw new IllegalArgumentException(InfoMsg.NPE.getMsg());
-        if (repo.existsByUserId(req.getUserId()))
-            throw new EntityExistsException(InfoMsg.ALREADY_EXISTS.format(EntityNm.USER));
 
 //        2) pw encryption
         String salt = "";
         String salted = "";
         try {
-            SHA256Util.PwDto pwDto = SHA256Util.createPw(req.getUserPw());
+            SHA256Util.PwDto pwDto = SHA256Util.createPw(userId);
 
             salt = pwDto.salt();
             salted = pwDto.salted();
@@ -83,12 +84,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         return repo.save(
                 User.builder()
-                        .userId(req.getUserId())
+                        .userId(userId)
                         .salt(salt)
                         .userPw(salted)
-                        .userNm(req.getUserNm())
-                        .tel(req.getTel())
-                        .email(req.getEmail())
+                        .userNm(userId)
+                        .admYn(admYn)
+                        .tel("010-1111-1111")
+                        .email(userId+"@test.com")
+                        .joinYmd(LocalDate.now())
                         .role(role)
                         .build())
                 .toRes();
