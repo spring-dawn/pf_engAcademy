@@ -17,9 +17,9 @@ spring:
       hibernate:
         format_sql: true # sql log 가독성 좋게 출력
 
-#  SSR 타임리프 템플릿
+#  SSR 타임리프 템플릿. prefix, suffix 등은 디폴트 설정.
   thymeleaf:
-    cache: false # 위치 등은 디폴트 설정 따름. 개발 중 캐시는 false.
+    cache: false # 개발 중은 빠른 상태 확인.
 
 server:
 #  port: 8080 # 디폴트
@@ -46,4 +46,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+
+  thymeleaf:
+    cache: true
+
 

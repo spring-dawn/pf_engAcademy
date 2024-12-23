@@ -28,9 +28,9 @@ public class SecurityConfig {
                                 "/api/**",
 
                                 // 정적 자원
-                                "/css",
-                                "/js",
-                                "/img"
+                                "/css/**",
+                                "/js/**",
+                                "/img/**"
                         ).permitAll()
                         .anyRequest().authenticated() // TODO: 사용자 권한별 접근 필터 별도 추가
                 )

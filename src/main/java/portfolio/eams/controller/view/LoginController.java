@@ -13,7 +13,7 @@ public class LoginController {
 
     @RequestMapping("/signin")
     public String signIn(){
-        return "signin";
+        return "pages/signin";
     }
 
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!-- 타임리프 사용, 레이아웃 선언 페이지 -->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!-- 상대 경로 prefix /templates/ -->
+<head th:replace="~{fragments/head :: head}">
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <!-- 왼쪽 사이드바(메뉴) -->
+    <aside th:replace="~{fragments/sideBar :: sideBar}"></aside>
+
+    <!-- 메인 콘텐츠 -->
+    <main>
+        <div layout:fragment="contents">
+        </div>
+    </main>
+
+</body>
+
+</html>
