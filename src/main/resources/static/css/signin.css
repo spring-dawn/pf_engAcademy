@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+*{
+    outline: red 1px solid;
+}
+
+.login-container {
+    width: 1200px;
+    height: 80vh;
+
+    margin: auto;
+    margin-top: 100px;
+    display: flex;
+}
+
+.login-container .wrapper {
+    /* padding: 2px; */
+    flex: 1;
+    background-color: aqua;
+}
+
+.wrapper .login-box {
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+}

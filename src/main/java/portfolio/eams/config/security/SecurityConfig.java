@@ -31,6 +31,8 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/img/**"
+
+
                         ).permitAll()
                         .anyRequest().authenticated() // TODO: 사용자 권한별 접근 필터 별도 추가
                 )

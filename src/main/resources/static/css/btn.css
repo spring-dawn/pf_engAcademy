@@ -1,0 +1,24 @@
+@charset "UTF-8";
+/* 전역 버튼 스타일. 전역 css 는 head 에 선언. */
+
+body{
+    margin: 0;
+}
+
+.btn {
+    border: none;
+    background-color: whitesmoke;
+    color: black;
+    box-shadow: 2 2 2 gray;
+
+}
+
+.btn.excel {
+    background-color: rgb(29, 111, 66);
+    color: white;
+}
+
+.inputArea {
+    padding: 2px;
+    border: none;
+}
