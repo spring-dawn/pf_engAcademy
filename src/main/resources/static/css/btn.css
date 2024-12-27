@@ -6,10 +6,14 @@ body{
 }
 
 .btn {
-    border: none;
-    background-color: whitesmoke;
+    width: 100px;
+    height: 30px;
+    font-size: 1rem;
+
+    border-radius: 10%;
+    border-color: white;
+    background-color: white;
     color: black;
-    box-shadow: 2 2 2 gray;
 
 }
 

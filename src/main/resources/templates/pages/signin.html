@@ -8,17 +8,52 @@
 
 <body>
     <div class="login-container">
-        <div class="wrapper">
-            <img src="" alt="asdf">
+        <div class="wrapper img">
+            <div class="margin-box">
+                <img src="" alt="이미지">
+            </div>
         </div>
 
-        <div class="wrapper">
-            <div class="login-box">
-                <div>
-                    <h1>LOGIN</h1>
+        <div class="wrapper login">
+            <div class="margin-box">
+                <div class="login-title">
+                    <h1 style="font-size: 3rem;">
+                        Welcome to
+                        <br>
+                        Shiz!
+                    </h1>
                 </div>
-                <div>
-                    asdf
+        
+                <div class="login-contents">
+                    <form action="" id="form-signin">
+                        <!--  -->
+                        <div class="input-grid">
+                            <label for="input-id">ID</label>
+                            <input type="text" id="input-id" maxlength="20">
+                        
+                            <label for="input-pw">Password</label>
+                            <input type="password" id="input-pw" maxlength="20" placeholder="9~20 영문, 숫자 조합">
+                        </div>
+                
+                        <div class="signin-box">
+                            <div class="remember-box">
+                                <label for="autologin">remember me?</label>
+                                <input type="checkbox" name="autologin" id="autologin">
+                            </div>
+                        
+                            <div class="btn-box">
+                                <button>Signin</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        
+                <div class="login-etc">
+                    <div class="etc">
+                        <span id="signup">회원가입</span>
+                        <span id="find-id">아이디 찾기</span>
+                        <span id="find-pw">비밀번호 찾기</span>
+                    </div>
                 </div>
             </div>
         </div>

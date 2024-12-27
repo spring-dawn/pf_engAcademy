@@ -1,12 +1,13 @@
 @charset "UTF-8";
 
-*{
-    outline: red 1px solid;
+* {
+    /* outline: red 1px solid; */
 }
 
 .login-container {
     width: 1200px;
     height: 80vh;
+    min-width: 400px;
 
     margin: auto;
     margin-top: 100px;
@@ -16,11 +17,114 @@
 .login-container .wrapper {
     /* padding: 2px; */
     flex: 1;
-    background-color: aqua;
+    background-color: whitesmoke;
+
+    /* 중앙 정렬 */
+    position: relative;
 }
 
-.wrapper .login-box {
-    padding: 20px 10px;
+/* 왼쪽 이미지 */
+
+
+/* 오른쪽 로그인 박스 */
+.wrapper .margin-box {
+    background-color: white;
+    width: 85%;
+    height: 90%;
+
+    /* 수직, 수평 중앙 정렬 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* padding: 20px 15px; */
+
     display: flex;
     flex-direction: column;
+}
+
+.wrapper.login div{
+    width: 90%;
+    margin: auto;
+}
+.wrapper.login .login-title {
+    flex: 1;
+    text-align: center;
+}
+
+
+/* 로그인 폼 */
+.wrapper.login .login-contents {
+    flex: 3;
+}
+#form-signin {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: pink;
+}
+#form-signin .input-grid{
+    font-style: italic;
+    font-size: 1.5rem;
+    font-weight: bold;
+    
+    height: 35%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    
+}
+#form-signin .input-grid input {
+    /* size: 1rem; */
+    /* width: 90%; */
+    height: 2rem;
+    font-size: 1.5rem;
+    /* border-color: wheat;
+    border-radius: 5%; */
+}
+#form-signin .signin-box{
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+#form-signin .signin-box .remember-box{
+    height: 50%;
+    text-align: center;
+    font-size: 1.5rem;
+}
+#form-signin .signin-box .btn-box {
+    height: 50%;
+}
+.btn-box button{
+    width: 100%;
+    height: 100%;
+    font-size: 1.5rem;
+    /* font-style: italic; */
+
+    border: whitesmoke;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px gray;
+   
+}
+
+
+.wrapper.login .login-etc {
+    flex: 1;
+}
+.login-etc .etc {
+    width: 80%;
+    height: 50%;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    font-size: small;
+    font-style: italic;
 }
