@@ -82,6 +82,7 @@
     /* width: 90%; */
     height: 2rem;
     font-size: 1.5rem;
+    padding: 5px;
     /* border-color: wheat;
     border-radius: 5%; */
 }
@@ -95,7 +96,7 @@
 #form-signin .signin-box .remember-box{
     height: 50%;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 #form-signin .signin-box .btn-box {
     height: 50%;

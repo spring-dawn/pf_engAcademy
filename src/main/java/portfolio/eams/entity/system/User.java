@@ -110,7 +110,7 @@ public class User extends CommonEntity implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return userPw;
     }
 
     @Override
@@ -137,6 +137,17 @@ public class User extends CommonEntity implements UserDetails {
     public boolean isEnabled() {
         return useYn.equals('Y');
     }
+
+
+    // update
+    public void updateLoginFailCnt() {
+        loginFailCnt += 1;
+    }
+
+    public void initLoginFailCnt() {
+        loginFailCnt = 0;
+    }
+
 
 
     // res

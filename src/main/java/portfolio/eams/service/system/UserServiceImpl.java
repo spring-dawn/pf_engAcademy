@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
      * @throws UsernameNotFoundException 사용자 조회 불가
      */
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    public User loadUserByUsername(String userId) throws UsernameNotFoundException {
         // 계정 정보 + 권한
         User user = repo.findByUserId(userId)
                 .orElseThrow(() -> new UsernameNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER)));
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public UserDto createUser4Init(String userId, Character admYn, String roleNm) {
 //        1) validation
         User isExist = repo.findByUserId(userId).orElse(null);
-        if(isExist != null) return isExist.toRes();
+        if (isExist != null) return isExist.toRes();
         if (!StringUtils.hasText(userId))
             throw new IllegalArgumentException(InfoMsg.NPE.getMsg());
 
@@ -83,17 +83,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.ROLE)));
 
         return repo.save(
-                User.builder()
-                        .userId(userId)
-                        .salt(salt)
-                        .userPw(salted)
-                        .userNm(userId)
-                        .admYn(admYn)
-                        .tel("010-1111-1111")
-                        .email(userId+"@test.com")
-                        .joinYmd(LocalDate.now())
-                        .role(role)
-                        .build())
+                        User.builder()
+                                .userId(userId)
+                                .salt(salt)
+                                .userPw(salted)
+                                .userNm(userId)
+                                .admYn(admYn)
+                                .tel("010-1111-1111")
+                                .email(userId + "@test.com")
+                                .joinYmd(LocalDate.now())
+                                .role(role)
+                                .build())
                 .toRes();
     }
 
@@ -112,18 +112,22 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return null;
     }
 
-    @Override
+
+    @Transactional
     public void countLoginFailure(Long id) {
-        // TODO document why this method is empty
+        User user = repo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER)));
+
+        user.updateLoginFailCnt();
     }
 
     @Override
     public void initLoginFailure(Long id) {
-        // TODO document why this method is empty
 //        1) find target
         User user = repo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER)));
 
+        user.initLoginFailCnt();
     }
 
     @Transactional
