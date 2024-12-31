@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="~{fragments/head :: head}">
+<head th:replace="~{fragments/head :: head}">
     <!-- css. prefix: /static -->
     <!-- <link rel="stylesheet" th:href="@{/css/signin.css}"> -->
 </head>
@@ -23,31 +23,31 @@
                         Shiz!
                     </h1>
                 </div>
-        
+
                 <div class="login-contents">
-                    <form action="" id="form-signin">
+                    <form action="/api/signin" method="post" id="form-signin">
                         <!--  -->
                         <div class="input-grid">
                             <label for="input-id">ID</label>
-                            <input type="text" id="input-id" maxlength="20">
-                        
+                            <input type="text" id="userId" name="userId" maxlength="20">
+
                             <label for="input-pw">Password</label>
-                            <input type="password" id="input-pw" maxlength="20" >
+                            <input type="password" id="password" name="password" maxlength="20">
                         </div>
-                
+
                         <div class="signin-box">
                             <div class="remember-box">
                                 <label for="autologin">remember me?</label>
                                 <input type="checkbox" name="autologin" id="autologin">
                             </div>
-                        
+
                             <div class="btn-box">
-                                <button>Signin</button>
+                                <button type="submit" id="btn-signin">Signin</button>
                             </div>
                         </div>
                     </form>
                 </div>
-        
+
                 <div class="login-etc">
                     <div class="etc">
                         <span id="signup">회원가입</span>

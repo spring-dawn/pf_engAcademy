@@ -28,28 +28,11 @@ import java.time.LocalDate;
 @Service
 @RequiredArgsConstructor // repo import
 @Transactional(readOnly = true)
-public class UserServiceImpl implements UserDetailsService, UserService {
+public class UserServiceImpl implements UserService {
+
     // 리포지토리 임포트. @Autowired 는 테스트 클래스에서 사용.
     private final UserRepo repo;
     private final RoleRepo roleRepo;
-
-
-    /**
-     * 스프링 시큐리티 연계 사용자 인증
-     *
-     * @param userId (default: username) identifying the user whose data is required.
-     * @return 사용자 아이디, 권한 목록 등
-     * @throws UsernameNotFoundException 사용자 조회 불가
-     */
-    @Override
-    public User loadUserByUsername(String userId) throws UsernameNotFoundException {
-        // 계정 정보 + 권한
-        User user = repo.findByUserId(userId)
-                .orElseThrow(() -> new UsernameNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER)));
-        user.getAuthorities();
-
-        return user;
-    }
 
 
     // 사용자 관리
@@ -57,6 +40,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public UserDto insertUser() {
         return null;
     }
+
 
     @Transactional
     public UserDto createUser4Init(String userId, Character admYn, String roleNm) {

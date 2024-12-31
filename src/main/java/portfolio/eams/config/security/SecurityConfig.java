@@ -1,5 +1,6 @@
 package portfolio.eams.config.security;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +11,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
     /*
     스프링 시큐리티 설정
      */
+
+    private final LoginSuccessHandler successHandler;
+    private final LoginFailureHandler failureHandler;
 
 
     // Security Filter Chain 을 Bean 으로 등록해서 사용. 메서드 체이닝, 람다식 활용.
@@ -38,10 +43,11 @@ public class SecurityConfig {
                 )
                 // 내부망 상정, 폼로그인 사용.
                 .formLogin(config -> config
-                                .loginPage("/signin").permitAll()
-                                .loginProcessingUrl("/api/signin")
-                                .usernameParameter("userId")
-                        // TODO: 로그인 성공, 실패 핸들러 추가
+                        .loginPage("/signin").permitAll()
+                        .loginProcessingUrl("/api/signin")
+                        .usernameParameter("userId")
+                        .successHandler(successHandler)
+                        .failureHandler(failureHandler)
                 )
                 // 로그아웃 시 세션 제거
                 .logout(config -> config

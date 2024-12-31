@@ -1,7 +1,6 @@
 package portfolio.eams.util;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -10,7 +9,6 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 @Slf4j
-@Component
 public class SHA256Util {
      /*
     일방향 해시 암호화이므로 복호화 불가함에 주의.

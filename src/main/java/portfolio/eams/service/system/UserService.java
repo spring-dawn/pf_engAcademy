@@ -1,5 +1,6 @@
 package portfolio.eams.service.system;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import portfolio.eams.dto.system.UserDto;
 
 public interface UserService {
