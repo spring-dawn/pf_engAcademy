@@ -37,13 +37,13 @@ function signin() {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
             , cache: 'no-cache'
-            ,redirect: 'manual' // 리다이렉션 방지
             , body: new URLSearchParams(payload)
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
+                if(data.msg != "login_success") return alert(data.msg);
 
+                location.href = "/dashboard";
             })
             .catch(err => {
                 console.log("err? " + err);

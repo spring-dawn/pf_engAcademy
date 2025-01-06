@@ -1,6 +1,7 @@
 package portfolio.eams.config.security;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -10,6 +11,7 @@ import portfolio.eams.service.system.CustomUserDetailsService;
 import portfolio.eams.service.system.UserService;
 import portfolio.eams.util.SHA256Util;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -27,6 +29,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         검증하려는 부분은 throw AuthenticationException 으로 예외를 발생시켜야 합니다.
         try/catch 로 처리하면 틀린 로그인이 제대로 잡히지 않습니다.
          */
+        log.info("asdf 로그인 검증 시작!");
 
         // 클라이언트에서 입력 받은 인증 정보
         String userId = authentication.getPrincipal().toString();
@@ -51,6 +54,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         // 인증 성공 시 실패 횟수 초기화
         if (user.getLoginFailCnt() != 0) userService.initLoginFailure(user.getId());
         // id, (pw 생략), 권한 목록 리턴
+//        return new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword(), user.getAuthorities());
         return new UsernamePasswordAuthenticationToken(user.getUserId(), null, user.getAuthorities());
     }
 

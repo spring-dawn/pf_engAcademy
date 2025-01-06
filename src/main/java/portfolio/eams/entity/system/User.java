@@ -101,10 +101,10 @@ public class User extends CommonEntity implements UserDetails {
     UserDetails 구현
      */
     @Override
-    @Transactional(readOnly = true) // 권한 정보를 전달하기 위해 영속성 컨텍스트 유지.
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(this.getRole().getRoleNm()));
+        System.out.println("asdf"+ authorities);
         return authorities;
     }
 

@@ -24,6 +24,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        log.info("로그인 성공!");
         response.setStatus(HttpServletResponse.SC_OK);  // 200
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Pragma", "no-cache");

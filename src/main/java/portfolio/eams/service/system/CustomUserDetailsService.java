@@ -35,6 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER)));
         user.getAuthorities();
 
+        log.info("asdf 로그인 정보 조회: "+user.getUserId());
         return user;
     }
 

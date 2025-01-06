@@ -20,7 +20,8 @@ public enum InfoMsg {
     NO_ACCESS("접근 권한이 없습니다."),
     PW_DIFF("비밀번호와 비밀번호 확인이 일치하지 않습니다."),
     PW_INCORRECT("비밀번호 입력 오류입니다. 다시 시도해주세요."),
-    DISABLED("사용할 수 없는 계정입니다. 관리자에 문의하세요."),
+    ACCOUNT_DISABLED("사용할 수 없는 계정입니다. 관리자에 문의하세요."),
+    ACCOUNT_LOCKED("사용할 수 없는 계정입니다. 관리자에 문의하세요."),
 
     // 엔티티 CRUD 기본 예외 메시지
     ENTITY_NOT_FOUND("해당 %s을(를) 찾을 수 없습니다."),

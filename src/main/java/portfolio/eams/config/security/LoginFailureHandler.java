@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -31,21 +32,25 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     private final ObjectMapper mapper;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        String errMsg = "";
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
+        log.info("로그인 실패!");
+//        String errMsg = "";
+        StringBuilder errMsg = new StringBuilder();
 
         if (exception instanceof UsernameNotFoundException) {
             // 사용자 조회 실패
-            errMsg = InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER);
+            errMsg.append(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER));
         } else if (exception instanceof BadCredentialsException) {
             // 비밀번호 불일치
-            errMsg = InfoMsg.PW_INCORRECT.getMsg();
+            errMsg.append(InfoMsg.PW_INCORRECT.getMsg());
         } else if (exception instanceof DisabledException) {
             // 미사용 계정
-            errMsg = InfoMsg.DISABLED.getMsg();
+            errMsg.append(InfoMsg.ACCOUNT_DISABLED.getMsg());
+        } else if (exception instanceof LockedException) {
+            errMsg.append(InfoMsg.ACCOUNT_LOCKED.getMsg());
         } else {
             // 예상치 못한 오류 발생. 로깅.
-            errMsg = InfoMsg.COMMON.getMsg();
+            errMsg.append(InfoMsg.COMMON.getMsg());
             exception.printStackTrace();
         }
 
@@ -55,7 +60,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         response.setHeader("Pragma", "no-cache");
 
         // TODO: 내부 코드 체계를 간단하게 잡아야 할 듯.
-        ResponseDto res = new ResponseDto("01", errMsg, MyUtil.timestamp());
+        ResponseDto res = new ResponseDto("01", errMsg.toString(), MyUtil.timestamp());
         response.getWriter().write(mapper.writeValueAsString(res));
     }
 }
