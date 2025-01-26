@@ -94,6 +94,7 @@ public class User extends CommonEntity implements UserDetails {
    */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLE_NO")
+    @Comment("사용 중인 역할 번호")
     private Role role;
 
 
