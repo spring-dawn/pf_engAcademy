@@ -50,6 +50,11 @@ public class Code extends CommonEntity {
     @Comment("최하단여부. 3단계보다 깊은 코드 생성 제한.")
     private Character lastYn;
 
+    @Column(name = "CD_DIGITS")
+    @Comment("코드 자릿수 지정. 해당 코드를 사용할 도메인에서 몇 자리 코드를 요구하는지 기입. e.g.) domainType: 3")
+    @ColumnDefault("'0'")
+    private int digits;
+
     // 트리 구조
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_CD")

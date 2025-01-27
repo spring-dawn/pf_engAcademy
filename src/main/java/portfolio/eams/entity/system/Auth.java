@@ -39,6 +39,7 @@ public class Auth {
      */
     @JoinColumn(name = "MENU_NO")
     @ManyToOne(fetch = FetchType.LAZY)
+    @Comment("참조하는 메뉴 번호")
     private Menu menu;
 
     /*

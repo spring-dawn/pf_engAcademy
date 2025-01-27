@@ -3,6 +3,7 @@ package portfolio.eams.entity.system;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Comment;
 import portfolio.eams.dto.system.RoleAuthDto;
 
 @Getter
@@ -28,11 +29,13 @@ public class RoleAuth {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLE_NO")
+    @Comment("참조하는 역할 번호")
     private Role role;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AUTH_NO")
+    @Comment("참조하는 권한 번호")
     private Auth auth;
 
 
