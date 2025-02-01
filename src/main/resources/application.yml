@@ -42,6 +42,18 @@ jasypt:
 spring:
   config:
     activate:
+      on-profile: notebook
+  datasource:
+    url: jdbc:mysql://localhost:3306/pf_eams?useSSL=false&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+    username: ENC(gZgeXInnK9hqQVF9UqtaCIU3hZO77aQ/3pbg7aWu+DcEpFejuGfFS/BPWn5PAwR3)
+    password: ENC(9MLBeqlNerEfr4MEQUzLPmo1p29sm5g/qXsTx4Uz7expkhT9W8jRRJrAE68Moewt)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+---
+# 윤영
+spring:
+  config:
+    activate:
       on-profile: prod
   jpa:
     hibernate:
