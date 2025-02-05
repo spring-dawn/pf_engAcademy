@@ -12,9 +12,9 @@ import org.springframework.test.context.ActiveProfiles;
 class JasyptEncryptorConfigTest {
 
     // jasypt encryption
+
     @Autowired
     JasyptEncryptorConfig jasypt;
-
 
     @Test
     @DisplayName("jasypt 활용")
@@ -22,10 +22,11 @@ class JasyptEncryptorConfigTest {
         String enc = "enc";
 
         String encrypted = jasypt.encrypt(enc);
-        System.out.println("암호화:"+ encrypted);
+        System.out.println("암호화:" + encrypted);
 
         String decrypted = jasypt.decrypt(encrypted);
-        System.out.println("복호화:"+ decrypted);
+        System.out.println("복호화:" + decrypted);
     }
+
 
 }

@@ -36,19 +36,19 @@ public class User extends CommonEntity implements UserDetails {
     @Column(name = "USER_NO")
     private Long id;
 
-    @Column(name = "USER_ID", length = 20, unique = true)
+    @Column(name = "USER_ID", length = 20, unique = true, nullable = false)
     @Comment("사용자 ID")
     private String userId;
 
-    @Column(name = "USER_PW", length = 200)
+    @Column(name = "USER_PW", length = 200, nullable = false)
     @Comment("사용자 비밀번호")
     private String userPw;
 
-    @Column(name = "SALT", length = 30)
+    @Column(name = "SALT", length = 30, nullable = false)
     @Comment("암호화 솔트")
     private String salt;
 
-    @Column(name = "USER_NM", length = 20)
+    @Column(name = "USER_NM", length = 20, nullable = false)
     @Comment("사용자명")
     private String userNm;
 

@@ -5,7 +5,6 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
-import org.springframework.cglib.core.Local;
 import portfolio.eams.entity.CommonEntity;
 
 import java.time.LocalDate;
@@ -15,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@DynamicInsert
 @Table(name = "DIM_EXAM_SCORE_T")
 public class ExamScore extends CommonEntity {
 
@@ -40,7 +40,7 @@ public class ExamScore extends CommonEntity {
     @Comment("학생의 실제 득점")
     private Double studentScore;
 
-    @Column(name = "MEMO", length = 100)
+    @Column(name = "MEMO", length = 200)
     @Comment("비고")
     private String memo;
 
@@ -49,6 +49,10 @@ public class ExamScore extends CommonEntity {
     @JoinColumn(name = "STUDENT_NO")
     @Comment("학생 번호")
     private Student student;
+
+    // update
+
+    // res
 
 
 }

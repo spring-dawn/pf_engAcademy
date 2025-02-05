@@ -17,7 +17,7 @@ import portfolio.eams.entity.CommonEntity;
 @Table(name = "DIM_SMS_T")
 public class SentSMS extends CommonEntity {
     // 웹 발송 sms 기록.
-    // TODO: 수신인을 확인하려면 별도 연결 테이블 필요
+    // 발송 대상이 사용자가 아닌 학생(학부모)이므로 CC 등의 참조 기능 없이 수신인 정보를 일반 문자열로 처리.
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +33,11 @@ public class SentSMS extends CommonEntity {
     private int numTo;
 
     @Column(name = "CONTENTS", columnDefinition = "text")
-    @Comment("내용")
+    @Comment("내용. SMS 글자제한수 참고.")
     private String contents;
 
     @Column(name = "SCS_YN", length = 1)
-    @Comment("발송실패여부")
+    @Comment("발송 성공 여부. 발송 실패 기준 별도 참고.")
     @ColumnDefault("'Y'")
     private Character successYn;
 

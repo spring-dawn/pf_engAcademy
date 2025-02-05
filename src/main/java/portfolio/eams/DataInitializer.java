@@ -41,7 +41,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             if (menuService.selectMenu("/dashboard") != null) return;
 
             // 메뉴 생성
-            MenuDto mDashboard = menuService.createMenu4Init(new MenuDto.Req("/dashboard", "대시보드", 0, null));
+            MenuDto mDashboard = menuService.createMenu4Init(new MenuDto.Req("/dashboard", "대시보드", (byte) 0, null));
 
             // system
             MenuDto menu0 = menuService.createMenu4Init(new MenuDto.Req("/system", "시스템관리", 0, null));

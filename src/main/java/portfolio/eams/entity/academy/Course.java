@@ -29,10 +29,27 @@ public class Course extends CommonEntity {
     @Comment("강의 소개")
     private String description;
 
+    @Column(name = "LV_SCHOOL", length = 10, nullable = false)
+    @Comment("학교 단계. 초, 중, 고등부...")
+    private String lvSchool;
+
+    @Column(name = "LV_LEARNING", length = 10, nullable = false)
+    @Comment("수강생 학습 단계")
+    private String lvLearning;
+
+    @Column(name = "LV_DIFFICULTY", nullable = false)
+    @Comment("강의 난이도")
+    private int lvDifficulty;
+
     @Column(name = "USE_YN", length = 1, nullable = false)
     @Comment("사용여부")
     @ColumnDefault("'Y'")
     private Character useYn;
+
+    @Column(name = "REQUIRED_YN", length = 1, nullable = false)
+    @Comment("필수 수강 여부")
+    @ColumnDefault("'N'")
+    private Character requiredYn;
 
     @Column(name = "NATIVE_YN", length = 1, nullable = false)
     @Comment("원어민 강사 유무")
@@ -50,6 +67,12 @@ public class Course extends CommonEntity {
     @Column(name = "TEXTBOOK", length = 200)
     @Comment("교재 포함 준비물 기재")
     private String textbook;
+
+
+    // update
+
+
+    // res
 
 
 }

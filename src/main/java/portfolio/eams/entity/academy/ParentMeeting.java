@@ -48,4 +48,10 @@ public class ParentMeeting extends CommonEntity {
     @Comment("학생 번호")
     private Student student;
 
+
+    // update
+
+    // res
+
+
 }

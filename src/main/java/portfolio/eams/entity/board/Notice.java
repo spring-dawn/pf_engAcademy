@@ -22,7 +22,7 @@ public class Notice extends CommonEntity {
     @Column(name = "NOTICE_NO")
     private Long id;
 
-    @Column(name = "SUBJECT", length = 100, nullable = false)
+    @Column(name = "SUBJECT", length = 150, nullable = false)
     @Comment("제목")
     private String subject;
 

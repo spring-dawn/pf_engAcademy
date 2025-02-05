@@ -15,6 +15,7 @@ import portfolio.eams.entity.CommonEntity;
 @DynamicInsert
 @Table(name = "DIM_LEARNING_CLASS_T")
 public class LearningClass extends CommonEntity {
+    // 학급
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +27,7 @@ public class LearningClass extends CommonEntity {
     private String userId;
 
     @Column(name = "CLASS_NM", length = 50, nullable = false, unique = true)
-    @Comment("학급명")
+    @Comment("학급명. 학교 단계-학습 단계-강의 난이도-반 순서 알파벳 등의 코드 조합.")
     private String classNm;
 
     @Column(name = "LV_SCHOOL", length = 10, nullable = false)
@@ -64,6 +65,11 @@ public class LearningClass extends CommonEntity {
     @Column(name = "MEMO", length = 200)
     @Comment("비고")
     private String memo;
+
+
+    // update
+
+    // res
 
 
 }

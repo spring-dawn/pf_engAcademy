@@ -39,11 +39,11 @@ public class Role {
     private String desc;
 
     @Column(name = "SORT_ORDER")
-    @Comment("역할 정렬 순서. 높은 권한이 우위?")
+    @Comment("역할 정렬 순서")
     private int order;
 
     @Column(name = "USE_YN", length = 1, nullable = false)
-    @Comment("사용여부. Y: 사용, N: 미사용(출력x)")
+    @Comment("사용여부. Y: 사용, N: 미사용")
     @ColumnDefault("'Y'")
     private Character useYn;
 

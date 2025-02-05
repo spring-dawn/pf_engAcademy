@@ -50,7 +50,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 ---
-# 윤영
+# 운영
 spring:
   config:
     activate:

@@ -37,7 +37,7 @@ public class Student extends CommonEntity {
     private LocalDate birthDt;
 
     @Column(name = "USE_YN", length = 1, nullable = false)
-    @Comment("사용여부")
+    @Comment("사용여부(현재 수강 여부)")
     @ColumnDefault("'Y'")
     private Character useYn;
 
@@ -70,13 +70,13 @@ public class Student extends CommonEntity {
     private String parentTel;
 
     @Column(name = "MEMO", columnDefinition = "text")
-    @Comment("특이사항")
+    @Comment("특이사항. 간부 외 평강사도 기재 가능.")
     private String memo;
 
     // 학급 1 : 학생 N
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LEARNING_CLASS_NO")
-    @Comment("소속 학급 번호")
+    @Comment("참조하는 학급 번호. 소속 학급.")
     private LearningClass learningClass;
 
 

@@ -30,16 +30,12 @@ public class Code extends CommonEntity {
     private Long id;
 
     @Column(name = "CD_NM", unique = true, nullable = false, length = 10)
-    @Comment("코드(명)")
+    @Comment("코드(명). DB 저장되는 형태.")
     private String cdNm;
 
     @Column(name = "CD_VAL", nullable = false, length = 20)
-    @Comment("코드값")
+    @Comment("코드값. 화면에 출력되는 형태.")
     private String cdVal;
-
-    @Column(name = "MEMO", length = 50)
-    @Comment("기타")
-    private String memo;
 
     @Column(name = "USE_YN", length = 1)
     @Comment("사용여부. Y: 사용, N: 미사용")
@@ -51,14 +47,18 @@ public class Code extends CommonEntity {
     private Character lastYn;
 
     @Column(name = "CD_DIGITS")
-    @Comment("코드 자릿수 지정. 해당 코드를 사용할 도메인에서 몇 자리 코드를 요구하는지 기입. e.g.) domainType: 3")
-    @ColumnDefault("'0'")
-    private int digits;
+    @Comment("코드 자릿수 지정. 해당 코드를 사용할 도메인이 몇 자리인지 기입. e.g.) domainType: 3")
+    @ColumnDefault("'1'")
+    private byte digits;
+
+    @Column(name = "MEMO", length = 50)
+    @Comment("기타 비고")
+    private String memo;
 
     // 트리 구조
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_CD")
-    @Comment("상위 코드")
+    @Comment("참조하는 상위 코드")
     private Code parent;
 
     @OneToMany(mappedBy = "parent")
