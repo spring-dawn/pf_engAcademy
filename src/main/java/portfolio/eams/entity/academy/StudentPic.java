@@ -41,11 +41,6 @@ public class StudentPic extends CommonEntity {
     @Comment("파일 저장경로")
     private String picPath;
 
-    // 학생 참조
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "STUDENT_NO")
-    @Comment("학생 번호")
-    private Student student;
 
 
 }

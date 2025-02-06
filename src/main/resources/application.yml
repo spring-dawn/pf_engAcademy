@@ -58,6 +58,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+    show-sql: false
 
   thymeleaf:
     cache: true

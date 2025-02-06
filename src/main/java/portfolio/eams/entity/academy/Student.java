@@ -79,6 +79,12 @@ public class Student extends CommonEntity {
     @Comment("참조하는 학급 번호. 소속 학급.")
     private LearningClass learningClass;
 
+    // 학생 증명사진 단방향 참조. uk 설정으로 1:1 관계 보장.
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "PIC_NO", unique = true)
+    @Comment("참조하는 학생 증명사진 번호")
+    private StudentPic studentPic;
+
 
     // update
 
