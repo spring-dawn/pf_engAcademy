@@ -105,7 +105,7 @@ public class User extends CommonEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(this.getRole().getRoleNm()));
-        System.out.println("asdf"+ authorities);
+//        System.out.println("asdf"+ authorities);
         return authorities;
     }
 

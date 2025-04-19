@@ -20,6 +20,11 @@ spring:
 #  SSR 타임리프 템플릿. prefix, suffix 등은 디폴트 설정.
   thymeleaf:
     cache: false # 개발 중은 빠른 상태 확인.
+  servlet:
+    multipart: # 파일 처리
+      max-file-size: -1 # 용량제한X (default: 1MB)
+      max-request-size: -1
+      location: D:/dev/files/pf1_eams
 
 server:
 #  port: 8080 # 디폴트

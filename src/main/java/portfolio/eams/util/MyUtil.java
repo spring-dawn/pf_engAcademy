@@ -17,7 +17,7 @@ public class MyUtil {
     }
 
     // 시간 타입 형식
-    private static final String DT_FORMAT_1 = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_FORMAT_1 = "yyyy-MM-dd HH:mm:ss";
 
 
     /**
@@ -26,9 +26,17 @@ public class MyUtil {
      * @return "yyyy-MM-dd HH:mm:ss"
      */
     public static String timestamp() {
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DT_FORMAT_1));
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_FORMAT_1));
     }
 
 
+    /**
+     * 파일 확장자 추출
+     * @param fileNm 파일명.확장자 형태
+     * @return .확장자 e.g) .xlsx
+     */
+    public static String getFileExt(String fileNm) {
+        return fileNm.substring(fileNm.lastIndexOf("."));
+    }
 
 }

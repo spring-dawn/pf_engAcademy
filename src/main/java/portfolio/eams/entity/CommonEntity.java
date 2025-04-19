@@ -40,13 +40,13 @@ public class CommonEntity {
     @PrePersist
     protected void onPersist() {
         this.createDtm = this.updateDtm = LocalDateTime.now();
-        this.createId = this.updateId = getSessionId();
+        this.createId = this.updateId = setSessionId();
     }
 
     @PreUpdate
     protected void onUpdate() {
         this.updateDtm = LocalDateTime.now();
-        this.updateId = getSessionId();
+        this.updateId = setSessionId();
     }
 
 
@@ -55,7 +55,7 @@ public class CommonEntity {
      *
      * @return 세션이 없거나 익명 사용자인 경우 null
      */
-    protected String getSessionId() {
+    protected String setSessionId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) return null;
         if (authentication.getPrincipal().toString().equals("anonymousUser")) return null;
