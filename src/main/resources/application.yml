@@ -17,7 +17,7 @@ spring:
       hibernate:
         format_sql: true # sql log 가독성 좋게 출력
 
-#  SSR 타임리프 템플릿. prefix, suffix 등은 디폴트 설정.
+  # SSR 타임리프 템플릿. prefix, suffix 등은 디폴트 설정.
   thymeleaf:
     cache: false # 개발 중은 빠른 상태 확인.
   servlet:
@@ -26,8 +26,14 @@ spring:
       max-request-size: -1
       location: D:/dev/files/pf1_eams
 
+  # 전역 안내/오류 메시지 등. 오타 방지를 위해 Enum 정책과 혼용.
+  messages:
+    basename: messages # 쉼표로 구분하여 여러 개 명시 가능
+    encoding: UTF-8
+    fallback-to-system-locale: false
+
 server:
-#  port: 8080 # 디폴트
+  #  port: 8080 # 디폴트
   servlet:
     session:
       cookie:

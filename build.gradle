@@ -44,10 +44,12 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // https://mvnrepository.com/artifact/org.apache.poi/poi
+    // poi, poi-ooxml 2개 디폴트로 추가해야 함
     implementation group: 'org.apache.poi', name: 'poi', version: '5.4.0'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.4.0'
 
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0' // swagger
+    // swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 
     // QueryDSL
