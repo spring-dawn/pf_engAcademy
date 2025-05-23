@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import portfolio.eams.config.security.filter.XSSFilter;
 
 
 @Slf4j
@@ -19,8 +21,12 @@ public class SecurityConfig {
     스프링 시큐리티 설정
      */
 
+    // 로그인 핸들러
     private final LoginSuccessHandler successHandler;
     private final LoginFailureHandler failureHandler;
+
+    // 필터
+    private final XSSFilter xssFilter;
 
 
     // Security Filter Chain 을 Bean 으로 등록해서 사용. 메서드 체이닝, 람다식 활용.
@@ -76,6 +82,9 @@ public class SecurityConfig {
                         .maxSessionsPreventsLogin(false) // true : 로그인 제한, false(default) : 기존 세션 만료
                         .expiredUrl("/signin")
                 )
+
+                // 필터 적용
+                .addFilterBefore(xssFilter, UsernamePasswordAuthenticationFilter.class)
         ;
 
         // 최종 빌드
