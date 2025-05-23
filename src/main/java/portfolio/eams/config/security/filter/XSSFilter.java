@@ -1,15 +1,15 @@
 package portfolio.eams.config.security.filter;
 
-import groovy.util.logging.Slf4j;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Set;
 
-@lombok.extern.slf4j.Slf4j
 @Slf4j
+@Component // @Autowired 없이 private final~ 형태로 주입하려면 빈 등록 필요
 public class XSSFilter implements Filter {
     /*
     XSS(크로스사이트 스크립트 공격) 대응 필터. 가장 기초적인 웹 취약점 보안.

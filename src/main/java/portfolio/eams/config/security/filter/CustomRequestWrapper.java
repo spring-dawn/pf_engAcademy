@@ -1,13 +1,12 @@
 package portfolio.eams.config.security.filter;
 
-import groovy.util.logging.Slf4j;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.Set;
 
-@lombok.extern.slf4j.Slf4j
 @Slf4j
 public class CustomRequestWrapper extends HttpServletRequestWrapper {
     /*
