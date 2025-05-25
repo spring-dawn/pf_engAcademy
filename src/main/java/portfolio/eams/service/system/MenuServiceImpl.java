@@ -35,7 +35,6 @@ public class MenuServiceImpl implements MenuService {
 
     private final MenuRepo repo;
     private final RoleRepo roleRepo;
-    private final AuthRepo authRepo;
 
     // Character[] 은 stream 사용 불가, Arrays.stream() 으로 감싸야 함
     private static final Character[] AUTH_TYPE_ARR = {'C', 'R', 'U', 'D'};
@@ -63,7 +62,7 @@ public class MenuServiceImpl implements MenuService {
         for (RoleAuth ra : authList) {
             // 권한 있는 모든 메뉴 id 수집
             Menu menu = ra.getAuth().getMenu();
-            if(menu.getUseYn().equals('N')) continue;
+            if (menu.getUseYn().equals('N')) continue;
             allowed.add(menu.getId());
 
             // R(ead) 조회권한이 있는 최상위 메뉴를 root 목록에 추리기
@@ -103,38 +102,6 @@ public class MenuServiceImpl implements MenuService {
 
 //        3)
         return myMenu;
-    }
-
-
-    @Transactional
-    public MenuDto createMenu4Init(MenuDto.Req req) {
-//        1) is exists already?
-        Menu isExist = repo.findByUrl(req.getUrl()).orElse(null);
-        if(isExist != null) return isExist.toRes();
-        if (!StringUtils.hasText(req.getUrl())) throw new IllegalArgumentException(InfoMsg.NPE.getMsg());
-
-//        2) save
-        Menu menu = repo.save(
-                Menu.builder()
-                        .menuNm(req.getMenuNm())
-                        .url(req.getUrl())
-                        .order(req.getOrder())
-                        .parent(req.getParentUrl() == null ? null : repo.findByUrl(req.getParentUrl()).orElse(null))
-                        .build()
-        );
-
-//        3) create authorities following menu
-        Arrays.stream(AUTH_TYPE_ARR)
-                .map(type -> authRepo.save(Auth.builder()
-                                .type(type)
-                                .menu(menu)
-                                .build())
-                        .toRes())
-                .toList();
-
-//        4) res
-        log.info("메뉴 생성: " + req.getMenuNm());
-        return menu.toRes();
     }
 
 

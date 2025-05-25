@@ -11,6 +11,7 @@ public interface MenuService {
 
     /**
      * 사용자 역할 범위에 따른 메뉴 조회. 권한별 캐싱 적용하여 최적화.
+     *
      * @param auth from SecurityContext
      * @return 메뉴 목록 dto -> 화면 렌더링
      */
@@ -19,6 +20,7 @@ public interface MenuService {
 
     /**
      * 메뉴 단일건 조회
+     *
      * @param url 메뉴 url
      * @return dto
      */
@@ -27,6 +29,7 @@ public interface MenuService {
 
     /**
      * 권한 내역 변경 시 해당 역할의 캐시 삭제
+     *
      * @param roleNm 역할명(key)
      */
     void deleteMenuCacheByRoleNm(String roleNm);
@@ -38,15 +41,6 @@ public interface MenuService {
      * @return 필터링 메뉴
      */
     List<Menu> filterAllowedMenu(List<Menu> rootMenus, Set<Long> allowed);
-
-
-    /**
-     * 메뉴 생성
-     * @param req 파라미터
-     * @return 메뉴 dto. 커밋 전까지 id 없음에 주의.
-     */
-    MenuDto createMenu4Init(MenuDto.Req req);
-
 
 
 }

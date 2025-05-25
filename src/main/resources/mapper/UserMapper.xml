@@ -6,7 +6,7 @@
 <!-- mapper 태그의 namespace 는 인터페이스 매퍼 경로 -->
 
 <mapper namespace="portfolio.eams.repo.mybatis.UserMapper">
-    <!-- resultMap. 컬럼명과 필드명이 다를 때 매칭을 위해 작성. parameterMpa 은 권장하지 않는다고 함. -->
+    <!-- resultMap. 컬럼명과 필드명이 다를 때 매칭을 위해 작성. 엔티티가 아닌 DTO 에 매칭할 것 -->
     <resultMap id="UserResultMap" type="portfolio.eams.dto.system.UserDto">
         <id property="id" column="USER_NO"/>
         <result property="userId" column="USER_ID"/>
@@ -15,11 +15,22 @@
         <result property="admYn" column="ADM_YN"/>
         <result property="tel" column="TEL"/>
         <result property="email" column="EML"/>
+        <result property="joinYmd" column="JOIN_YMD" javaType="java.time.LocalDate"/>
+        <result property="quitYmd" column="QUIT_YMD" javaType="java.time.LocalDate"/>
     </resultMap>
 
 <!--    실제 SQL -->
     <select id="getUserList" resultMap="UserResultMap">
-        SELECT *
+        SELECT
+            USER_NO,
+            USER_ID,
+            USER_NM,
+            USE_YN,
+            ADM_YN,
+            TEL,
+            EML,
+            JOIN_YMD,
+            QUIT_YMD
         FROM DIM_USER_T
     </select>
 

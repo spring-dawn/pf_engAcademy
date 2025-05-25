@@ -22,12 +22,6 @@ public class UserController {
      */
     private final UserService service;
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        List<UserDto> res = service.getUserTest();
-        return new ResponseEntity<>(res.toString(), HttpStatus.OK);
-    }
-
     @GetMapping("/users")
     public ResponseEntity<?> insertUser() {
         UserDto res = service.insertUser();

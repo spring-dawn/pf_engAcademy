@@ -19,14 +19,13 @@ public class XSSFilter implements Filter {
      */
 
     // 필터 적용 제외 URI
-    private static final Set<String> SKIPPED_URI = Set.of("/TEST");
+    private static final Set<String> SKIPPED_URI = Set.of("/test");
 
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         String reqUri = req.getRequestURI().trim();
-        log.info("asdf 필터 적용 확인 reqUri={}", reqUri);
 
         if (SKIPPED_URI.contains(reqUri)) {
             chain.doFilter(request, response);

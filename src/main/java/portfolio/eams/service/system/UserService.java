@@ -10,36 +10,37 @@ public interface UserService {
     목록 조회는 검색을 겸하므로 최적화를 위해 별도 쿼리 작성.
      */
 
-    public List<UserDto> getUserTest();
+    List<UserDto> getUserTest();
 
-    public UserDto insertUser();
+    UserDto insertUser();
 
-    public UserDto createUser4Init(String userId, Character admYn, String roleNm);
 
     // 사용자 정보 수정
-    public UserDto updateUserByAdmin();
+    UserDto updateUserByAdmin();
 
-    public UserDto updateUser();
+    UserDto updateUser();
 
     // 사용자 삭제
-    public UserDto deleteUser(UserDto.DeleteReq req);
+    UserDto deleteUser(UserDto.DeleteReq req);
 
     // 사용자 퇴사
-    public UserDto quitUser(Long id);
+    UserDto quitUser(Long id);
 
 
     /**
      * 로그인 실패 시 횟수 +1 씩 증가
+     *
      * @param id 사용자 번호
      */
-    public void countLoginFailure(Long id);
+    void countLoginFailure(Long id);
 
 
     /**
      * 로그인 실패 횟수 초기화
+     *
      * @param id 사용자 번호
      */
-    public void initLoginFailure(Long id);
+    void initLoginFailure(Long id);
 
 
 }

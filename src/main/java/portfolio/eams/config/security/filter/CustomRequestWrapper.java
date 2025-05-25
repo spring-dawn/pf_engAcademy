@@ -58,7 +58,6 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
      */
     private String cleanXSS(String value) {
         if (value == null) return null;
-        log.info("asdf 필터 적용 확인 value={}", value);
 
         // a 태그 사용 차단
         value = value.replaceAll("(?i)<\\s*a\\s+[^>]*>", "");

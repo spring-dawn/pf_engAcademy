@@ -2,7 +2,6 @@ package portfolio.eams.repo.mybatis;
 
 import org.apache.ibatis.annotations.Mapper;
 import portfolio.eams.dto.system.UserDto;
-import portfolio.eams.entity.system.User;
 
 import java.util.List;
 

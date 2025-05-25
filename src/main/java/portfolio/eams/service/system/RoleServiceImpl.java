@@ -28,40 +28,6 @@ public class RoleServiceImpl implements RoleService {
     private final AuthRepo authRepo;
     private final RoleAuthRepo roleAuthRepo;
 
-
-    @Transactional
-    public RoleDto createRole4Init(RoleDto.Req req) {
-//        1) validation
-        Role isExist = repo.findByRoleNm(req.getRoleNm()).orElse(null);
-        if(isExist != null) return isExist.toRes();
-        if (!StringUtils.hasText(req.getRoleNm())) throw new IllegalArgumentException(InfoMsg.NPE.getMsg());
-
-//        2) create and save role
-        Role role = Role.builder()
-                .roleNm(req.getRoleNm())
-                .desc(req.getDesc())
-                .order(req.getOrder())
-//                .useYn('Y') // ?? DynamicInsert 를 쓰고 있는데 왜 안 먹히지
-                .build();
-        repo.save(role);
-
-//        3) find authList, save roleAuth
-        List<Auth> authList = authRepo.findAllById(req.getAuthIdList());
-
-        List<RoleAuth> roleAuthList = authList.stream()
-                .map(auth -> RoleAuth.builder()
-                        .role(role)
-                        .auth(auth)
-                        .build())
-                .toList();
-        roleAuthRepo.saveAll(roleAuthList);
-
-//        4) add authList to role
-        role.addAuthList(roleAuthList);
-        return role.toRes();
-    }
-
-
     @Override
     public RoleDto updateRole(RoleDto.Req req) {
         return null;

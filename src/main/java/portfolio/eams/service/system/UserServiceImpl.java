@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService {
 
     // 리포지토리 임포트. @Autowired 는 테스트 클래스에서 사용.
     private final UserRepo repo;
-    private final RoleRepo roleRepo;
     private final UserMapper mapper;
 
     @Override
@@ -42,45 +41,6 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-
-    @Transactional
-    public UserDto createUser4Init(String userId, Character admYn, String roleNm) {
-//        1) validation
-        User isExist = repo.findByUserId(userId).orElse(null);
-        if (isExist != null) return isExist.toRes();
-        if (!StringUtils.hasText(userId))
-            throw new IllegalArgumentException(InfoMsg.NPE.getMsg());
-
-//        2) pw encryption
-        String salt = "";
-        String salted = "";
-        try {
-            SHA256Util.PwDto pwDto = SHA256Util.createPw(userId);
-
-            salt = pwDto.salt();
-            salted = pwDto.salted();
-        } catch (NoSuchAlgorithmException e) {
-            log.error(e.getMessage());
-        }
-
-//        3) create user
-        Role role = roleRepo.findByRoleNm(roleNm)
-                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.ROLE)));
-
-        return repo.save(
-                        User.builder()
-                                .userId(userId)
-                                .salt(salt)
-                                .userPw(salted)
-                                .userNm(userId)
-                                .admYn(admYn)
-                                .tel("010-1111-1111")
-                                .email(userId + "@test.com")
-                                .joinYmd(LocalDate.now())
-                                .role(role)
-                                .build())
-                .toRes();
-    }
 
     @Override
     public UserDto updateUser() {
