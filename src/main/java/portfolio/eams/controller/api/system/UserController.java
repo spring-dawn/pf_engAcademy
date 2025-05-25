@@ -6,7 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import portfolio.eams.dto.system.UserDto;
+import portfolio.eams.entity.system.User;
+import portfolio.eams.repo.mybatis.UserMapper;
 import portfolio.eams.service.system.UserService;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -17,6 +21,12 @@ public class UserController {
     사용자 api 컨트롤러
      */
     private final UserService service;
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        List<UserDto> res = service.getUserTest();
+        return new ResponseEntity<>(res.toString(), HttpStatus.OK);
+    }
 
     @GetMapping("/users")
     public ResponseEntity<?> insertUser() {

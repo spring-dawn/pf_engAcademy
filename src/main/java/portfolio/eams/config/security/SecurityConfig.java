@@ -42,7 +42,7 @@ public class SecurityConfig {
                                 "/api/signup",
                                 "/api/signin",
                                 "/api/test/**",
-//                                "/api/**",
+                                "/api/**",
 
                                 //
                                 "/swagger-ui/**",

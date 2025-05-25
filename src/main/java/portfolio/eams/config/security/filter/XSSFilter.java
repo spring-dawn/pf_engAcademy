@@ -25,7 +25,7 @@ public class XSSFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        String reqUri = req.getRequestURI().toString().trim();
+        String reqUri = req.getRequestURI().trim();
         log.info("asdf 필터 적용 확인 reqUri={}", reqUri);
 
         if (SKIPPED_URI.contains(reqUri)) {

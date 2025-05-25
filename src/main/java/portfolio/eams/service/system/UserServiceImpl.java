@@ -1,28 +1,24 @@
 package portfolio.eams.service.system;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import portfolio.eams.dto.system.UserDto;
 import portfolio.eams.entity.system.Role;
 import portfolio.eams.entity.system.User;
+import portfolio.eams.repo.mybatis.UserMapper;
 import portfolio.eams.repo.system.RoleRepo;
 import portfolio.eams.repo.system.UserRepo;
-import portfolio.eams.util.MyUtil;
 import portfolio.eams.util.SHA256Util;
 import portfolio.eams.util.enums.EntityNm;
 import portfolio.eams.util.enums.InfoMsg;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -33,7 +29,12 @@ public class UserServiceImpl implements UserService {
     // 리포지토리 임포트. @Autowired 는 테스트 클래스에서 사용.
     private final UserRepo repo;
     private final RoleRepo roleRepo;
+    private final UserMapper mapper;
 
+    @Override
+    public List<UserDto> getUserTest() {
+        return mapper.getUserList();
+    }
 
     // 사용자 관리
     @Override
