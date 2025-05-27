@@ -10,24 +10,31 @@ import java.util.List;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class CodeDto {
     // code 는 단순한 값이지만 불변을 보장하기엔 사용처가 애매함
-    private String cdNm;
+    private Long id;
+    private String cd;
     private String cdVal;
     private String memo;
     private Character useYn;
     private Character lastYn;
-    private Code parent;
+    private Character sysYn;
+    private Long parentId;
     private List<Code> children;
 
 
     @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Req {
-        private String cdNm;
+        // insert, update
+        private String cd;
         private String cdVal;
         private String memo;
+        private Character useYn;
+        private Character lastYn;
+        private Character sysYn;
     }
 }
