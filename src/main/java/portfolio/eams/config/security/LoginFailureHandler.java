@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 import portfolio.eams.dto.ResponseDto;
+import portfolio.eams.util.MessageUtil;
 import portfolio.eams.util.MyUtil;
 import portfolio.eams.util.enums.EntityNm;
 import portfolio.eams.util.enums.InfoMsg;
@@ -30,6 +32,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
      */
 
     private final ObjectMapper mapper;
+    private final MessageUtil msgUtil;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
@@ -39,15 +42,19 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
         if (exception instanceof UsernameNotFoundException) {
             // 사용자 조회 실패
-            errMsg.append(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER));
+//            errMsg.append(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER));
+            errMsg.append(msgUtil.get("ent.e.notfound", EntityNm.USER));
         } else if (exception instanceof BadCredentialsException) {
             // 비밀번호 불일치
-            errMsg.append(InfoMsg.PW_INCORRECT.getMsg());
+//            errMsg.append(InfoMsg.PW_INCORRECT.getMsg());
+            errMsg.append(msgUtil.get("login.pw.incorrect"));
         } else if (exception instanceof DisabledException) {
             // 미사용 계정
-            errMsg.append(InfoMsg.ACCOUNT_DISABLED.getMsg());
+//            errMsg.append(InfoMsg.ACCOUNT_DISABLED.getMsg());
+            errMsg.append(msgUtil.get("login.account.disabled"));
         } else if (exception instanceof LockedException) {
-            errMsg.append(InfoMsg.ACCOUNT_LOCKED.getMsg());
+//            errMsg.append(InfoMsg.ACCOUNT_LOCKED.getMsg());
+            errMsg.append(msgUtil.get("login.account.locked"));
         } else {
             // 예상치 못한 오류 발생. 로깅.
             errMsg.append(InfoMsg.COMMON.getMsg());

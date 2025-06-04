@@ -26,9 +26,10 @@ spring:
       max-request-size: -1
       location: D:/dev/files/pf1_eams
 
-  # 전역 안내/오류 메시지 등. 오타 방지를 위해 Enum 정책과 혼용.
+  # 전역 안내, 오류, ui/ux 문자열 등. 오타 방지를 위해 Enum 정책과 혼용.
   messages:
-    basename: messages # 쉼표로 구분하여 여러 개 명시 가능
+    # 파일명 디폴트: messages. 쉼표로 구분하여 여러 개 명시 가능. basename 작성 순서대로 훑으며 가져오기 때문에 내부 데이터에 중복이 없어야 함
+    basename: messages, errmsgs
     encoding: UTF-8
     fallback-to-system-locale: false
 

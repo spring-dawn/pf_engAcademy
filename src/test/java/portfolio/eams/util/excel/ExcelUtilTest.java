@@ -6,18 +6,24 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.MessageSource;
 import portfolio.eams.dto.common.ExcelDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @SpringBootTest
 class ExcelUtilTest {
 
     @Value("${spring.servlet.multipart.location}")
     String filePath;
+
+    @Autowired
+    MessageSource ms;
 
 
     @Test
@@ -47,6 +53,19 @@ class ExcelUtilTest {
                 }
             }
         }
+
+
+    }
+
+    @Test
+    @DisplayName("스프링 메시지 사용 예시")
+    void asdf2() {
+        // 기본 디폴트 파일이 하나는 있어야 인식을 하는구나;
+//        String errMsg = ms.getMessage("err.test", null, null);
+//        String msg = ms.getMessage("test.greeting", null, Locale.KOREA);
+        String msg = ms.getMessage("msg.ent.diff", new Object[]{""}, null);
+
+        System.out.println("asdf "+msg);
 
 
     }

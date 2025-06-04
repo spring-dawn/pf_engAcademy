@@ -13,6 +13,8 @@ public class EntityNm {
     private EntityNm(){
         // 기초 프라이빗 생성자
     }
+    // test
+    public static final String TEST_MSG = "test";
 
     // SYSTEM
     public static final String USER = "사용자";

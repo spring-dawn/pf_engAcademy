@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import portfolio.eams.dto.ResponseDto;
 import portfolio.eams.entity.system.AccessLog;
 import portfolio.eams.entity.system.User;
@@ -29,6 +30,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final UserRepo userRepo;
     private final AccessLogRepo acsLogRepo;
 
+    @Transactional
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         log.info("로그인 성공!");

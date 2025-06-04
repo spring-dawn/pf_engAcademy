@@ -12,6 +12,7 @@ import portfolio.eams.entity.system.User;
 import portfolio.eams.repo.mybatis.UserMapper;
 import portfolio.eams.repo.system.RoleRepo;
 import portfolio.eams.repo.system.UserRepo;
+import portfolio.eams.util.MessageUtil;
 import portfolio.eams.util.SHA256Util;
 import portfolio.eams.util.enums.EntityNm;
 import portfolio.eams.util.enums.InfoMsg;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
     // 리포지토리 임포트. @Autowired 는 테스트 클래스에서 사용.
     private final UserRepo repo;
     private final UserMapper mapper;
+    private final MessageUtil msgUtil;
 
     @Override
     public List<UserDto> getUserTest() {
@@ -61,7 +63,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void countLoginFailure(Long id) {
         User user = repo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER)));
+//                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER)));
+                .orElseThrow(() -> new EntityNotFoundException(msgUtil.get("ent.not.found", EntityNm.USER)));
 
         user.updateLoginFailCnt();
     }
@@ -70,7 +73,7 @@ public class UserServiceImpl implements UserService {
     public void initLoginFailure(Long id) {
 //        1) find target
         User user = repo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER)));
+                .orElseThrow(() -> new EntityNotFoundException(msgUtil.get("ent.not.found", EntityNm.USER)));
 
         user.initLoginFailCnt();
     }
@@ -81,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
 //        1) find target
         User user = repo.findById(req.getId())
-                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER)));
+                .orElseThrow(() -> new EntityNotFoundException(msgUtil.get("ent.not.found", EntityNm.USER)));
 
 //        2) check auth
 
