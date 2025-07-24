@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import portfolio.eams.dto.system.UserDto;
 import portfolio.eams.entity.system.User;
 import portfolio.eams.repo.mybatis.UserMapper;
+import portfolio.eams.service.system.AdminUserService;
 import portfolio.eams.service.system.UserService;
 
 import java.util.List;
@@ -21,15 +22,24 @@ public class UserController {
     사용자 api 컨트롤러
      */
     private final UserService service;
+    private final AdminUserService adminUserService;
 
-    @GetMapping("/users")
-    public ResponseEntity<?> insertUser() {
-        UserDto res = service.insertUser();
+
+//    @GetMapping("/users")
+//    public ResponseEntity<?> insertUser() {
+//        UserDto res = service.insertUser();
+//        return new ResponseEntity<>(res, HttpStatus.OK);
+//    }
+//
+//    @DeleteMapping("/users")
+//    public ResponseEntity<?> deleteUser(@RequestBody UserDto.DeleteReq req) {
+//        return new ResponseEntity<>(service.deleteUser(req), HttpStatus.OK);
+//    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUsers(@PathVariable("id") Long id) {
+        UserDto res = adminUserService.deleteUser(id);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @DeleteMapping("/users")
-    public ResponseEntity<?> deleteUser(@RequestBody UserDto.DeleteReq req) {
-        return new ResponseEntity<>(service.deleteUser(req), HttpStatus.OK);
-    }
 }

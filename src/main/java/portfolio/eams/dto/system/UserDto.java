@@ -11,9 +11,8 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 public class UserDto {
-    /*
-    Builder 패턴 사용하는 경우 NoArgsConstructor 필요
-     */
+    // 조회 제외하고 NoArgsConstructor 필요.
+    // DTO 는 클라이언트 노출 데이터.
 
     // 일반 조회
     private Long id;
@@ -58,15 +57,6 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UpdatePwReq {
-        private Long id;
-        private String userPw;
-        private String pwConfirm;
-        private LocalDate pwModYmd;
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class DeleteReq {
         private Long id;
         private String userPw;
         private String pwConfirm;

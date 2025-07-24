@@ -12,23 +12,22 @@ public interface UserService {
 
     List<UserDto> getUserTest();
 
-    UserDto insertUser();
+    // 개인정보 확인
+    UserDto selectUser(Long id);
 
-
-    // 사용자 정보 수정
-    UserDto updateUserByAdmin();
-
+    // 마이페이지 개인정보 수정
     UserDto updateUser();
 
-    // 사용자 삭제
-    UserDto deleteUser(UserDto.DeleteReq req);
+    // 비밀번호 변경
+    void updatePw(UserDto.UpdatePwReq req);
 
-    // 사용자 퇴사
-    UserDto quitUser(Long id);
 
+
+
+    // ============================================= 공용 =====================================
 
     /**
-     * 로그인 실패 시 횟수 +1 씩 증가
+     * 로그인 실패 시 횟수 +1 씩 증가.0
      *
      * @param id 사용자 번호
      */

@@ -26,6 +26,7 @@ public class XSSFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         String reqUri = req.getRequestURI().trim();
+//        log.info("Request URI: {}", reqUri);
 
         if (SKIPPED_URI.contains(reqUri)) {
             chain.doFilter(request, response);

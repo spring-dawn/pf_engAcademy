@@ -37,33 +37,28 @@ public class UserServiceImpl implements UserService {
         return mapper.getUserList();
     }
 
-    // 사용자 관리
     @Override
-    public UserDto insertUser() {
+    public UserDto selectUser(Long id) {
         return null;
     }
-
 
     @Override
     public UserDto updateUser() {
         return null;
     }
 
-    @Override
-    public UserDto updateUserByAdmin() {
-        return null;
-    }
 
     @Override
-    public UserDto quitUser(Long id) {
-        return null;
+    public void updatePw(UserDto.UpdatePwReq req) {
+
     }
 
+
+    // ===============================================================================================
 
     @Transactional
     public void countLoginFailure(Long id) {
         User user = repo.findById(id)
-//                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER)));
                 .orElseThrow(() -> new EntityNotFoundException(msgUtil.get("ent.not.found", EntityNm.USER)));
 
         user.updateLoginFailCnt();
@@ -78,21 +73,5 @@ public class UserServiceImpl implements UserService {
         user.initLoginFailCnt();
     }
 
-    @Transactional
-    public UserDto deleteUser(UserDto.DeleteReq req) {
-        //TODO: check session
-
-//        1) find target
-        User user = repo.findById(req.getId())
-                .orElseThrow(() -> new EntityNotFoundException(msgUtil.get("ent.not.found", EntityNm.USER)));
-
-//        2) check auth
-
-
-//        ) delete
-        repo.delete(user);
-        return user.toRes();
-
-    }
 
 }
