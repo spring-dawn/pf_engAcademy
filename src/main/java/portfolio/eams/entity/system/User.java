@@ -80,6 +80,7 @@ public class User extends CommonEntity implements UserDetails {
 
     @Column(name = "LGN_FAIL_CNT")
     @Comment("로그인 실패 횟수")
+    @ColumnDefault("'0'")
     private int loginFailCnt;
 
     @Column(name = "PW_MOD_YMD")

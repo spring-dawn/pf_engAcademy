@@ -1,17 +1,24 @@
 package portfolio.eams.service.system;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import portfolio.eams.dto.system.UserDto;
+import portfolio.eams.entity.system.Role;
 import portfolio.eams.entity.system.User;
+import portfolio.eams.repo.system.RoleRepo;
 import portfolio.eams.repo.system.UserRepo;
 import portfolio.eams.util.MessageUtil;
+import portfolio.eams.util.SHA256Util;
 import portfolio.eams.util.enums.EntityNm;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import static org.springframework.util.StringUtils.hasText;
 
 @Slf4j
 @Service
@@ -19,8 +26,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminUserServiceImpl implements AdminUserService {
 
-    private final UserRepo repo;
     private final MessageUtil msgUtil;
+    private final UserRepo repo;
+    private final RoleRepo roleRepo;
 
 
     public List<UserDto> selectList() {
@@ -31,8 +39,40 @@ public class AdminUserServiceImpl implements AdminUserService {
         return null;
     }
 
+    @Transactional
     public UserDto insertUser(UserDto.InsertReq req) {
-        return null;
+        // validation: id, email
+        if(repo.existsByUserId(req.getUserId())) throw new EntityExistsException("아이디중복");
+        if(repo.existsByEmail(req.getEmail())) throw new EntityExistsException("이메일중복");
+
+        // chosen role
+        Role role = roleRepo.findById(req.getRoleId())
+                .orElseThrow(EntityNotFoundException::new);
+
+        // pw encrypt
+        if(!hasText(req.getUserPw())) throw new IllegalArgumentException("비밀번호 누락");
+
+        User user = null;
+        try {
+            SHA256Util.PwDto pwDto = SHA256Util.createPw(req.getUserPw());
+
+            user = User.builder()
+                    .userId(req.getUserId())
+                    .userNm(req.getUserNm())
+                    .userPw(pwDto.salted())
+                    .salt(pwDto.salt())
+                    .email(req.getEmail())
+                    .tel(req.getTel())
+                    .joinYmd(LocalDate.parse(req.getJoinYmd()))
+                    .pwModYmd(LocalDate.now())
+                    .role(role)
+                    .build();
+        } catch (Exception e) {
+            log.error("Error: 비밀번호 암호화 시 오류 발생");
+        }
+
+        repo.save(user);
+        return user.toRes();
     }
 
     public UserDto updateUser() {

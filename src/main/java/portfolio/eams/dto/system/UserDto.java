@@ -36,6 +36,8 @@ public class UserDto {
         private String userPw;
         private String tel;
         private String email;
+        private String joinYmd;
+        private Long roleId;
     }
 
 
