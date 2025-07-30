@@ -30,18 +30,20 @@ public interface AdminUserService {
      */
     UserDto insertUser(UserDto.InsertReq req);
 
+
     /**
      * 비밀번호 제외 사용자 정보 변경
+     * @param req 변경 가능 컬럼
      * @return 변경 확인용 데이터
      */
-    UserDto updateUser();
+    UserDto updateUser(UserDto.UpdateReq req);
 
 
     /**
      * 퇴직 처리. 계정 비활성화 및 퇴직일 지정.
-     * @param id user pk
+     * @param req
      */
-    void quitUser(Long id);
+    void quitUser(UserDto.QuitReq req);
 
 
     /**

@@ -22,7 +22,6 @@ public class UserController {
     사용자 api 컨트롤러
      */
     private final UserService service;
-    private final AdminUserService adminUserService;
 
 
 //    @GetMapping("/users")
@@ -36,16 +35,6 @@ public class UserController {
 //        return new ResponseEntity<>(service.deleteUser(req), HttpStatus.OK);
 //    }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> insertUser(@RequestBody UserDto.InsertReq req) {
-        UserDto res = adminUserService.insertUser(req);
-        return new ResponseEntity<>(res, HttpStatus.OK);
-    }
 
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUsers(@PathVariable("id") Long id) {
-        UserDto res = adminUserService.deleteUser(id);
-        return new ResponseEntity<>(res, HttpStatus.OK);
-    }
 
 }

@@ -150,6 +150,24 @@ public class User extends CommonEntity implements UserDetails {
         loginFailCnt = 0;
     }
 
+    // 변경 가능한 부분 제한
+    public void updateUser(UserDto.UpdateReq req) {
+        userNm = req.getUserNm();
+        useYn = req.getUseYn();
+        tel = req.getTel();
+        email = req.getEmail();
+    }
+
+    // 역할 변경. 캐시 삭제 불필요.
+    public void updateUserRole(Role role) {
+        this.role = role;
+    }
+
+    public void quitUser(UserDto.QuitReq req) {
+        useYn = 'N';
+        quitYmd = LocalDate.parse(req.getQuitYmd());
+    }
+
 
 
     // res

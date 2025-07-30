@@ -47,11 +47,15 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UpdateReq {
+        private Long id;
         private String userNm;
         private Character useYn;
-        private Character admYn;
         private String tel;
         private String email;
+        private Long roleId;
+
+        // 확인용
+        private String pwConfirm;
     }
 
     @Data
@@ -63,6 +67,16 @@ public class UserDto {
         private String userPw;
         private String pwConfirm;
     }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class QuitReq {
+        private Long id;
+        private String quitYmd;
+    }
+
 
     @Data
     @Builder

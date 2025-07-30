@@ -75,12 +75,29 @@ public class AdminUserServiceImpl implements AdminUserService {
         return user.toRes();
     }
 
-    public UserDto updateUser() {
-        return null;
+    @Transactional
+    public UserDto updateUser(UserDto.UpdateReq req) {
+        // find target
+        User user = repo.findById(req.getId())
+                .orElseThrow(() -> new EntityNotFoundException(msgUtil.get("ent.not.found", EntityNm.USER)));
+
+        // 역할 변경이 있는 경우
+        if(user.getRole().getId() != req.getRoleId()){
+            Role role = roleRepo.findById(req.getRoleId())
+                    .orElseThrow(() -> new EntityNotFoundException(msgUtil.get("ent.not.found", EntityNm.ROLE)));
+            user.updateUserRole(role);
+        }
+
+        user.updateUser(req);
+        return user.toRes();
     }
 
-    public void quitUser(Long id) {
+    @Transactional
+    public void quitUser(UserDto.QuitReq req) {
+        User user = repo.findById(req.getId())
+                .orElseThrow(() -> new EntityNotFoundException(msgUtil.get("ent.not.found", EntityNm.USER)));
 
+        user.quitUser(req);
     }
 
     @Transactional
