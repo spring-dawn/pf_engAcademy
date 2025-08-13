@@ -6,19 +6,26 @@
 <head th:replace="~{fragments/head :: head}">
 </head>
 
+<!-- 
+thymeleaf layout 기능인 경우 prefix(layout-)  붙여 명명
+
+container : 전체 화면 배치를 위해 필요한 컴포넌트(대)
+box : 공통 기능 요소 등 비슷한 작은 분류를 묶을 때 필요한 컴포넌트(소)
+ -->
+
 <body>
-    <!-- 헤더 -->
-    <header th:replace="~{fragments/header :: header}"></header>
+    <div id="layout-container">
+        <header th:replace="~{fragments/header :: header}"></header>
 
-    <!-- 왼쪽 사이드바(메뉴) -->
-    <aside th:replace="~{fragments/sideBar :: sideBar}"></aside>
-
-    <!-- 메인 콘텐츠 -->
-    <main>
-        <div layout:fragment="contents">
+        <div id="layout-mainBox">
+            <aside th:replace="~{fragments/sideBar :: sideBar}"></aside>
+            
+            <main>
+                <!-- contents 는 url 따라 갈아끼우기 -->
+                <div layout:fragment="contents"></div>
+            </main>
         </div>
-    </main>
-
+    </div>
 </body>
 
 </html>

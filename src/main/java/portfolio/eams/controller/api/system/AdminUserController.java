@@ -11,7 +11,7 @@ import portfolio.eams.service.system.AdminUserService;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/system/user/admin", produces = "application/json")
+@RequestMapping(value = "/api/sys/user/admin", produces = "application/json")
 public class AdminUserController {
     private final AdminUserService service;
 

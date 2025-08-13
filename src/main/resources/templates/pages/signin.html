@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/head :: head}">
-    <!-- css. prefix: /static -->
-    <!-- <link rel="stylesheet" th:href="@{/css/signin.css}"> -->
+<!-- <head th:replace="~{fragments/head :: head}">
+    <link rel="stylesheet" th:href="@{/css/signin.css}">
+    <script th:src="@{/js/signin.js}"></script>
+</head> -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dear Old Shiz</title>
+
+    <script defer th:src="@{/js/signin.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/signin.css}">
 </head>
+
 
 <body>
     <div class="login-container">
@@ -25,7 +34,7 @@
                 </div>
 
                 <div class="login-contents">
-                    <form action="/api/signin" method="post" id="form-signin">
+                    <form id="form-signin">
                         <!--  -->
                         <div class="input-grid">
                             <label for="userId">ID</label>
@@ -58,7 +67,6 @@
             </div>
         </div>
     </div>
-
 </body>
 
 </html>

@@ -1,5 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="header">
-    <h2 style="color: brown;">Header</h2>
-    
+
+    <div id="layout-headerBox">
+        <header>
+            <img src="" alt="logo">
+            <h2>Welcome to Shiz Academy!</h2>
+        </header>
+
+        <nav>
+            <div id="gnb">
+                <span><i class="fa-solid fa-bell"></i></span>
+                <span><i class="fa-solid fa-user"></i></span>
+                <span><i class="fa-solid fa-gear"></i></span>
+                <span>
+                    <a href="/api/signout">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </a>
+                </span>
+            </div>
+        </nav>
+    </div>
 </html>

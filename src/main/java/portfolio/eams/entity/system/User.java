@@ -103,11 +103,14 @@ public class User extends CommonEntity implements UserDetails {
     UserDetails 구현
      */
     @Override
+    @Transactional(readOnly = true)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(this.getRole().getRoleNm()));
-//        System.out.println("asdf"+ authorities);
         return authorities;
+
+//        return List.of(new SimpleGrantedAuthority("ROLE_" + role.getId()));
+//        return List.of(new SimpleGrantedAuthority("ROLE_" + this.getRole().getId()));
     }
 
     @Override
@@ -117,7 +120,7 @@ public class User extends CommonEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userNm;
+        return userId;
     }
 
     @Override
@@ -127,7 +130,7 @@ public class User extends CommonEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return loginFailCnt <= 5;
+        return loginFailCnt < 5;
     }
 
     @Override

@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-* {
-    /* outline: red 1px solid; */
-}
-
 .login-container {
     width: 1200px;
     height: 80vh;

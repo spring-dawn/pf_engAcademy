@@ -12,10 +12,9 @@ public interface MenuService {
     /**
      * 사용자 역할 범위에 따른 메뉴 조회. 권한별 캐싱 적용하여 최적화.
      *
-     * @param auth from SecurityContext
      * @return 메뉴 목록 dto -> 화면 렌더링
      */
-    List<MenuDto> selectMyMenu(Authentication auth);
+    List<MenuDto> selectMyMenu();
 
 
     /**

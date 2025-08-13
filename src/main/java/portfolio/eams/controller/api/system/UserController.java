@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/system/user", produces = "application/json")
+@RequestMapping(value = "/api/sys/user", produces = "application/json")
 public class UserController {
     /*
     사용자 api 컨트롤러

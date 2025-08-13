@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+body, * {
+    margin: 0;
+    padding: 0;
+}
+*{
+    outline: red 1px solid;
+}
+
+/* 최상위 layout */
+#layout-container{
+    width: 90%;
+    min-width: 600px;
+    height: 100vh;
+    /* padding: 0 20px; */
+    margin: auto;
+    
+    display: flex;
+    flex-direction: column;
+}
+#layout-headerBox{
+    flex: 1;
+    /* background-color: skyblue; */
+    display: flex;
+    flex-direction: column;
+}
+#layout-mainBox{
+    flex: 9;
+    display: flex;
+}
+
+
+/* 
+ ================== header, nav ================================
+*/
+header{
+    flex: 3;
+    display: flex;
+}
+header img {flex: 1;}
+header h2 {flex: 9; margin: auto; text-align: center;}
+
+nav{
+    flex: 2;
+    display: flex;
+    justify-content: right;
+}
+nav #gnb{
+    width: 10%;
+    display: flex;
+}
+nav #gnb span {margin: auto;} 
+
+
+/* 
+ ============================== asdie, main ========================
+*/
+
+#layout-mainBox aside{
+    flex: 1;
+}
+#layout-mainBox main{
+    flex: 9;
+    padding: 10px;
+}
+
+aside{
+    background-color: palegreen;
+    display: flex;
+    flex-direction: column;
+}
+aside #userBox{flex: 1;}
+aside #menuBox{
+    flex: 4;
+    /* padding: 5px; */
+}
+#menuBox #menu-lv1{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+}
+#menu-lv1 li{
+    font-size: 1.5rem;
+}

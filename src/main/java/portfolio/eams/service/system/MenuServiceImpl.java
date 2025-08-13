@@ -40,8 +40,9 @@ public class MenuServiceImpl implements MenuService {
     private static final Character[] AUTH_TYPE_ARR = {'C', 'R', 'U', 'D'};
 
 
-    @Cacheable(value = "mymenu", key = "#authentication.getAuthorities().toArray()[0].toString()")
-    public List<MenuDto> selectMyMenu(Authentication auth) {
+//        @Cacheable(value = "mymenu", key = "#authentication.getAuthorities().toArray()[0].toString()")
+    @Cacheable(value = "mymenu")
+    public List<MenuDto> selectMyMenu() {
 //        1) 사용자 인증 정보 수신. 정보 없음 == 미인증
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -51,6 +52,8 @@ public class MenuServiceImpl implements MenuService {
 //        3) role 내부 메뉴 확인
         Role role = roleRepo.findByRoleNm(roleNm)
                 .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.ROLE)));
+//        Role role = roleRepo.findById(Long.parseLong(secureRoleId.split("_")[1]))
+//                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.ROLE)));
         // TODO: 권한에 useYn 이 필요한가?
 //        if(role.getUseYn().equals('N')) throw new IllegalStateException("");
         List<RoleAuth> authList = role.getRoleAuthList();
@@ -79,12 +82,6 @@ public class MenuServiceImpl implements MenuService {
     }
 
 
-    @CacheEvict(value = "mymenu", key = "#roleNm")
-    public void deleteMenuCacheByRoleNm(String roleNm) {
-        log.info(roleNm + "권한 메뉴에 @CacheEvict 가 실행됩니다. " + MyUtil.timestamp());
-    }
-
-
     public List<Menu> filterAllowedMenu(List<Menu> rootMenus, Set<Long> allowed) {
 //        1)
         List<Menu> myMenu = new ArrayList<>();
@@ -102,6 +99,12 @@ public class MenuServiceImpl implements MenuService {
 
 //        3)
         return myMenu;
+    }
+
+
+    @CacheEvict(value = "mymenu", key = "#roleNm")
+    public void deleteMenuCacheByRoleNm(String roleNm) {
+        log.info(roleNm + "권한 메뉴에 @CacheEvict 가 실행됩니다. " + MyUtil.timestamp());
     }
 
 

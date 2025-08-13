@@ -1,10 +1,17 @@
 @charset "UTF-8";
 /* 전역 버튼 스타일. 전역 css 는 head 에 선언. */
 
-body{
-    margin: 0;
+
+/* a */
+a{
+    text-decoration: none;
+    color: inherit;
+}
+ul, li{
+    list-style-type: none;
 }
 
+/* button */
 .btn {
     width: 100px;
     height: 30px;
@@ -14,7 +21,6 @@ body{
     border-color: white;
     background-color: white;
     color: black;
-
 }
 
 .btn.excel {

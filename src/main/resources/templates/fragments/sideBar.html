@@ -1,5 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="sideBar">
-    <h2 style="color: brown;">sideBar</h2>
+    <aside>
+        <!-- user status -->
+        <div id="userBox">접속자 상태</div>
+
+
+        <!-- menu side banner -->
+        <div id="menuBox">
+            <ul id="menu-lv1">
+                <!-- 메뉴 출력 -->
+                <th:block th:each="menu : ${menus}">
+                    <li>
+                        <a th:href="@{|${menu.url}|}" th:text="${menu.menuNm}" />
+                    </li>
+                </th:block>
+            </ul>
+        </div>
+    
+    </aside>
+    
     
 </html>

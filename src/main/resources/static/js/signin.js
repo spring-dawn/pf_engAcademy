@@ -3,11 +3,8 @@
 // 로그인
 window.onload = function () {
     console.log('현재 경로:', window.location.pathname);
-
     signin();
 }
-
-
 
 
 function signin() {
@@ -42,8 +39,7 @@ function signin() {
             .then((res) => res.json())
             .then((data) => {
                 if(data.msg != "login_success") return alert(data.msg);
-
-                location.href = "/dashboard";
+                location.href = "/";
             })
             .catch(err => {
                 console.log("err? " + err);
