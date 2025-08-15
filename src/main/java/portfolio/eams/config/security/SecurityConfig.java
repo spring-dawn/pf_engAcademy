@@ -40,7 +40,6 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/signup",
                                 "/api/signin",
-                                "/api/test/**",
                                 "/api/**",
 
                                 //
@@ -50,7 +49,8 @@ public class SecurityConfig {
                                 // 정적 자원
                                 "/css/**",
                                 "/js/**",
-                                "/img/**"
+                                "/img/**",
+                                "/.well-known/**"
 
                         ).permitAll()
                         .anyRequest().authenticated() // TODO: 사용자 권한별 접근 필터 별도 추가

@@ -40,25 +40,27 @@ public class MenuServiceImpl implements MenuService {
     private static final Character[] AUTH_TYPE_ARR = {'C', 'R', 'U', 'D'};
 
 
-//        @Cacheable(value = "mymenu", key = "#authentication.getAuthorities().toArray()[0].toString()")
-    @Cacheable(value = "mymenu")
-    public List<MenuDto> selectMyMenu() {
+//    key 가 파라미터명을 인지 못해서 #p0 이라는 파라미터 지시변수로 대체
+//    @Cacheable(value = "mymenu", key = "#authentication.getAuthorities().toArray()[0].toString()")
+    @Cacheable(value = "mymenu", key = "#p0")
+    public List<MenuDto> selectMyMenu(String roleKey) {
 //        1) 사용자 인증 정보 수신. 정보 없음 == 미인증
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 //        2) role 정보 확인.
-        String roleNm = authentication.getAuthorities().toArray()[0].toString();
+//        String roleKey = authentication.getAuthorities().toArray()[0].toString(); // roleId
 
 //        3) role 내부 메뉴 확인
-        Role role = roleRepo.findByRoleNm(roleNm)
-                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.ROLE)));
-//        Role role = roleRepo.findById(Long.parseLong(secureRoleId.split("_")[1]))
+//        Role role = roleRepo.findByRoleNm(roleNm)
 //                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.ROLE)));
+
+        Role role = roleRepo.findById(Long.parseLong(roleKey))
+                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.ROLE)));
         // TODO: 권한에 useYn 이 필요한가?
 //        if(role.getUseYn().equals('N')) throw new IllegalStateException("");
         List<RoleAuth> authList = role.getRoleAuthList();
 
-//        4) 권한 있는 최상위 메뉴 우선, 이후 재귀 호출로 하위 메뉴까지 추려냄.
+//        권한 있는 최상위 메뉴 우선, 이후 재귀 호출로 하위 메뉴까지 추려냄.
         List<Menu> root = new ArrayList<>();
         Set<Long> allowed = new HashSet<>();
 
@@ -102,9 +104,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
 
-    @CacheEvict(value = "mymenu", key = "#roleNm")
-    public void deleteMenuCacheByRoleNm(String roleNm) {
-        log.info(roleNm + "권한 메뉴에 @CacheEvict 가 실행됩니다. " + MyUtil.timestamp());
+    @CacheEvict(value = "mymenu", key = "#roleKey")
+    public void deleteMenuCacheByRoleNm(String roleKey) {
+        log.info(roleKey + "pk 권한 메뉴에 @CacheEvict 가 실행됩니다. " + MyUtil.timestamp());
     }
 
 

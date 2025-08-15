@@ -11,10 +11,10 @@ public interface MenuService {
 
     /**
      * 사용자 역할 범위에 따른 메뉴 조회. 권한별 캐싱 적용하여 최적화.
-     *
-     * @return 메뉴 목록 dto -> 화면 렌더링
+     * @param roleKey 인증 정보에서 추출한 role pk. 메뉴 데이터 캐싱 시 key 로 사용.
+     * @return 사용자 권한별 메뉴 목록 dto -> 화면 렌더링
      */
-    List<MenuDto> selectMyMenu();
+    List<MenuDto> selectMyMenu(String roleKey);
 
 
     /**
@@ -29,9 +29,9 @@ public interface MenuService {
     /**
      * 권한 내역 변경 시 해당 역할의 캐시 삭제
      *
-     * @param roleNm 역할명(key)
+     * @param roleKey 인증 정보에서 추출한 role pk. 메뉴 데이터 캐싱 시 key 로 사용.
      */
-    void deleteMenuCacheByRoleNm(String roleNm);
+    void deleteMenuCacheByRoleNm(String roleKey);
 
 
     /**

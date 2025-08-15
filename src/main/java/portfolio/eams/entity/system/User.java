@@ -105,12 +105,10 @@ public class User extends CommonEntity implements UserDetails {
     @Override
     @Transactional(readOnly = true)
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(this.getRole().getRoleNm()));
-        return authorities;
-
-//        return List.of(new SimpleGrantedAuthority("ROLE_" + role.getId()));
-//        return List.of(new SimpleGrantedAuthority("ROLE_" + this.getRole().getId()));
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        authorities.add(new SimpleGrantedAuthority(this.getRole().getId().toString()));
+//        return authorities;
+        return List.of(new SimpleGrantedAuthority(role.getId().toString()));
     }
 
     @Override
