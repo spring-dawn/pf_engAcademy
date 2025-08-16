@@ -7,12 +7,26 @@
 
         <!-- menu side banner -->
         <div id="menuBox">
-            <ul id="menu-lv1">
-                <!-- 메뉴 출력 -->
+            <ul class="menu lv1">
+                <!-- 상위 메뉴 -->
                 <th:block th:each="menu : ${menus}">
-                    <li>
-                        <a th:href="@{|${menu.url}|}" th:text="${menu.menuNm}" />
-                    </li>
+                    <th:block th:if="${menu.getChildren().size() == 0}">
+                        <li class="menu">
+                            <a th:href="@{|${menu.url}|}" th:text="${menu.menuNm}" />
+                        </li>
+                    </th:block>
+
+                    <th:block th:unless="${menu.getChildren().size() == 0}">
+                        <li class="menu root" th:text="${menu.menuNm}"></li>
+                        
+                        <ul class="menu lv2 off">
+                            <th:block th:each="child : ${menu.getChildren()}">
+                                <li class="menu">
+                                    <a th:href="@{|${child.url}|}" th:text="${child.menuNm}" />
+                                </li>
+                            </th:block>
+                        </ul>
+                    </th:block>
                 </th:block>
             </ul>
         </div>

@@ -43,7 +43,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         if (exception instanceof UsernameNotFoundException) {
             // 사용자 조회 실패
 //            errMsg.append(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.USER));
-            errMsg.append(msgUtil.get("ent.e.notfound", EntityNm.USER));
+            errMsg.append(msgUtil.get("ent.not.found", EntityNm.USER));
         } else if (exception instanceof BadCredentialsException) {
             // 비밀번호 불일치
 //            errMsg.append(InfoMsg.PW_INCORRECT.getMsg());

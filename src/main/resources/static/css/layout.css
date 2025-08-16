@@ -66,7 +66,6 @@ nav #gnb span {margin: auto;}
 }
 
 aside{
-    background-color: palegreen;
     display: flex;
     flex-direction: column;
 }
@@ -75,11 +74,30 @@ aside #menuBox{
     flex: 4;
     /* padding: 5px; */
 }
-#menuBox #menu-lv1{
+
+/* ul, li 포함 class=menu 에 공통 색상, 폰트 등 부여. 세부 클래스에 따라 추가 조절 */
+#menuBox .menu{
+    font-family: sans-serif;
+}
+#menuBox .menu.lv1{
+    /* background-color: palegreen; */
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-self: center;
 }
-#menu-lv1 li{
-    font-size: 1.5rem;
+.menu li{
+    text-align: center;
+}
+.menu > li:hover{
+    color: blue;
+}
+
+.menu.lv1 li{font-size: 1.5rem;}
+.menu.lv2 li{font-size: 1.25rem;}
+
+.menu.lv2.off{
+    display: none;
+}
+.menu.lv2.on{
+    display: block;
 }
