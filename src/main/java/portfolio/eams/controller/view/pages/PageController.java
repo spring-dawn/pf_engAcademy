@@ -18,4 +18,27 @@ public class PageController {
         return "pages/dashboard";
     }
 
+    // 시스템관리
+    @RequestMapping("/system/user")
+    public String user(){
+        return "pages/system/user";
+    }
+
+    @RequestMapping("/system/code")
+    public String code(){
+        return "pages/system/code";
+    }
+
+    @RequestMapping("/system/role")
+    public String role(){
+        return "pages/system/role";
+    }
+
+    //
+
+
+    @RequestMapping("/analy")
+    public String analy(){
+        return "pages/analy";
+    }
 }

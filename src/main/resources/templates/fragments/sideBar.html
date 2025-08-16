@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="sideBar">
-    <aside>
-        <!-- user status -->
-        <div id="userBox">접속자 상태</div>
+<aside>
+    <!-- user status -->
+    <div id="userBox">접속자 상태</div>
 
 
-        <!-- menu side banner -->
-        <div id="menuBox">
-            <ul class="menu lv1">
-                <!-- 상위 메뉴 -->
-                <th:block th:each="menu : ${menus}">
-                    <th:block th:if="${menu.getChildren().size() == 0}">
-                        <li class="menu">
-                            <a th:href="@{|${menu.url}|}" th:text="${menu.menuNm}" />
-                        </li>
-                    </th:block>
-
-                    <th:block th:unless="${menu.getChildren().size() == 0}">
-                        <li class="menu root" th:text="${menu.menuNm}"></li>
-                        
-                        <ul class="menu lv2 off">
-                            <th:block th:each="child : ${menu.getChildren()}">
-                                <li class="menu">
-                                    <a th:href="@{|${child.url}|}" th:text="${child.menuNm}" />
-                                </li>
-                            </th:block>
-                        </ul>
-                    </th:block>
+    <!-- menu side banner -->
+    <div id="menuBox">
+        <ul class="menu lv1">
+            <!-- 상위 메뉴 -->
+            <th:block th:each="menu : ${menus}">
+                <th:block th:if="${menu.getChildren().size() == 0}">
+                    <li class="menu">
+                        <a th:href="@{|${menu.url}|}" th:text="${menu.menuNm}" />
+                    </li>
                 </th:block>
-            </ul>
-        </div>
-    
-    </aside>
-    
-    
+
+                <!-- 하위 메뉴 -->
+                <th:block th:unless="${menu.getChildren().size() == 0}">
+                    <li class="menu root" th:text="${menu.menuNm}"></li>
+
+                    <ul class="menu lv2" th:classappend="${pageUri.contains(menu.getUrl())} ? 'on' : 'off'">
+                        <th:block th:each="child : ${menu.getChildren()}">
+                            <li class="menu">
+                                <a th:href="@{|${child.url}|}" th:text="${child.menuNm}" />
+                            </li>
+                        </th:block>
+                    </ul>
+                </th:block>
+            </th:block>
+        </ul>
+    </div>
+
+</aside>
+
+
 </html>
