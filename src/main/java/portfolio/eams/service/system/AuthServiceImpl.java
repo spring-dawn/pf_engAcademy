@@ -32,21 +32,4 @@ public class AuthServiceImpl implements AuthService {
     private static final Character[] AUTH_TYPE_ARR = {'C', 'R', 'U', 'D'};
 
 
-    @Transactional
-    public List<AuthDto> createAuth4Init(AuthDto.Req req) {
-//        1) check menu
-        Menu menu = menuRepo.findByUrl(req.menuUrl())
-//                .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.MENU)));
-                .orElseThrow(() -> new EntityNotFoundException(msgUtil.get("ent.not.found", EntityNm.MENU)));
-
-//       2) Set entity: c, r, u, d...
-        return Arrays.stream(AUTH_TYPE_ARR)
-                .map(type -> repo.save(Auth.builder()
-                                .type(type)
-                                .menu(menu)
-                                .build())
-                        .toRes())
-                .toList();
-    }
-
 }

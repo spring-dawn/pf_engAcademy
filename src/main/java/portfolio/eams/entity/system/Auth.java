@@ -28,9 +28,13 @@ public class Auth {
     @Column(name = "AUTH_NO")
     private Long id;
 
-    @Column(name = "AUTH_TYPE", length = 1, nullable = false)
-    @Comment("(실험적)권한 종류. C 등록, R 조회(디폴트), U 수정, D 삭제... ")
-    private Character type;
+//    @Column(name = "AUTH_TYPE", length = 1, nullable = false)
+//    @Comment("(실험적)권한 종류. C 등록, R 조회(디폴트), U 수정, D 삭제... ")
+//    private Character type;
+
+    @Column(name = "ACS_TYPE", length = 1, nullable = false)
+    @Comment("W: 등록수정삭제 등 편집권한, R: 조회권한(Read)")
+    private Character accessType;
 
 
     /*
@@ -51,8 +55,11 @@ public class Auth {
 
 
     // res
+//    public AuthDto toRes() {
+//        return new AuthDto(id, type, menu.getUrl(), writeYn);
+//    }
     public AuthDto toRes() {
-        return new AuthDto(id, type, menu.getUrl());
+        return new AuthDto(id, menu.getUrl(), accessType);
     }
 
 }

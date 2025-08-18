@@ -43,6 +43,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
     private final MenuService menuService;
     private static final Character[] AUTH_TYPE_ARR = {'C', 'R', 'U', 'D'};
+    private static final Character[] ACS_TYPE_ARR = {'R', 'W'};
 
 
     @Transactional // 영속성 컨텍스트 유지를 위한 트랜잭셔널
@@ -64,7 +65,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             // academic operation
             MenuDto menu1 = createMenu4Init(new MenuDto.Req("/academy", "학원 운영", 1, null));
             MenuDto menu1_0 = createMenu4Init(new MenuDto.Req(menu1.getUrl() + "/student", "학생관리", 0, menu1.getUrl()));
-            MenuDto menu1_1 = createMenu4Init(new MenuDto.Req(menu1.getUrl() + "/class", "학급관리", 1, menu1.getUrl()));
+            MenuDto menu1_1 = createMenu4Init(new MenuDto.Req(menu1.getUrl() + "/learningClass", "학급관리", 1, menu1.getUrl()));
             MenuDto menu1_2 = createMenu4Init(new MenuDto.Req(menu1.getUrl() + "/course", "수업관리", 2, menu1.getUrl()));
             MenuDto menu1_3 = createMenu4Init(new MenuDto.Req(menu1.getUrl() + "/score", "성적관리", 3, menu1.getUrl()));
 
@@ -73,7 +74,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             MenuDto menu2_0 = createMenu4Init(new MenuDto.Req(menu2.getUrl() + "/notice", "공지사항", 0, menu2.getUrl()));
             MenuDto menu2_1 = createMenu4Init(new MenuDto.Req(menu2.getUrl() + "/meeting", "회의록", 1, menu2.getUrl()));
             MenuDto menu2_2 = createMenu4Init(new MenuDto.Req(menu2.getUrl() + "/sms", "SMS 발송", 2, menu2.getUrl()));
-            MenuDto menu2_3 = createMenu4Init(new MenuDto.Req(menu2.getUrl() + "/pay", "수강료 납부", 3, menu2.getUrl()));
+//            MenuDto menu2_3 = createMenu4Init(new MenuDto.Req(menu2.getUrl() + "/pay", "수강료 납부", 3, menu2.getUrl()));
 
             // quarter scheduling
             MenuDto menu3 = createMenu4Init(new MenuDto.Req("/schedule", "수업 일정", 2, null));
@@ -82,7 +83,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             MenuDto menu4 = createMenu4Init(new MenuDto.Req("/inventory", "비품관리", 3, null));
             MenuDto menu4_0 = createMenu4Init(new MenuDto.Req(menu4.getUrl() + "/stock", "비품관리", 0, menu4.getUrl()));
             MenuDto menu4_1 = createMenu4Init(new MenuDto.Req(menu4.getUrl() + "/order", "발주서", 1, menu4.getUrl()));
-            MenuDto menu4_2 = createMenu4Init(new MenuDto.Req(menu4.getUrl() + "/adjust", "재고조정", 2, menu4.getUrl()));
+//            MenuDto menu4_2 = createMenu4Init(new MenuDto.Req(menu4.getUrl() + "/adjust", "재고조정", 2, menu4.getUrl()));
             MenuDto menu4_3 = createMenu4Init(new MenuDto.Req(menu4.getUrl() + "/status", "재고현황", 3, menu4.getUrl()));
 
             // analysis
@@ -103,7 +104,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             List<Long> authManager = authDtoList.stream()
                     .filter(dto ->
                             !dto.menuUrl().contains("/code")
-                                    && !dto.type().equals('D')
+                            && !dto.menuUrl().contains("/role")
                     )
                     .map(AuthDto::id)
                     .toList();
@@ -112,14 +113,15 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             List<Long> authTeacher = authDtoList.stream()
                     .filter(dto ->
                             !dto.menuUrl().startsWith("/system")
-                                    && dto.type().equals('R')
+                            && !dto.menuUrl().startsWith("/analy")
+                                    && dto.accessType().equals('R')
                     )
                     .map(AuthDto::id)
                     .toList();
 
             RoleDto roleAdmin = createRole4Init(new RoleDto.Req("관리자", "모든 조회, 편집 권한", 0, authAdmin));
-            RoleDto roleManager = createRole4Init(new RoleDto.Req("간부", "코드관리 제외. 모든 조회, 편집권한", 1, authManager));
-            RoleDto roleTeacher = createRole4Init(new RoleDto.Req("평강사", "시스템관리 제외. 일반적으로 조회만 가능", 2, authTeacher));
+            RoleDto roleManager = createRole4Init(new RoleDto.Req("간부", "권한, 코드관리 제외. 모든 조회, 편집권한", 1, authManager));
+            RoleDto roleTeacher = createRole4Init(new RoleDto.Req("평강사", "시스템관리, 통계 제외. 일반적으로 조회만 가능", 2, authTeacher));
 
             // 사용자 생성
             createUser4Init("test1", 'Y', roleAdmin.getRoleNm());
@@ -143,7 +145,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
     @Transactional
     public MenuDto createMenu4Init(MenuDto.Req req) {
-//        1) is exists already?
+//        1) is it exists already?
         Menu isExist = menuRepo.findByUrl(req.getUrl()).orElse(null);
         if (isExist != null) return isExist.toRes();
         if (!StringUtils.hasText(req.getUrl())) throw new IllegalArgumentException(InfoMsg.NPE.getMsg());
@@ -159,9 +161,9 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         );
 
 //        3) create authorities following menu
-        Arrays.stream(AUTH_TYPE_ARR)
+        Arrays.stream(ACS_TYPE_ARR)
                 .map(type -> authRepo.save(Auth.builder()
-                                .type(type)
+                                .accessType(type)
                                 .menu(menu)
                                 .build())
                         .toRes())

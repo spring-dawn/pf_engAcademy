@@ -41,7 +41,8 @@ public class RoleAuth {
 
     // res
     public RoleAuthDto toRes() {
-        return new RoleAuthDto(id, auth.getId(), auth.getMenu().getUrl(), auth.getType());
+//        return new RoleAuthDto(id, auth.getId(), auth.getMenu().getUrl(), auth.getType(), auth.getWriteYn());
+        return new RoleAuthDto(id, auth.getId(), auth.getMenu().getUrl(), auth.getAccessType());
     }
 
 }

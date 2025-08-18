@@ -72,7 +72,8 @@ public class MenuServiceImpl implements MenuService {
 
             // R(ead) 조회권한이 있는 최상위 메뉴를 root 목록에 추리기
             if (menu.getParent() != null || menu.getUrl().equals("/dashboard")) continue;
-            Character type = ra.getAuth().getType();
+//            Character type = ra.getAuth().getType();
+            Character type = ra.getAuth().getAccessType();
             if (type.equals('R')) root.add(menu);
         }
 

@@ -1,9 +1,9 @@
 package portfolio.eams.dto.system;
 
 
-public record AuthDto(Long id, Character type, String menuUrl) {
+public record AuthDto(Long id, String menuUrl, Character accessType) {
 
     // insert, update
-    public record Req(Character type, String menuUrl) {
+    public record Req(String menuUrl, Character accessType) {
     }
 }
