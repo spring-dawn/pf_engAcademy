@@ -1,24 +1,17 @@
 package portfolio.eams.service.system;
 
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
-import portfolio.eams.dto.system.AuthDto;
 import portfolio.eams.dto.system.MenuDto;
-import portfolio.eams.entity.system.Auth;
 import portfolio.eams.entity.system.Menu;
 import portfolio.eams.entity.system.Role;
 import portfolio.eams.entity.system.RoleAuth;
-import portfolio.eams.repo.system.AuthRepo;
 import portfolio.eams.repo.system.MenuRepo;
 import portfolio.eams.repo.system.RoleRepo;
 import portfolio.eams.util.MyUtil;

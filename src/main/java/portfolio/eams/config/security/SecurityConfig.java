@@ -24,6 +24,7 @@ public class SecurityConfig {
     private final LoginSuccessHandler successHandler;
     private final LoginFailureHandler failureHandler;
 
+    private final CustomAuthorizationManager customAuthorizationManager;
     // 필터
 //    private final XSSFilter xssFilter;
 
@@ -38,9 +39,13 @@ public class SecurityConfig {
                 // url 문자열 기반 로그인 인증 유무 설정. 구체적인 요청은 윗줄, 추상적인 요청은 아랫줄에 작성.
                 .authorizeHttpRequests(config -> config
                         .requestMatchers(
-                                "/api/signup",
+//                                "/api/signup",
                                 "/api/signin",
+                                "/api/signout",
                                 "/api/**",
+
+                                // view
+                                "/error",
 
                                 //
                                 "/swagger-ui/**",
@@ -50,10 +55,13 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/img/**",
+                                "/favicon.ico",
                                 "/.well-known/**"
 
                         ).permitAll()
-                        .anyRequest().authenticated() // TODO: 사용자 권한별 접근 필터 별도 추가
+                        .anyRequest()
+                        .access(customAuthorizationManager)
+//                        .authenticated()
                 )
                 // 내부망 상정, 폼로그인 사용.
                 .formLogin(config -> config
