@@ -5,8 +5,33 @@
 
     <!-- 페이지 조각명을 contents 로 명명해서 레이아웃과 맞춰준다 -->
     <th:block layout:fragment="contents">
-        <div>
-            dashboard wrapper
+        <div class="contents-container">
+            <section>
+                <div class="contents-box">
+                    <!-- <h4>이번 분기 수업 시간표</h4> -->
+                    <span class="title sub">이번 분기 수업 시간표</span>
+                    <!-- <ul>
+                        <li>asdf</li>
+                        <li>asdf</li>
+                        <li>asdf</li>
+                    </ul> -->
+                </div>
+            </section>
+
+            <section>
+                <div class="contents-box">
+                    <span class="title sub">공지사항</span>
+                    <!-- <ul>
+                        <li>asdf</li>
+                    </ul> -->
+                </div>
+                <div class="contents-box">
+                    <span class="title sub">회의록</span>
+                    <!-- <ul>
+                        <li>asdf</li>
+                    </ul> -->
+                </div>
+            </section>
         </div>
     </th:block>
 </html>
