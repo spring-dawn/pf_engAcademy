@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
-public class CommonEntity {
+public class BasicEntityColumn {
     /*
-    상속 받을 공통 컬럼
+    상속 받을 공통 컬럼, 추적 데이터
      */
 
     @Basic
@@ -36,6 +36,7 @@ public class CommonEntity {
     protected LocalDateTime updateDtm;
 
     /*
+    편의상 자동 insert 사용
      */
     @PrePersist
     protected void onPersist() {

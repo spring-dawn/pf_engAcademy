@@ -6,6 +6,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
 import portfolio.eams.dto.system.MenuDto;
+import portfolio.eams.entity.BasicEntityColumn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,10 @@ import java.util.List;
 @DynamicInsert // 디폴트값 자동 세팅
 @Entity
 @Table(name = "SYS_MENU_T")
-public class Menu {
+public class Menu extends BasicEntityColumn {
     /*
-    메뉴. 탭, 모달 개념 등은 프론트에서 관리.
-    메뉴의 변경...은 DB에서 직접 이루어질 것 같은데. api 가 필요한가?
+    메뉴.
+    탭, 모달 개념 등은 프론트에서 관리.
      */
 
     @Id
@@ -28,21 +29,27 @@ public class Menu {
     @Column(name = "MENU_NO")
     private Long id;
 
-    @Column(name = "MENU_URL", nullable = false, unique = true, length = 50)
+    @Column(name = "MENU_URL", length = 150, nullable = false, unique = true)
     @Comment("메뉴 주소. e.g.) /system/user..")
     private String url;
 
-    @Column(name = "MENU_NM", nullable = false, length = 20)
+    @Column(name = "MENU_NM", nullable = false, length = 200)
     @Comment("메뉴명")
     private String menuNm;
 
-    @Column(name = "SORT_ORDER", nullable = false)
+    @Column(name = "DEPTH", nullable = false)
+    @ColumnDefault("'1'")
+    @Comment("1~3. 깊이 최대 3단계까지. 가능한 한 2단계 트리 권장")
+    private Integer depth;
+
+    @Column(name = "SORT_SEQ", nullable = false)
+    @ColumnDefault("'0'")
     @Comment("정렬순서. 같은 깊이(depth)에서 숫자가 작을수록 우선")
-    private int order;
+    private Integer sortSeq;
 
     @Column(name = "USE_YN", length = 1, nullable = false)
-    @Comment("사용여부. Y: 사용, N: 미사용(출력x)")
     @ColumnDefault("'Y'")
+    @Comment("사용여부. Y: 사용, N: 미사용(출력x)")
     private Character useYn;
 
     // 트리 구조
@@ -67,8 +74,9 @@ public class Menu {
                 .id(id)
                 .url(url)
                 .menuNm(menuNm)
-                .order(order)
+                .sortSeq(sortSeq)
                 .useYn(useYn)
+                .depth(depth)
                 .parentId(parent == null ? null : parent.getId())
                 .children(children == null? null : children.stream().map(Menu::toRes).toList())
                 .build();

@@ -27,26 +27,26 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
    로그인 성공 시 어떻게 처리할지 정합니다. SecurityConfig 에서 익명함수로 정의해도 좋으나, 내용이 길어질 수 있어 따로 뺍니다.
     */
     private final ObjectMapper mapper;
-    private final UserRepo userRepo;
-    private final AccessLogRepo acsLogRepo;
+//    private final UserRepo userRepo;
+//    private final AccessLogRepo acsLogRepo;
 
     @Transactional
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         log.info("로그인 성공!");
 
-        // 로그인 이력 생성
-        User user = userRepo.findByUserId(authentication.getPrincipal().toString()).orElse(null);
-        acsLogRepo.save(
-                AccessLog.builder()
-                        .acsId(user.getUserId())
-                        .acsNm(user.getUserNm())
-                        .acsSessionId(request.getSession().getId())
-                        .acsRoleNm(user.getRole().getRoleNm())
-                        .acsIP(request.getRemoteAddr())
-                        .acsAgent(request.getHeader("User-Agent"))
-                        .build()
-        );
+        // TODO 로그인 이력 생성
+//        User user = userRepo.findByUserId(authentication.getPrincipal().toString()).orElse(null);
+//        acsLogRepo.save(
+//                AccessLog.builder()
+//                        .acsId(user.getUserId())
+//                        .acsNm(user.getUserNm())
+//                        .acsSessionId(request.getSession().getId())
+//                        .acsRoleNm(user.getRole().getRoleNm())
+//                        .acsIP(request.getRemoteAddr())
+//                        .acsAgent(request.getHeader("User-Agent"))
+//                        .build()
+//        );
 
         response.setStatus(HttpServletResponse.SC_OK);  // 200
         response.setContentType("application/json;charset=UTF-8");

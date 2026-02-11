@@ -3,7 +3,7 @@ package portfolio.eams.entity.system;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
-import portfolio.eams.entity.CommonEntity;
+import portfolio.eams.entity.BasicEntityColumn;
 
 @Getter
 @Builder
@@ -11,7 +11,7 @@ import portfolio.eams.entity.CommonEntity;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "SYS_ACS_LOG_T")
-public class AccessLog extends CommonEntity {
+public class AccessLog extends BasicEntityColumn {
     /*
     사용자 로그인 시 접속일시, 접속 ip, 접속 환경(브라우저) 등 기록
     로그아웃 시점까지 체크하긴 어려울 것 같다.

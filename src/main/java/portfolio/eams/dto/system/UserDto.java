@@ -18,14 +18,19 @@ public class UserDto {
     private Long id;
     private String userId;
     private String userNm;
-    private Character useYn;
-    private Character admYn;
+    private String nickNm;
     private String tel;
     private String email;
+    private Character useYn;
+    private Character admYn;
+    private Character localYn;
     private LocalDate joinYmd;
     private LocalDate quitYmd;
+    private Long roleId;
+    private String roleNm;
 
 
+    // 사용자(직원) 등록
     @Data
     @Builder
     @NoArgsConstructor
@@ -34,10 +39,11 @@ public class UserDto {
         private String userId;
         private String userNm;
         private String userPw;
+        private String nickNm;
         private String tel;
         private String email;
         private String joinYmd;
-        private Long roleId;
+        private Long roleId; // 실제 save 때 role 객체로 변환
     }
 
 
@@ -49,13 +55,12 @@ public class UserDto {
     public static class UpdateReq {
         private Long id;
         private String userNm;
+        private String nickNm;
         private Character useYn;
         private String tel;
         private String email;
+        private String joinYmd;
         private Long roleId;
-
-        // 확인용
-        private String pwConfirm;
     }
 
     @Data
@@ -86,6 +91,8 @@ public class UserDto {
         private Long id;
         private String userId;
         private String userNm;
+        private String nickNm;
+        private Character localYn;
         private Character useYn;
         private Character admYn;
         private String tel;

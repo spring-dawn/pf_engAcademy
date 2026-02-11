@@ -4,24 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import portfolio.eams.entity.system.Code;
+import portfolio.eams.entity.system.CommonCode;
 
 import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
-public class CodeDto {
+public class CommonCodeDto {
     // code 는 단순한 값이지만 불변을 보장하기엔 사용처가 애매함
     private Long id;
     private String cd;
     private String cdVal;
     private String memo;
     private Character useYn;
-    private Character lastYn;
-    private Character sysYn;
+    private Integer depth;
+    private Integer sortSeq;
     private Long parentId;
-    private List<Code> children;
+    private List<CommonCode> children;
 
 
     @Data
@@ -33,8 +33,8 @@ public class CodeDto {
         private String cd;
         private String cdVal;
         private String memo;
+        private Integer depth;
+        private Integer sortSeq;
         private Character useYn;
-        private Character lastYn;
-        private Character sysYn;
     }
 }

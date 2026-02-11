@@ -1,4 +1,4 @@
 package portfolio.eams.dto.common;
 
-public record ExcelDto (int cellIdx, String cellValue){
+public record ExcelDto (Integer cellIdx, String cellValue){
 }

@@ -24,7 +24,7 @@ public class SecurityConfig {
     private final LoginSuccessHandler successHandler;
     private final LoginFailureHandler failureHandler;
 
-    private final CustomAuthorizationManager customAuthorizationManager;
+//    private final CustomAuthorizationManager customAuthorizationManager;
     // 필터
 //    private final XSSFilter xssFilter;
 
@@ -60,8 +60,8 @@ public class SecurityConfig {
 
                         ).permitAll()
                         .anyRequest()
-                        .access(customAuthorizationManager)
-//                        .authenticated()
+//                        .access(customAuthorizationManager)
+                        .authenticated()
                 )
                 // 내부망 상정, 폼로그인 사용.
                 .formLogin(config -> config

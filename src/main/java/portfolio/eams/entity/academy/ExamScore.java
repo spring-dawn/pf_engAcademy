@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.DynamicInsert;
-import portfolio.eams.entity.CommonEntity;
+import portfolio.eams.entity.BasicEntityColumn;
 
 import java.time.LocalDate;
 
@@ -14,45 +13,54 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@DynamicInsert
-@Table(name = "DIM_EXAM_SCORE_T")
-public class ExamScore extends CommonEntity {
-
+@Table(name = "DIM_EXM_SCR_T")
+public class ExamScore extends BasicEntityColumn{
+    // 수강생 (시험)성적 관리
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "EXAM_SCORE_NO")
+    @Column(name = "EXM_SCR_NO")
     private Long id;
 
-    @Column(name = "EXAM_YMD", nullable = false)
+    @Column(name = "EXM_YMD", nullable = false)
     @Comment("시험일자")
     private LocalDate examDt;
 
-    @Column(name = "EXAM_TYPE", length = 10, nullable = false)
-    @Comment("시험 분류 코드. 중간/기말, 텀 테스트, 단어, 독해... 등")
+    @Column(name = "EXM_TYPE", length = 10, nullable = false)
+    @Comment("시험 종류. e.g) 중간/기말고사, 텀테스트, 쪽지시험 등. 자체 분류 따름")
     private String examType;
 
-    @Column(name = "PERPECT_SCORE")
-    @Comment("만점 기준. 디폴트 100")
+    @Column(name = "SBJCT", length = 10, nullable = false)
+    @Comment("시험 과목. 국, 영, 수 등 과목 대분류")
+    private String subject;
+
+    @Column(name = "SBJCT_DTL", length = 10)
+    @Comment("시험 내용. 각 과목별 구체적인 분류. e.g) 문법, 독해...")
+    private String subjectDetail;
+
+    @Column(name = "MAX_SCR")
+    @Comment("만점 기준. 기본 100점이나 점수 단위가 다른 경우 소수점 허용")
     @ColumnDefault("'100.0'")
-    private Double perfectScore;
+    private Double maxScore;
 
-    @Column(name = "STUDENT_SCORE")
-    @Comment("학생의 실제 득점")
-    private Double studentScore;
+    @Column(name = "SCR")
+    @Comment("수강생의 실제 취득 점수. 만점 기준보다 클 수 없음")
+    private Double score;
 
-    @Column(name = "MEMO", length = 200)
+    @Column(name = "MEMO", length = 400)
     @Comment("비고")
     private String memo;
 
-    // 학생 1 : 성적 N
+    // 수강생 fk TODO 인덱싱
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "STUDENT_NO")
-    @Comment("학생 번호")
+    @JoinColumn(name = "STDNT_NO", nullable = false)
+    @Comment("성적 보유 수강생 FK")
     private Student student;
 
-    // update
 
-    // res
 
+    // TODO update
+
+    // TODO res
 
 }

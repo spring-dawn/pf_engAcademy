@@ -20,7 +20,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     */
 
     private final CustomUserDetailsService userDetailsService;
-    private final UserService userService;
+//    private final UserService userService;
 
     @Override
 //    @Transactional(readOnly = true)     // FetchType.LAZY
@@ -43,16 +43,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         if (!user.isAccountNonLocked())
             throw new LockedException("This account has been locked due to more than 5 times authentication failures. Getting new password is recommended.");
 
-        // 패스워드 일치여부 검사
-        boolean validated = SHA256Util.validatePassword(user.getSalt(), password, user.getPassword());
-        if (!validated) {
-            // 인증 실패 횟수 +1
-            userService.countLoginFailure(user.getId());
-            throw new BadCredentialsException("The password is incorrect. Try again plz.");
-        }
-
-        // 인증 성공 시 실패 횟수 초기화
-        if (user.getLoginFailCnt() != 0) userService.initLoginFailure(user.getId());
+        // TODO 패스워드 일치여부 검사
+//        boolean validated = SHA256Util.validatePassword(user.getSalt(), password, user.getPassword());
+//        if (!validated) {
+//            // 인증 실패 횟수 +1
+//            userService.countLoginFailure(user.getId());
+//            throw new BadCredentialsException("The password is incorrect. Try again plz.");
+//        }
+//
+//        // 인증 성공 시 실패 횟수 초기화
+//        if (user.getLoginFailCnt() != 0) userService.initLoginFailure(user.getId());
         // id, (pw 생략), 권한 목록 리턴
 //        return new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword(), user.getAuthorities());
         return new UsernamePasswordAuthenticationToken(user.getUserId(), null, user.getAuthorities());

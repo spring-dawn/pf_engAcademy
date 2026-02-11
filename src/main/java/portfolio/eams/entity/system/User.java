@@ -1,6 +1,5 @@
 package portfolio.eams.entity.system;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -10,11 +9,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
-import portfolio.eams.entity.CommonEntity;
+import portfolio.eams.entity.BasicEntityColumn;
 import portfolio.eams.dto.system.UserDto;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,7 +23,7 @@ import java.util.List;
 @DynamicInsert
 @Entity
 @Table(name = "DIM_USER_T")
-public class User extends CommonEntity implements UserDetails {
+public class User extends BasicEntityColumn implements UserDetails {
     /*
     사용자: 학원 운영 간부, 평 강사. 모든 직원은 강사임을 전제.
     포트폴리오이니만큼 단순하게 받음
@@ -52,22 +50,41 @@ public class User extends CommonEntity implements UserDetails {
     @Comment("사용자명")
     private String userNm;
 
+    @Column(name = "NICK_NM", length = 30)
+    @Comment("닉네임. 별도의 영어이름 등")
+    private String nickNm;
+
+    @Column(name = "LCL_YN", length = 1, nullable = false)
+    @Comment("내국인 여부. N: 원어민 강사")
+    @ColumnDefault("'Y'")
+    private Character localYn;
+
     @Column(name = "USE_YN", length = 1, nullable = false)
     @Comment("재직여부")
     @ColumnDefault("'Y'")
     private Character useYn;
 
     @Column(name = "ADM_YN", length = 1, nullable = false)
-    @Comment("관리자 여부. 개발자 등 마스터계정, 삭제 불가.")
+    @Comment("관리자 여부. 삭제 불가")
     @ColumnDefault("'N'")
     private Character admYn;
 
+    @Column(name = "SYS_DEV_YN", length = 1, nullable = false)
+    @Comment("유지보수 등 담당 개발자 여부. Y: 삭제 불가 및 DB에서만 조회 가능")
+    @ColumnDefault("'N'")
+    private Character sysDevYn;
+
+    @Column(name = "DEL_YN", length = 1, nullable = false)
+    @Comment("논리적 삭제 여부. Y: DB에서만 조회 가능")
+    @ColumnDefault("'N'")
+    private Character delYn;
+
     @Column(name = "TEL", length = 20)
-    @Comment("연락처")
+    @Comment("연락처. 주로 휴대폰")
     private String tel;
 
-    @Column(name = "EML", length = 100, unique = true)
-    @Comment("이메일")
+    @Column(name = "EML", length = 200, unique = true)
+    @Comment("이메일. 주로 업무 메일 기재")
     private String email;
 
     @Column(name = "JOIN_YMD")
@@ -81,7 +98,7 @@ public class User extends CommonEntity implements UserDetails {
     @Column(name = "LGN_FAIL_CNT")
     @Comment("로그인 실패 횟수")
     @ColumnDefault("'0'")
-    private int loginFailCnt;
+    private Integer loginFailCnt;
 
     @Column(name = "PW_MOD_YMD")
     @Comment("최신 비밀번호 변경일")
@@ -95,7 +112,7 @@ public class User extends CommonEntity implements UserDetails {
    */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLE_NO")
-    @Comment("사용 중인 역할 번호")
+    @Comment("직급 fk")
     private Role role;
 
 
@@ -143,7 +160,7 @@ public class User extends CommonEntity implements UserDetails {
 
 
     // update
-    public void updateLoginFailCnt() {
+    public void loginFailure() {
         loginFailCnt += 1;
     }
 
@@ -151,17 +168,18 @@ public class User extends CommonEntity implements UserDetails {
         loginFailCnt = 0;
     }
 
-    // 변경 가능한 부분 제한
+    // 일반적인 변경 범위
     public void updateUser(UserDto.UpdateReq req) {
         userNm = req.getUserNm();
-        useYn = req.getUseYn();
+        nickNm = req.getNickNm();
         tel = req.getTel();
         email = req.getEmail();
+        joinYmd = LocalDate.parse(req.getJoinYmd());
     }
 
-    // 역할 변경. 캐시 삭제 불필요.
-    public void updateUserRole(Role role) {
-        this.role = role;
+    // 직급 변경. 캐시 삭제 불필요.
+    public void updateUserRole(Role newRole) {
+        role = newRole;
     }
 
     public void quitUser(UserDto.QuitReq req) {
@@ -169,11 +187,25 @@ public class User extends CommonEntity implements UserDetails {
         quitYmd = LocalDate.parse(req.getQuitYmd());
     }
 
+    public void deleteUserSoft(Long userId) {
+        delYn = 'Y';
+    }
 
 
     // res
     public UserDto toRes() {
         return UserDto.builder()
+                .id(id)
+                .userId(userId)
+                .userNm(userNm)
+                .nickNm(nickNm)
+                .tel(tel)
+                .email(email)
+                .useYn(useYn)
+                .localYn(localYn)
+                .joinYmd(joinYmd)
+                .roleId(role.getId())
+                .roleNm(role.getRoleNm())
                 .build();
     }
 

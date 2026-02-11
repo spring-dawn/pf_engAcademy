@@ -1,7 +1,7 @@
 package portfolio.eams.service.system;
 
 
-import portfolio.eams.dto.system.CodeDto;
+import portfolio.eams.dto.system.CommonCodeDto;
 
 public interface CodeService {
     // CRUD..
@@ -9,5 +9,5 @@ public interface CodeService {
     // select api 가 특히 중요하다. 원하는 코드값을 가져와야 하니까?
 
     // insert
-    CodeDto insertCode(CodeDto.Req req);
+    CommonCodeDto insertCode(CommonCodeDto.Req req);
 }
