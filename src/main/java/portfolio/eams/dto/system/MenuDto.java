@@ -9,6 +9,8 @@ import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MenuDto {
     private Long id;
     private String url;

@@ -19,7 +19,7 @@ public class RoleDto {
     private Integer sortSeq;
     private String memo;
 
-    private List<MenuRoleAccessDto> acsList;
+    private List<MenuRoleAcsDto> acsList;
 
 
     // insert, update
@@ -29,7 +29,6 @@ public class RoleDto {
     @NoArgsConstructor
     public static class Req {
         private String roleNm;
-        private Character useYn;
         private Character sysDefaultYn;
         private Character visibleYn;
         private Integer sortSeq;

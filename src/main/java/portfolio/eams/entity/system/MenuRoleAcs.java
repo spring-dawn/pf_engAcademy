@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
-import portfolio.eams.dto.system.MenuRoleAccessDto;
+import portfolio.eams.dto.system.MenuRoleAcsDto;
 
 @Getter
 @Builder
@@ -15,7 +15,7 @@ import portfolio.eams.dto.system.MenuRoleAccessDto;
         name = "FCT_MENU_ROLE_ACS_T",
         indexes = @Index(name = "idx_acs", columnList = "ROLE_NO, MENU_NO")
 )
-public class MenuRoleAccess {
+public class MenuRoleAcs {
     /*
     MENU : ROLE 권한 연결 테이블
     기존의 AUTH 테이블로 사용하던 방식을 축소함.
@@ -59,15 +59,15 @@ public class MenuRoleAccess {
 
 
     // update 이 경우는 '수정'의 개념이 삭제-추가가 아니라 진짜로 '변경'의 의미
-    public void update(MenuRoleAccessDto dto) {
+    public void update(MenuRoleAcsDto dto) {
         readYn = dto.readYn();
         writeYn = dto.writeYn();
     }
 
 
     // res
-    public MenuRoleAccessDto toRes() {
-        return new MenuRoleAccessDto(id, role.getId(), menu.getId(), readYn, writeYn);
+    public MenuRoleAcsDto toRes() {
+        return new MenuRoleAcsDto(id, role.getId(), menu.getId(), readYn, writeYn);
     }
 
 

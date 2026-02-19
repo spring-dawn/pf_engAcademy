@@ -64,7 +64,7 @@ public class Role extends BasicEntityColumn {
      */
     @JsonIgnore
     @OneToMany(mappedBy = "role", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<MenuRoleAccess> menuRoleAccessList = new ArrayList<>();
+    private List<MenuRoleAcs> menuRoleAcsList = new ArrayList<>();
 
 
     // update
