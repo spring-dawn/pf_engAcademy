@@ -45,7 +45,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             errMsg.append(msgUtil.get("ent.not.found", EntityNm.USER));
         } else if (exception instanceof BadCredentialsException) {
             // 비밀번호 불일치
-            errMsg.append(msgUtil.get("login.pw.incorrect"));
+            errMsg.append(msgUtil.get("ent.not.found", EntityNm.USER));
+//            errMsg.append(msgUtil.get("login.pw.incorrect"));
         } else if (exception instanceof DisabledException) {
             // 미사용 계정
             errMsg.append(msgUtil.get("login.account.disabled"));
