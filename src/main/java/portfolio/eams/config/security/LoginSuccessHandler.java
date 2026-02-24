@@ -48,6 +48,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 //                        .build()
 //        );
 
+        // ssr
+//        response.sendRedirect("/dashboard"); // SecurityConfig .formLogin 의 .defaultSuccessUrl 체이닝과 동일
+
+        // csr
         response.setStatus(HttpServletResponse.SC_OK);  // 200
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Pragma", "no-cache");
@@ -55,5 +59,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         // message body.
         ResponseDto responseDto = new ResponseDto("00", "login_success", MyUtil.timestamp());
         response.getWriter().write(mapper.writeValueAsString(responseDto));
+
     }
 }

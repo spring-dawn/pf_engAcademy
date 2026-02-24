@@ -38,8 +38,8 @@ function signin() {
         })
             .then((res) => res.json())
             .then((data) => {
-                if(data.msg != "login_success") return alert(data.msg);
-                location.href = "/";
+                if (data.msg != "login_success") return alert(data.msg);
+                    location.replace("/dashboard");
             })
             .catch(err => {
                 console.log("err? " + err);

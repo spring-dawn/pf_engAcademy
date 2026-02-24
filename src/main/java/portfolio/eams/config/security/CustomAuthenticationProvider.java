@@ -29,6 +29,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         검증하려는 부분은 throw AuthenticationException 으로 예외를 발생시켜야 합니다.
         try/catch 로 처리하면 틀린 로그인이 제대로 잡히지 않습니다.
          */
+
         log.info("asdf 로그인 검증 시작!");
 
         // 클라이언트에서 입력 받은 인증 정보

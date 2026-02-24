@@ -60,8 +60,7 @@ public class SecurityConfig {
                                 "/.well-known/**"
 
                         ).permitAll()
-                        .anyRequest()
-                        .access(checker)
+                        .anyRequest().access(checker)
 //                        .authenticated()
                 )
                 // 내부망 상정, 폼로그인 사용.
@@ -72,6 +71,7 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .successHandler(successHandler)
                         .failureHandler(failureHandler)
+//                        .defaultSuccessUrl("/dashboard", true)
                 )
                 // 로그아웃 시 세션 제거
                 .logout(config -> config

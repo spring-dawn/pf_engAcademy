@@ -21,4 +21,13 @@ public interface MenuRoleAcsRepo extends JpaRepository<MenuRoleAcs, Long> {
 
     List<MenuRoleAcs> findByRole_Id(Long roleId);
 
+    /**
+     * jpa 자동 쿼리 쓰자니 메서드명이 어디까지 길어지는 거예요
+     * @param roleId 사용자 직급 pk
+     * @param readYn 'Y': 읽기가능 메뉴
+     * @param menuUseYn 'Y': 활성화 된 메뉴
+     * @return 조건을 만족하면서 parent == null 최상위 메뉴만 솎아내기. or 출력 시 children 중복 생김
+     */
+    List<MenuRoleAcs> findByRole_IdAndReadYnAndMenu_UseYnAndMenu_ParentIsNullOrderByMenu_SortSeqAsc(Long roleId, Character readYn, Character menuUseYn);
+
 }

@@ -40,7 +40,7 @@ public class CustomAuthorizationChecker implements AuthorizationManager<RequestA
 
         if (!auth.getPrincipal().equals("anonymousUser")) {
             // 요청 uri 이 대시보드인 경우 기본적으로 조회 가능
-            if (reqUri.equals("/dashboard")) { 
+            if (reqUri.equals("/dashboard") || reqUri.equals("/")) {
                 isAllowed = true;
             } else {
                 // 접근자가 아예 인증(로그인)되지 않았으면 무조건 F, 인증했다면 Role 정보 확인
