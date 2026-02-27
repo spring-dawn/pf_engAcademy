@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<!-- 레이아웃 적용 시 decorate 문 추가 -->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base1}">
+
+    <!-- 페이지 조각명을 contents 로 명명해서 레이아웃과 맞춰준다 -->
+    <th:block layout:fragment="contents">
+        <div>
+            성적관리
+        </div>
+    </th:block>
+</html>

@@ -24,9 +24,9 @@ public class PageController {
         return "pages/system/user";
     }
 
-    @RequestMapping("/system/code")
+    @RequestMapping("/system/commonCode")
     public String code(){
-        return "pages/system/code";
+        return "pages/system/commonCode";
     }
 
     @RequestMapping("/system/role")
@@ -35,10 +35,45 @@ public class PageController {
     }
 
     //
+    @RequestMapping("/academy/student")
+    public String student(){
+        return "pages/academy/student";
+    }
 
+    @RequestMapping("/academy/classroom")
+    public String classroom(){
+        return "pages/academy/classroom";
+    }
 
-    @RequestMapping("/analy")
-    public String analy(){
-        return "pages/analy";
+    @RequestMapping("/academy/score")
+    public String score(){
+        return "pages/academy/score";
+    }
+
+    @RequestMapping("/academy/timetable")
+    public String timetable(){
+        return "pages/academy/timetable";
+    }
+
+    //
+    @RequestMapping("/operation/notice")
+    public String notice(){
+        return "pages/operation/notice";
+    }
+
+    @RequestMapping("/operation/meetingLog")
+    public String meetingLog(){
+        return "pages/operation/meetingLog";
+    }
+
+    @RequestMapping("/operation/sms")
+    public String sms(){
+        return "pages/operation/sms";
+    }
+
+    //
+    @RequestMapping("/statics")
+    public String statics(){
+        return "pages/statics";
     }
 }
