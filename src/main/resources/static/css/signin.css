@@ -1,29 +1,44 @@
 @charset "UTF-8";
 
+*{
+    /* outline: red solid 1px; */
+    border-radius: 10px;
+}
+body{
+    background-color: rgb(255, 249, 249);
+}
 .login-container {
-    width: 1200px;
+    width: 1300px;
     height: 80vh;
     min-width: 400px;
 
     margin: auto;
     margin-top: 100px;
     display: flex;
+    background-color: white;
+    border:whitesmoke solid 1px;
+    box-shadow: 5px 5px 5px gray;
 }
 
 .login-container .wrapper {
     /* padding: 2px; */
     flex: 1;
-    background-color: whitesmoke;
 
     /* 중앙 정렬 */
     position: relative;
 }
 
 /* 왼쪽 이미지 */
+.wrapper .margin-box img{
+    /* outline: 1px solid green; */
+    width: 100%;
+    height: 100%;
+}
 
 
 /* 오른쪽 로그인 박스 */
 .wrapper .margin-box {
+    outline: 1px solid green;
     background-color: white;
     width: 85%;
     height: 90%;
@@ -60,7 +75,7 @@
     display: flex;
     flex-direction: column;
 
-    background-color: pink;
+    /* background-color: pink; */
 }
 #form-signin .input-grid{
     font-style: italic;
@@ -78,9 +93,15 @@
     /* width: 90%; */
     height: 2rem;
     font-size: 1.5rem;
-    padding: 5px;
-    /* border-color: wheat;
-    border-radius: 5%; */
+    padding-left: 10px;
+    border: none;
+    border-bottom: 2px solid #ffacac;
+}
+input:focus, input:hover {
+    outline: none;
+    background-color: #fff0f0;
+    /* border: 2px solid rgb(224, 224, 224); */
+    /* box-shadow: 0 0 5px rgb(224, 224, 224); */
 }
 #form-signin .signin-box{
     height: 25%;
@@ -94,6 +115,12 @@
     text-align: center;
     font-size: 1rem;
 }
+.remember-box label:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.remember-box input[type="checkbox"] {
+}   
 #form-signin .signin-box .btn-box {
     height: 50%;
 }
@@ -103,11 +130,13 @@
     font-size: 1.5rem;
     /* font-style: italic; */
 
-    border: whitesmoke;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 3px 3px 3px gray;
-   
+    border: none;
+    color: white;
+    background-color: rgb(255, 179, 179);
+}
+.btn-box button:hover {
+    color: green;
+    background-color: #fff0f0;
 }
 
 
@@ -124,4 +153,8 @@
 
     font-size: small;
     font-style: italic;
+}
+.login-etc .etc span:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
