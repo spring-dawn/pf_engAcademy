@@ -15,9 +15,11 @@ public class MenuDto {
     private Long id;
     private String url;
     private String menuNm;
+    private String menuType;
     private Integer depth;
     private Integer sortSeq;
     private Character useYn;
+    private Character scrYn;
     private Long parentId;
     private List<MenuDto> children;
 
@@ -28,8 +30,11 @@ public class MenuDto {
     public static class Req {
         private String url;
         private String menuNm;
+        private String menuType;
         private Integer depth;
         private Integer sortSeq;
+        private Character useYn;
+        private Character scrYn;
         private String parentUrl;
     }
 

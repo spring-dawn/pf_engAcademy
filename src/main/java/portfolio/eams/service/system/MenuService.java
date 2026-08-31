@@ -37,7 +37,8 @@ public class MenuService {
     @Cacheable(value = "mymenu", key = "#p0")
     public List<MenuDto> selectMyMenu(Long roleId){
         // 인증 정보를 열어 roleKey 를 찾아오는 건 컨트롤러에 위임, 여기선 서비스 로직만 작성
-        List<MenuDto> result = acsRepo.findByRole_IdAndReadYnAndMenu_UseYnAndMenu_ParentIsNullOrderByMenu_SortSeqAsc(roleId, 'Y', 'Y')
+//        List<MenuDto> result = acsRepo.findByRole_IdAndReadYnAndMenu_UseYnAndMenu_ParentIsNullOrderByMenu_SortSeqAsc(roleId, 'Y', 'Y')
+        List<MenuDto> result = acsRepo.findByRole_IdAndMenu_UseYn(roleId, 'Y')
                 .stream()
                 .map(MenuRoleAcs::getMenu)
                 .map(Menu::toRes)

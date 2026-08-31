@@ -30,13 +30,13 @@ public class CommonCode extends BasicEntityColumn {
     @Column(name = "CMN_CD_NO")
     private Long id;
 
-    @Column(name = "CMN_CD", unique = true, nullable = false, length = 30)
+    @Column(name = "CMN_CD", unique = true, nullable = false, length = 20)
     @Comment("영문 대소문자, 숫자 등을 조합한 고유 식별자")
     private String cd;
 
-    @Column(name = "CMN_CD_VAL", nullable = false, length = 200)
+    @Column(name = "VAL", nullable = false, length = 50)
     @Comment("실제 의미")
-    private String cdVal;
+    private String val;
 
     @Column(name = "USE_YN", length = 1)
     @Comment("사용여부. Y: 사용, N: 미사용")
@@ -45,6 +45,7 @@ public class CommonCode extends BasicEntityColumn {
 
     @Column(name = "DEPTH", nullable = false)
     @Comment("깊이 최대 3단계까지. 가능한 한 2단계까지만 권장")
+    @ColumnDefault("'1'")
     private Integer depth;
 
     @Column(name = "SORT_SEQ", nullable = false)
@@ -52,14 +53,14 @@ public class CommonCode extends BasicEntityColumn {
     @ColumnDefault("'0'")
     private Integer sortSeq;
 
-    @Column(name = "MEMO", length = 200)
+    @Column(name = "RMRK", length = 200)
     @Comment("비고")
-    private String memo;
+    private String rmrk;
 
 
     // 트리 구조
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PARENT_CMN_CD")
+    @JoinColumn(name = "PARENT_CMN_CD_NO")
     @Comment("참조하는 상위 코드")
     private CommonCode parent;
 
@@ -70,9 +71,9 @@ public class CommonCode extends BasicEntityColumn {
 
     // update
     public void update(CommonCodeDto.Req req) {
-        // 변경 가능 데이터: cd, cdVal, memo, useYn
-        cdVal = req.getCdVal();
-        memo = req.getMemo();
+        // 변경 가능 데이터: val, rmrk, useYn
+        val = req.getVal();
+        rmrk = req.getRmrk();
         useYn = req.getUseYn();
         sortSeq = req.getSortSeq();
     }
@@ -83,10 +84,10 @@ public class CommonCode extends BasicEntityColumn {
         return CommonCodeDto.builder()
                 .id(id)
                 .cd(cd)
-                .cdVal(cdVal)
+                .val(val)
                 .depth(depth)
                 .sortSeq(sortSeq)
-                .memo(memo)
+                .rmrk(rmrk)
                 .useYn(useYn)
                 .parentId(parent == null ? null : parent.getId())
                 .children(children == null? null : children.stream().toList())

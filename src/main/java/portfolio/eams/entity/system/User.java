@@ -50,14 +50,14 @@ public class User extends BasicEntityColumn implements UserDetails {
     @Comment("사용자명")
     private String userNm;
 
-    @Column(name = "NICK_NM", length = 30)
+    @Column(name = "NICK_NM", length = 20)
     @Comment("닉네임. 별도의 영어이름 등")
     private String nickNm;
 
-    @Column(name = "LCL_YN", length = 1, nullable = false)
-    @Comment("내국인 여부. N: 원어민 강사")
-    @ColumnDefault("'Y'")
-    private Character localYn;
+    @Column(name = "FRGN_YN", length = 1, nullable = false)
+    @Comment("외국인 여부. Y: 원어민 강사")
+    @ColumnDefault("'N'")
+    private Character frgnYn;
 
     @Column(name = "USE_YN", length = 1, nullable = false)
     @Comment("재직여부")
@@ -69,15 +69,9 @@ public class User extends BasicEntityColumn implements UserDetails {
     @ColumnDefault("'N'")
     private Character admYn;
 
-    @Column(name = "SYS_DEV_YN", length = 1, nullable = false)
-    @Comment("유지보수 등 담당 개발자 여부. Y: 삭제 불가 및 DB에서만 조회 가능")
-    @ColumnDefault("'N'")
-    private Character sysDevYn;
-
-    @Column(name = "DEL_YN", length = 1, nullable = false)
-    @Comment("논리적 삭제 여부. Y: DB에서만 조회 가능")
-    @ColumnDefault("'N'")
-    private Character delYn;
+    @Column(name = "DEPT", length = 20)
+    @Comment("소속부서(팀). e.g) 국어, 수학, 영어...")
+    private String dept;
 
     @Column(name = "TEL", length = 20)
     @Comment("연락처. 주로 휴대폰")
@@ -112,7 +106,7 @@ public class User extends BasicEntityColumn implements UserDetails {
    */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLE_NO")
-    @Comment("직급 fk")
+    @Comment("권한 fk")
     private Role role;
 
 
@@ -177,7 +171,7 @@ public class User extends BasicEntityColumn implements UserDetails {
         joinYmd = LocalDate.parse(req.getJoinYmd());
     }
 
-    // 직급 변경. 캐시 삭제 불필요.
+    // 직급 변경.
     public void updateUserRole(Role newRole) {
         role = newRole;
     }
@@ -185,10 +179,6 @@ public class User extends BasicEntityColumn implements UserDetails {
     public void quitUser(UserDto.QuitReq req) {
         useYn = 'N';
         quitYmd = LocalDate.parse(req.getQuitYmd());
-    }
-
-    public void deleteUserSoft(Long userId) {
-        delYn = 'Y';
     }
 
 
@@ -199,10 +189,10 @@ public class User extends BasicEntityColumn implements UserDetails {
                 .userId(userId)
                 .userNm(userNm)
                 .nickNm(nickNm)
+                .dept(dept)
                 .tel(tel)
                 .email(email)
                 .useYn(useYn)
-                .localYn(localYn)
                 .joinYmd(joinYmd)
                 .roleId(role.getId())
                 .roleNm(role.getRoleNm())

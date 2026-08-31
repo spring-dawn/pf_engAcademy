@@ -10,7 +10,7 @@ import portfolio.eams.entity.BasicEntityColumn;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "FCT_ATCH_T")
+@Table(name = "FCT_ATCH_INFO_T")
 public class Attach extends BasicEntityColumn {
     // 전역 첨부파일 관리 테이블
 
@@ -19,29 +19,30 @@ public class Attach extends BasicEntityColumn {
     @Column(name = "ATCH_NO")
     private Long id;
 
-    @Column(name = "ATCH_NM", length = 400, nullable = false)
+    @Column(name = "ORIGIN_NM", nullable = false)
     @Comment("파일 원본명")
     private String fileNm;
 
-    @Column(name = "ATCH_NM_STORED", length = 200, nullable = false, unique = true)
+    @Column(name = "STORED_NM", nullable = false, unique = true)
     @Comment("파일 저장명. UUID 사용.")
     private String fileNmStored;
 
-    @Column(name = "ATCH_PATH", length = 200, nullable = false)
-    @Comment("파일 저장 경로")
+    @Column(name = "STORED_PATH", length = 200, nullable = false)
+    @Comment("서버 내부 저장 상대경로")
     private String path;
+
+    @Column(name = "SIZE", nullable = false)
+    @Comment("파일 용량")
+    private Long size;
 
     @Column(name = "EXT", length = 10)
     @Comment("파일 확장자")
     private String ext;
 
-    @Column(name = "MIME", length = 20)
+    @Column(name = "MIME", length = 30)
     @Comment("파일 MIME type")
     private String mimeType;
 
-    @Column(name = "ATCH_SIZE")
-    @Comment("파일 용량")
-    private Long size;
 
     // TODO res
 

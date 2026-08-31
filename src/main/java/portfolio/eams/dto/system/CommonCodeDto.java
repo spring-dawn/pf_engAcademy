@@ -12,11 +12,10 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class CommonCodeDto {
-    // code 는 단순한 값이지만 불변을 보장하기엔 사용처가 애매함
     private Long id;
     private String cd;
-    private String cdVal;
-    private String memo;
+    private String val;
+    private String rmrk;
     private Character useYn;
     private Integer depth;
     private Integer sortSeq;
@@ -31,8 +30,8 @@ public class CommonCodeDto {
     public static class Req {
         // insert, update
         private String cd;
-        private String cdVal;
-        private String memo;
+        private String val;
+        private String rmrk;
         private Integer depth;
         private Integer sortSeq;
         private Character useYn;

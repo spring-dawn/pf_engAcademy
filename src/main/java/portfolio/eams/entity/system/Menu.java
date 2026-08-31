@@ -29,17 +29,21 @@ public class Menu extends BasicEntityColumn {
     @Column(name = "MENU_NO")
     private Long id;
 
-    @Column(name = "MENU_URL", length = 150, nullable = false, unique = true)
+    @Column(name = "URL", length = 100, nullable = false, unique = true)
     @Comment("메뉴 주소. e.g.) /system/user..")
     private String url;
 
-    @Column(name = "MENU_NM", nullable = false, length = 200)
+    @Column(name = "MENU_NM", nullable = false, length = 20)
     @Comment("메뉴명")
     private String menuNm;
 
+    @Column(name = "MENU_TYPE", nullable = false, length = 10)
+    @Comment("메뉴 분류 코드값. e.g) 사이드바메뉴, 탭, gnb...")
+    private String menuType;
+
     @Column(name = "DEPTH", nullable = false)
-    @ColumnDefault("'1'")
     @Comment("1~3. 깊이 최대 3단계까지. 가능한 한 2단계 트리 권장")
+    @ColumnDefault("'1'")
     private Integer depth;
 
     @Column(name = "SORT_SEQ", nullable = false)
@@ -52,11 +56,20 @@ public class Menu extends BasicEntityColumn {
     @Comment("사용여부. Y: 사용, N: 미사용(출력x)")
     private Character useYn;
 
+    @Column(name = "SCR_YN", length = 1, nullable = false)
+    @ColumnDefault("'Y'")
+    @Comment("화면여부. Y: 최하단 화면(권한 필요), N: 중분류")
+    private Character scrYn;
+
+    @Column(name = "RMRK", length = 200)
+    @Comment("비고")
+    private String rmrk;
+
     // 트리 구조
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_MENU_NO")
     @Comment("참조하는 상위 메뉴")
-    private Menu parent;    // 상위 메뉴
+    private Menu parent;
 
     @OneToMany(mappedBy = "parent")
     private List<Menu> children = new ArrayList<>(); // 하위 메뉴들. npe 대비 초기화.
@@ -74,8 +87,10 @@ public class Menu extends BasicEntityColumn {
                 .id(id)
                 .url(url)
                 .menuNm(menuNm)
+                .menuType(menuType)
                 .sortSeq(sortSeq)
                 .useYn(useYn)
+                .scrYn(scrYn)
                 .depth(depth)
                 .parentId(parent == null ? null : parent.getId())
                 .children(children == null? null : children.stream().map(Menu::toRes).toList())

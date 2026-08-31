@@ -21,9 +21,10 @@ public class UserDto {
     private String nickNm;
     private String tel;
     private String email;
+    private String dept;
     private Character useYn;
     private Character admYn;
-    private Character localYn;
+    private Character frgnYn;
     private LocalDate joinYmd;
     private LocalDate quitYmd;
     private Long roleId;
@@ -40,6 +41,8 @@ public class UserDto {
         private String userNm;
         private String userPw;
         private String nickNm;
+        private Character frgnYn;
+        private String dept;
         private String tel;
         private String email;
         private String joinYmd;
@@ -57,6 +60,7 @@ public class UserDto {
         private String userNm;
         private String nickNm;
         private Character useYn;
+        private String dept;
         private String tel;
         private String email;
         private String joinYmd;
@@ -92,7 +96,8 @@ public class UserDto {
         private String userId;
         private String userNm;
         private String nickNm;
-        private Character localYn;
+        private String dept;
+        private Character frgnYn;
         private Character useYn;
         private Character admYn;
         private String tel;

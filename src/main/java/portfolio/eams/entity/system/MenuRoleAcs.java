@@ -18,7 +18,8 @@ import portfolio.eams.dto.system.MenuRoleAcsDto;
 public class MenuRoleAcs {
     /*
     MENU : ROLE 권한 연결 테이블
-    기존의 AUTH 테이블로 사용하던 방식을 축소함.
+    기존의 AUTH 테이블로 사용하던 방식을 축소.
+    매핑된 그 자체로 조회권이 있다고 판단, 반드시 조회권이 선행해야 기타 권한 부여 가능.
 
     본래 설계대로는 복합 키로 구성해야 하나 jpa 사용 시 복합 키 구현이 까다로워 편의상 fk 사용
      */
@@ -34,7 +35,7 @@ public class MenuRoleAcs {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ROLE_NO", nullable = false)
-    @Comment("참조하는 직급 번호")
+    @Comment("참조하는 권한 번호")
     private Role role;
 
     @JsonIgnore
@@ -45,29 +46,30 @@ public class MenuRoleAcs {
 
 
     // 실제 권한 체크
-    @Column(name = "READ_YN", length = 1, nullable = false)
-    @Comment("조회권 유무")
-    private Character readYn;
+    @Column(name = "ACT_YN", length = 1, nullable = false)
+    @Comment("데이터 활성화 체크권한")
+    private Character actYn;
 
-    @Column(name = "WRITE_YN", length = 1, nullable = false)
-    @Comment("편집권(쓰기 권한) 유무")
-    private Character writeYn;
+    @Column(name = "CU_YN", length = 1, nullable = false)
+    @Comment("등록, 수정 편집권 권한")
+    private Character cuYn;
 
-    @Column(name = "SPARE_YN", length = 1)
-    @Comment("권한 확장에 대비한 여분 _yn 컬럼")
-    private Character spare;
+    @Column(name = "D_YN", length = 1, nullable = false)
+    @Comment("삭제 권한")
+    private Character dYn;
 
 
-    // update 이 경우는 '수정'의 개념이 삭제-추가가 아니라 진짜로 '변경'의 의미
+    // update
     public void update(MenuRoleAcsDto dto) {
-        readYn = dto.readYn();
-        writeYn = dto.writeYn();
+        actYn = dto.actYn();
+        cuYn = dto.cuYn();
+        dYn = dto.dYn();
     }
 
 
     // res
     public MenuRoleAcsDto toRes() {
-        return new MenuRoleAcsDto(id, role.getId(), menu.getId(), readYn, writeYn);
+        return new MenuRoleAcsDto(id, role.getId(), menu.getId(), actYn, cuYn, dYn);
     }
 
 

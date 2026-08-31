@@ -22,7 +22,7 @@ import java.util.List;
 public class Role extends BasicEntityColumn {
     /*
     사용자 역할(권한 컨테이너). 사용자가 실제로 제어 가능한 부분은 이 엔티티로 제한.
-    241222 CommonEntity 상속 받으면 DynamicInsert 가 안 먹히는 이슈 있음
+    241222 BasicEntityColumn 상속 받으면 DynamicInsert 가 안 먹히는 이슈 있음
      */
 
     @Id
@@ -30,8 +30,8 @@ public class Role extends BasicEntityColumn {
     @Column(name = "ROLE_NO")
     private Long id;
 
-    @Column(name = "ROLE_NM", length = 150, nullable = false)
-    @Comment("직급명")
+    @Column(name = "ROLE_NM", length = 20, nullable = false)
+    @Comment("권한명")
     private String roleNm;
 
     @Column(name = "SORT_SEQ", nullable = false)
@@ -44,19 +44,14 @@ public class Role extends BasicEntityColumn {
     @ColumnDefault("'Y'")
     private Character useYn;
 
-    @Column(name = "SYS_DFLT_YN", length = 1, nullable = false)
+    @Column(name = "SYS_YN", length = 1, nullable = false)
     @Comment("시스템 기본 권한이면(Y) 삭제 불가")
     @ColumnDefault("'N'")
-    private Character sysDefaultYn;
+    private Character sysYn;
 
-    @Column(name = "VSBL_YN", length = 1, nullable = false)
-    @Comment("조회가능여부. N이면 DB에서만 조회 가능")
-    @ColumnDefault("'Y'")
-    private Character visibleYn;
-
-    @Column(name = "MEMO", length = 200)
+    @Column(name = "RMRK", length = 200)
     @Comment("비고")
-    private String memo;
+    private String rmrk;
 
 
     /*
@@ -71,9 +66,8 @@ public class Role extends BasicEntityColumn {
     public void update(RoleDto.Req req) {
         roleNm = req.getRoleNm();
         sortSeq = req.getSortSeq();
-        memo = req.getMemo();
+        rmrk = req.getRmrk();
     }
-
 
 
     // res
@@ -81,9 +75,10 @@ public class Role extends BasicEntityColumn {
         return RoleDto.builder()
                 .id(id)
                 .roleNm(roleNm)
-                .memo(memo)
-                .sortSeq(sortSeq)
                 .useYn(useYn)
+                .sysYn(sysYn)
+                .sortSeq(sortSeq)
+                .rmrk(rmrk)
                 .build();
     }
 

@@ -14,10 +14,9 @@ public class RoleDto {
     private Long id;
     private String roleNm;
     private Character useYn;
-    private Character sysDefaultYn;
-    private Character visibleYn;
+    private Character sysYn;
     private Integer sortSeq;
-    private String memo;
+    private String rmrk;
 
     private List<MenuRoleAcsDto> acsList;
 
@@ -29,9 +28,9 @@ public class RoleDto {
     @NoArgsConstructor
     public static class Req {
         private String roleNm;
-        private Character sysDefaultYn;
-        private Character visibleYn;
+        private Character useYn;
+        private Character sysYn;
         private Integer sortSeq;
-        private String memo;
+        private String rmrk;
     }
 }
