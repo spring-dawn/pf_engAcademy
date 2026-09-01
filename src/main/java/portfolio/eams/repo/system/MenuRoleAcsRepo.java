@@ -21,14 +21,17 @@ public interface MenuRoleAcsRepo extends JpaRepository<MenuRoleAcs, Long> {
 
     List<MenuRoleAcs> findByRole_Id(Long roleId);
 
+    /**
+     * 사용자 계정 권한의 접근 가능 메뉴목록 얻기.
+     * @param roleId 권한 pk
+     * @param useYn 메뉴 사용여부 'Y'
+     * @return 사용자 접근 가능 메뉴목록 root dto
+     */
+    List<MenuRoleAcs> findByRole_IdAndMenu_ParentIsNullAndMenu_UseYn(Long roleId, Character useYn);
+
+
+    
 
 //    List<MenuRoleAcs> findByRole_IdAndReadYnAndMenu_UseYnAndMenu_ParentIsNullOrderByMenu_SortSeqAsc(Long roleId, Character readYn, Character menuUseYn);
-    /**
-     * 사용자 계정 권한의 접근 가능 메뉴목록 얻기
-     * @param roleId 권한 pk
-     * @param useYn 메뉴 활성화여부
-     * @return roleId 에 따른 조회가능 메뉴 목록
-     */
-    List<MenuRoleAcs> findByRole_IdAndMenu_UseYn(Long roleId, Character useYn);
-
+//    List<MenuRoleAcs> findByRole_idAndMenu_UseYnAndMenu_ParentIsNullAndMenu_MenuType(Long roleId, Character useYn, String menuType);
 }

@@ -10,7 +10,7 @@ body, * {
 
 /* 최상위 layout */
 #layout-container{
-    width: 90%;
+    width: 100%;
     min-width: 600px;
     height: 100vh;
     /* padding: 0 20px; */
@@ -86,7 +86,7 @@ aside #menuBox{
     flex-direction: column;
 }
 .menu li{
-    text-align: center;
+    /*text-align: center;*/
 }
 .menu > li:hover{
     color: blue;

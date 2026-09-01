@@ -38,7 +38,7 @@ public class CustomAuthorizationChecker implements AuthorizationManager<RequestA
 
         // 반환값 때문에 if 지옥...
         // 1) 로그인했는지?
-        if (auth.getPrincipal().equals("anonymousUser")) {
+        if (!auth.getPrincipal().equals("anonymousUser")) {
             // TODO 1.5) 권한체크 필요 없는 화면이면 통과
 
             // 2) 계정 권한(Role) 확인
@@ -51,9 +51,11 @@ public class CustomAuthorizationChecker implements AuthorizationManager<RequestA
                     role != null
                             && menuRoleAcsRepo.existsByRoleAndMenu(role, menuRepo.findByUrl(reqUri).orElse(null))
             )
+
                 isAllowed = true;
         }
 
+        log.info("asdf 조회가능={}", isAllowed);
         return new AuthorizationDecision(isAllowed);
     }
 }

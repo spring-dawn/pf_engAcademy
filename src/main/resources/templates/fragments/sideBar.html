@@ -10,7 +10,7 @@
         <ul class="menu lv1">
             <!-- 상위 메뉴 -->
             <th:block th:each="menu : ${menus}">
-                <th:block th:if="${menu.getChildren().size() == 0}">
+                <th:block th:if="${menu.getChildren().size() == 0 && menu.getMenuType() == 'MENU'}">
                     <li class="menu">
                         <a th:href="@{|${menu.url}|}" th:text="${menu.menuNm}" />
                     </li>

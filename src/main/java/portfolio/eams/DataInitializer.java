@@ -61,27 +61,22 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             MenuDto academy = createMenu4Init("학원운영", "/academy", menuType1, 'N', 1, 2, null);
 
             // 1) 수강생관리(관리자)
-            MenuDto admStudent = createMenu4Init("수강생관리", academy.getUrl() + "/student", menuType1, 'Y', 2, 0, academy.getUrl());
+            MenuDto admStudent = createMenu4Init("수강생 관리", academy.getUrl() + "/student", menuType1, 'Y', 2, 0, academy.getUrl());
             createMenu4Init("수강생 등록", admStudent.getUrl()+"/edit", menuType3, 'Y', 3, 2, admStudent.getUrl());
 
             // 2) 수강생찾기~탭화면
-            MenuDto studentFind = createMenu4Init("수강생찾기", academy.getUrl() + "/student/find", menuType1, 'N', 2, 1, academy.getUrl());
+            MenuDto studentFind = createMenu4Init("수강생 찾기", academy.getUrl() + "/student/find", menuType1, 'N', 2, 1, academy.getUrl());
             createMenu4Init("상세", studentFind.getUrl()+"/detail", menuType2, 'Y', 3, 0, studentFind.getUrl());
             createMenu4Init("성적 관리", studentFind.getUrl()+"/score", menuType2, 'Y', 3, 1, studentFind.getUrl());
             createMenu4Init("보호자 상담", studentFind.getUrl()+"/consultation", menuType2, 'Y', 3, 2, studentFind.getUrl());
 
             // 3) 학급관리(관리자) 
-            MenuDto admClass = createMenu4Init("학급관리", academy.getUrl() + "/class", menuType1, 'N', 2, 3, academy.getUrl());
+            MenuDto admClass = createMenu4Init("학급 관리", academy.getUrl() + "/class", menuType1, 'N', 2, 3, academy.getUrl());
             createMenu4Init("목록", admClass.getUrl()+"/list", menuType2, 'Y', 3, 0, admClass.getUrl());
             createMenu4Init("인원 배치", admClass.getUrl()+"/members", menuType2, 'Y', 3, 1, admClass.getUrl());
             createMenu4Init("수업 목록", admClass.getUrl()+"/curriculum", menuType2, 'Y', 3, 2, admClass.getUrl());
             createMenu4Init("시간표", admClass.getUrl()+"/timetable", menuType2, 'Y', 3, 3, admClass.getUrl());
 
-            // 4) 학급찾기(조회화면)
-            MenuDto classFind = createMenu4Init("학급찾기", academy.getUrl() + "/class/find", menuType1, 'N', 2, 4, academy.getUrl());
-            createMenu4Init("상세", classFind.getUrl()+"/detail", menuType2, 'Y', 3, 0, classFind.getUrl());
-            createMenu4Init("시간표", classFind.getUrl()+"/timetable", menuType2, 'Y', 3, 1, classFind.getUrl());
-            
             // 행정사무 3
             MenuDto oper = createMenu4Init("행정", "/operation", menuType1, 'N', 1, 3, null);
             createMenu4Init("공지사항", oper.getUrl()+"/notice", menuType1, 'Y', 2, 0, oper.getUrl());
@@ -102,13 +97,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
             // 직급-메뉴 관계 생성.
             roleRepo.findAll().forEach(role -> {
-                menuRepo.findAll().stream()
-                        .filter(m ->
-                                // 메뉴, 탭에만 별도 권한 검사
-                                m.getMenuType().equals("MENU")
-                                || m.getMenuType().equals("TAB")
-                        )
-                        .forEach(menu -> {
+                menuRepo.findAll().forEach(menu -> {
                     switch (role.getRoleNm()) {
                         case "개발자":
                             linkAcs4Init(role, menu, 'Y', 'Y', 'Y');
@@ -127,13 +116,8 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
                             break;
                         case "강사":
                             //
-                            if(
-                                    menu.getUrl().equals("/statics")
-                                            || menu.getUrl().equals("/sms")
-                                            || menu.getUrl().contains("/find")
-                                            || menu.getUrl().startsWith("/operation")
-                            ) {
-                                linkAcs4Init(role, menu, 'Y', 'Y', 'N');
+                            if(!menu.getUrl().startsWith("/system")){
+                                linkAcs4Init(role, menu, 'N', 'N', 'N');
                             }
                             break;
                         default:

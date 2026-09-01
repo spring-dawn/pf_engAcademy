@@ -40,7 +40,6 @@ public class SecurityConfig {
                 // url 문자열 기반 로그인 인증 유무 설정. 구체적인 요청은 윗줄, 추상적인 요청은 아랫줄에 작성.
                 .authorizeHttpRequests(config -> config
                         .requestMatchers(
-//                                "/api/signup",
                                 "/api/signin",
                                 "/api/signout",
                                 "/api/**",
