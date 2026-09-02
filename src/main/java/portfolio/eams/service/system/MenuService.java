@@ -1,15 +1,11 @@
 package portfolio.eams.service.system;
 
-import jakarta.servlet.ServletContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 import portfolio.eams.dto.system.MenuDto;
 import portfolio.eams.entity.system.Menu;
 import portfolio.eams.entity.system.MenuRoleAcs;
@@ -26,6 +22,15 @@ public class MenuService {
 
     private final MenuRepo repo;
     private final MenuRoleAcsRepo acsRepo;
+
+    /**
+     * 전체 메뉴 리스트 캐싱데이터.
+     * @return
+     */
+    @Cacheable(value = "menuList")
+    public List<MenuDto> selectList(){
+        return repo.findAll().stream().map(Menu::toRes).toList();
+    }
 
 
     /**

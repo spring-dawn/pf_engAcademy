@@ -30,7 +30,7 @@ public interface MenuRoleAcsRepo extends JpaRepository<MenuRoleAcs, Long> {
     List<MenuRoleAcs> findByRole_IdAndMenu_ParentIsNullAndMenu_UseYn(Long roleId, Character useYn);
 
 
-    
+
 
 //    List<MenuRoleAcs> findByRole_IdAndReadYnAndMenu_UseYnAndMenu_ParentIsNullOrderByMenu_SortSeqAsc(Long roleId, Character readYn, Character menuUseYn);
 //    List<MenuRoleAcs> findByRole_idAndMenu_UseYnAndMenu_ParentIsNullAndMenu_MenuType(Long roleId, Character useYn, String menuType);

@@ -1,10 +1,10 @@
 package portfolio.eams.util.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum InfoMsg {
     /*
    시스템 전반에서 공통으로 쓰일 코드, 안내 메시지 등
