@@ -51,7 +51,8 @@ public class CustomAuthorizationChecker implements AuthorizationManager<RequestA
                     String mType = menu.getMenuType();
 
                     // 3) gnb 는 로그인 했으면 통과
-                    if (mType.equals(MenuType.M4.getValue())) {
+//                    if (mType.equals(MenuType.M4.getValue())) {
+                    if (MenuType.M4.isEquals(mType)) {
                         isAllowed = true;
                         break;
                     }
@@ -63,7 +64,8 @@ public class CustomAuthorizationChecker implements AuthorizationManager<RequestA
                     if (role == null) break;
 
                     // 5) menu, tab 은 각각 조회권한 확인. sub 는 상위 menu 조회권이 있으면 상속하여 통과
-                    if (mType.equals(MenuType.M3.getValue())) {
+//                    if (mType.equals(MenuType.M3.getValue())) {
+                    if (MenuType.M3.isEquals(mType)) {
                         // 상위 메뉴찾기
                         Menu parent = menuRepo.findById(menu.getParentId()).orElse(null);
                         if (parent == null) break;
