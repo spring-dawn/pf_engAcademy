@@ -38,7 +38,7 @@ public class Menu extends BasicEntityColumn {
     private String menuNm;
 
     @Column(name = "MENU_TYPE", nullable = false, length = 10)
-    @Comment("메뉴 분류 코드값. e.g) 사이드바메뉴, 탭, gnb...")
+    @Comment("메뉴 분류 코드값. e.g) 사이드바메뉴, 탭, 파생...")
     private String menuType;
 
     @Column(name = "DEPTH", nullable = false)
@@ -58,7 +58,7 @@ public class Menu extends BasicEntityColumn {
 
     @Column(name = "SCR_YN", length = 1, nullable = false)
     @ColumnDefault("'Y'")
-    @Comment("화면여부. Y: 최하단 화면(권한 필요), N: 중분류")
+    @Comment("권한 매핑이 필요한 화면여부. Y: 최하단 화면(권한 필요), N: 중분류")
     private Character scrYn;
 
     @Column(name = "RMRK", length = 200)

@@ -10,7 +10,7 @@
         <ul class="menu lv1">
             <!-- 상위 메뉴 -->
             <th:block th:each="menu : ${menus}">
-                <th:block th:if="${menu.getChildren().size() == 0 && menu.getMenuType() == 'MENU'}">
+                <th:block th:if="${menu.getChildren().size() == 0 && menu.getMenuType() == 'BAR'}">
                     <li class="menu">
                         <a th:href="@{|${menu.url}|}" th:text="${menu.menuNm}" />
                     </li>
@@ -22,9 +22,11 @@
 
                     <ul class="menu lv2" th:classappend="${pageUri.contains(menu.getUrl())} ? 'on' : 'off'">
                         <th:block th:each="child : ${menu.getChildren()}">
-                            <li class="menu">
-                                <a th:href="@{|${child.url}|}" th:text="${child.menuNm}" />
-                            </li>
+                            <th:block th:if="${child.getMenuType() == 'BAR'}">
+                                <li class="menu">
+                                    <a th:href="@{|${child.url}|}" th:text="${child.menuNm}" />
+                                </li>
+                            </th:block>
                         </th:block>
                     </ul>
                 </th:block>

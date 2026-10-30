@@ -50,7 +50,7 @@ public class CustomAuthorizationChecker implements AuthorizationManager<RequestA
                 if (reqUri.equals(menu.getUrl())) {
                     String mType = menu.getMenuType();
 
-                    // 3) gnb 는 로그인 했으면 통과
+                    // 3) default 는 로그인 했으면 통과
 //                    if (mType.equals(MenuType.M4.getValue())) {
                     if (MenuType.M4.isEquals(mType)) {
                         isAllowed = true;

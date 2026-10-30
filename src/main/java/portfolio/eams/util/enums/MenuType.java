@@ -10,7 +10,7 @@ public enum MenuType {
     M1("MENU"),
     M2("TAB"),
     M3("SUB"),
-    M4("GNB"),
+    M4("DEFAULT"),
     ;
 
     // 생성자 인자

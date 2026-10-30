@@ -45,6 +45,7 @@ public class SecurityConfig {
 
                                 // view
                                 "/error",
+                                "/signin",
 
                                 //
                                 "/swagger-ui/**",

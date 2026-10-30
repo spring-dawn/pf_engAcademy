@@ -37,60 +37,65 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
     @Transactional // 영속성 컨텍스트 유지를 위한 트랜잭셔널
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        // menu: 권한 체크가 필요한 정식 url. 사이드바에 출력, tab: 목적별 분류, sub: 기능성 파생 화면, gnb: 로그인만 하면 사용 가능
-        String menuType1 = "MENU";
-        String menuType2 = "TAB";
-        String menuType3 = "SUB";
-        String menuType4 = "GNB";
+        /*
+        메뉴타입은 권한검사 방식 및 메뉴 배치에 따라 분류.
+
+        bar: 권한 체크가 필요한 정식 url. 메뉴바에 출력
+        tab: 같은 엔티티(메뉴) 안 목적별 분류
+        sub: 기능성 파생 화면. 주로 상세조회, 쓰기 화면. 상위메뉴의 권한 상속할 것.
+        common: 로그인만 하면 사용가능. 별도 접근권 검사 없음.
+         */
+
+        String mType1 = "BAR";
+        String mType2 = "TAB";
+        String mType3 = "SUB";
+        String mType4 = "DEFAULT"; // default.
 
         try {
             // 메뉴 생성. 대시보드 0
-            createMenu4Init("대시보드", "/dashboard", menuType4, 'Y', 1, 0, null);
-            createMenu4Init("개인정보 조회", "/myPage", menuType4, 'Y', 1, 0, null);
-            createMenu4Init("비밀번호 변경", "/changePw", menuType4, 'Y', 1, 0, null);
+            createMenu4Init("대시보드", "/dashboard", mType4, 'Y', 1, 0, null);
+            createMenu4Init("내 정보", "/myPage", mType4, 'Y', 1, 0, null);
+            createMenu4Init("비밀번호 변경", "/changePw", mType4, 'Y', 1, 0, null);
 
             // 시스템 1
-            MenuDto sys = createMenu4Init("시스템", "/system", menuType1, 'N', 1, 1, null);
-            createMenu4Init("사용자관리", sys.getUrl() + "/user", menuType1, 'Y', 2,0, sys.getUrl());
-            createMenu4Init("권한관리", sys.getUrl() + "/role", menuType1, 'Y', 2,1, sys.getUrl());
-            MenuDto commonCode = createMenu4Init("공통코드관리", sys.getUrl() + "/commonCode", menuType1, 'N', 2, 2, sys.getUrl());
-            createMenu4Init("목록", commonCode.getUrl()+"/list", menuType2, 'Y', 3, 0, commonCode.getUrl());
-            createMenu4Init("사용처", commonCode.getUrl()+"/usage", menuType2, 'Y', 3, 1, commonCode.getUrl());
+            MenuDto sys = createMenu4Init("시스템관리", "/system", mType1, 'N', 1, 1, null);
+            createMenu4Init("사용자", sys.getUrl() + "/user", mType1, 'Y', 2,0, sys.getUrl());
+            createMenu4Init("권한", sys.getUrl() + "/role", mType1, 'Y', 2,1, sys.getUrl());
+            MenuDto commonCode = createMenu4Init("공통코드", sys.getUrl() + "/commonCode", mType1, 'N', 2, 2, sys.getUrl());
+            createMenu4Init("코드목록", commonCode.getUrl()+"/list", mType2, 'Y', 3, 0, commonCode.getUrl());
+            createMenu4Init("사용처", commonCode.getUrl()+"/usage", mType2, 'Y', 3, 1, commonCode.getUrl());
 
-            // 학원운영 2
-            MenuDto academy = createMenu4Init("학원운영", "/academy", menuType1, 'N', 1, 2, null);
+            // 학생관리
+            MenuDto studentMng = createMenu4Init("학생관리", "/student", mType1, 'n', 1, 2, null);
+            MenuDto stuMngList = createMenu4Init("학생목록", studentMng.getUrl()+"/list", mType1, 'y', 2, 0, studentMng.getUrl());
+            createMenu4Init("학생 상세", stuMngList.getUrl()+"/read", mType3, 'Y', 3, 0, stuMngList.getUrl());
+            createMenu4Init("힉생 등록", stuMngList.getUrl()+"/write", mType3, 'Y', 3, 1, stuMngList.getUrl());
 
-            // 1) 수강생관리(관리자)
-            MenuDto admStudent = createMenu4Init("수강생 관리", academy.getUrl() + "/student", menuType1, 'Y', 2, 0, academy.getUrl());
-            createMenu4Init("수강생 등록", admStudent.getUrl()+"/edit", menuType3, 'Y', 3, 2, admStudent.getUrl());
+            createMenu4Init("성적관리", studentMng.getUrl()+"/score", mType1, 'Y', 2, 1, studentMng.getUrl());
+            createMenu4Init("상담내역", studentMng.getUrl()+"/counsel", mType1, 'Y', 2, 2, studentMng.getUrl());
 
-            // 2) 수강생찾기~탭화면
-            MenuDto studentFind = createMenu4Init("수강생 찾기", academy.getUrl() + "/student/find", menuType1, 'N', 2, 1, academy.getUrl());
-            createMenu4Init("상세", studentFind.getUrl()+"/detail", menuType2, 'Y', 3, 0, studentFind.getUrl());
-            createMenu4Init("성적 관리", studentFind.getUrl()+"/score", menuType2, 'Y', 3, 1, studentFind.getUrl());
-            createMenu4Init("보호자 상담", studentFind.getUrl()+"/consultation", menuType2, 'Y', 3, 2, studentFind.getUrl());
+            // 학급관리
+            MenuDto classMng = createMenu4Init("학급관리", "/class", mType1, 'N', 1, 3, null);
+            createMenu4Init("학급목록", classMng.getUrl()+"/list", mType1, 'Y', 2, 0, classMng.getUrl());
+            createMenu4Init("수업배치", classMng.getUrl()+"/curriculum", mType1, 'Y', 2, 1, classMng.getUrl());
+            MenuDto timetable = createMenu4Init("시간표", classMng.getUrl() + "/timetable", mType1, 'Y', 2, 2, classMng.getUrl());
+            createMenu4Init("시간표 상세", timetable.getUrl()+"/read", mType3, 'Y', 3, 0, timetable.getUrl());
+            createMenu4Init("시간표 등록", timetable.getUrl()+"/write", mType3, 'Y', 3, 1, timetable.getUrl());
 
-            // 3) 학급관리(관리자) 
-            MenuDto admClass = createMenu4Init("학급 관리", academy.getUrl() + "/class", menuType1, 'N', 2, 3, academy.getUrl());
-            createMenu4Init("목록", admClass.getUrl()+"/list", menuType2, 'Y', 3, 0, admClass.getUrl());
-            createMenu4Init("인원 배치", admClass.getUrl()+"/members", menuType2, 'Y', 3, 1, admClass.getUrl());
-            createMenu4Init("수업 목록", admClass.getUrl()+"/curriculum", menuType2, 'Y', 3, 2, admClass.getUrl());
-            createMenu4Init("시간표", admClass.getUrl()+"/timetable", menuType2, 'Y', 3, 3, admClass.getUrl());
+            // 행정
+            MenuDto oper = createMenu4Init("행정", "/operation", mType1, 'N', 1, 4, null);
+            createMenu4Init("공지사항", oper.getUrl()+"/notice", mType1, 'Y', 2, 0, oper.getUrl());
+            createMenu4Init("회의록", oper.getUrl()+"/meetingLog", mType1, 'Y', 2, 1, oper.getUrl());
 
-            // 행정사무 3
-            MenuDto oper = createMenu4Init("행정", "/operation", menuType1, 'N', 1, 3, null);
-            createMenu4Init("공지사항", oper.getUrl()+"/notice", menuType1, 'Y', 2, 0, oper.getUrl());
-            createMenu4Init("회의록", oper.getUrl()+"/meetingLog", menuType1, 'Y', 2, 1, oper.getUrl());
+            // sms 안내
+            createMenu4Init("SMS", "/sms", mType1, 'Y', 1, 5, null);
 
-            // sms 안내 4
-            createMenu4Init("SMS 안내", "/sms", menuType1, 'Y', 1, 4, null);
-
-            // 통계 시각화 5
-            createMenu4Init("통계", "/statics", menuType1, 'Y', 1, 5, null);
+            // 통계 시각화
+            createMenu4Init("통계/시각화", "/statics", mType1, 'Y', 1, 6, null);
 
 
             // 직급 생성: 관리자(디폴트), 개발자, 행정 담당자(팀장), 강사(일반)
-            RoleDto admin = createRole4Init("관리자", 1, 'Y', null);
+            RoleDto admin = createRole4Init("관리자", 1, 'Y', "시스템 운영자");
             RoleDto dev = createRole4Init("개발자", 0, 'N', "시스템 개발자, 유지보수 담당자");
             RoleDto leader = createRole4Init("팀장", 2, 'N', "행정 관리자");
             RoleDto teacher = createRole4Init("강사", 3, 'Y', "일반 강사");
