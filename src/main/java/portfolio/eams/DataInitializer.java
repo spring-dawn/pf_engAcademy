@@ -66,8 +66,8 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             createMenu4Init("사용처", commonCode.getUrl()+"/usage", mType2, 'Y', 3, 1, commonCode.getUrl());
 
             // 학생관리
-            MenuDto studentMng = createMenu4Init("학생관리", "/student", mType1, 'n', 1, 2, null);
-            MenuDto stuMngList = createMenu4Init("학생목록", studentMng.getUrl()+"/list", mType1, 'y', 2, 0, studentMng.getUrl());
+            MenuDto studentMng = createMenu4Init("학생관리", "/student", mType1, 'N', 1, 2, null);
+            MenuDto stuMngList = createMenu4Init("학생목록", studentMng.getUrl()+"/list", mType1, 'Y', 2, 0, studentMng.getUrl());
             createMenu4Init("학생 상세", stuMngList.getUrl()+"/read", mType3, 'Y', 3, 0, stuMngList.getUrl());
             createMenu4Init("힉생 등록", stuMngList.getUrl()+"/write", mType3, 'Y', 3, 1, stuMngList.getUrl());
 
@@ -75,9 +75,9 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             createMenu4Init("상담내역", studentMng.getUrl()+"/counsel", mType1, 'Y', 2, 2, studentMng.getUrl());
 
             // 학급관리
-            MenuDto classMng = createMenu4Init("학급관리", "/class", mType1, 'N', 1, 3, null);
+            MenuDto classMng = createMenu4Init("학급관리", "/classroom", mType1, 'N', 1, 3, null);
             createMenu4Init("학급목록", classMng.getUrl()+"/list", mType1, 'Y', 2, 0, classMng.getUrl());
-            createMenu4Init("수업배치", classMng.getUrl()+"/curriculum", mType1, 'Y', 2, 1, classMng.getUrl());
+            createMenu4Init("수업배치", classMng.getUrl()+"/course", mType1, 'Y', 2, 1, classMng.getUrl());
             MenuDto timetable = createMenu4Init("시간표", classMng.getUrl() + "/timetable", mType1, 'Y', 2, 2, classMng.getUrl());
             createMenu4Init("시간표 상세", timetable.getUrl()+"/read", mType3, 'Y', 3, 0, timetable.getUrl());
             createMenu4Init("시간표 등록", timetable.getUrl()+"/write", mType3, 'Y', 3, 1, timetable.getUrl());
