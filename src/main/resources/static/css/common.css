@@ -6,15 +6,20 @@ img {
     object-fit: cover;
 }
 
+ul, li{
+    list-style-type: none;
+}
+
 
 /* a */
 a{
     text-decoration: none;
     color: inherit;
 }
-ul, li{
-    list-style-type: none;
+a.bs-color{
+    color: white;
 }
+
 
 /* button */
 /* .btn {
@@ -27,6 +32,11 @@ ul, li{
     background-color: white;
     color: black;
 } */
+
+.btn.bs-color{
+    color: white;
+}
+
 
 .btn.excel {
     background-color: rgb(29, 111, 66);

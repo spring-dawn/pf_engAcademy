@@ -17,11 +17,11 @@ box : 공통 기능 요소 등 비슷한 작은 분류를 묶을 때 필요한 �
 <body>
     <div id="layout-container">
         <header th:replace="~{fragments/header :: header}"></header>
-        <aside th:replace="~{fragments/sideBar :: sideBar}"></aside>
+        <nav th:replace="~{fragments/sideBar :: sideBar}"></nav>
         <div id="layout-mainBox">
-            <main>
+            <main class="p-2">
                 <!-- contents 는 url 따라 갈아끼우기 -->
-                <div layout:fragment="contents">
+                <div layout:fragment="main">
                 </div>
             </main>
         </div>
