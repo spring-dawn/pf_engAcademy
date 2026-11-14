@@ -1,7 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="pgNav">
     <!-- page Navigation: 현재 페이지명 혹은 탭 표시 -->
-
+    <!-- TODO: 메뉴 타입이 sub, default 등인 경우 배치 달라질 수 있음 -->
+     
     <div id="pgNav-container">
-        페이지 네비게이션. 현재 페이지명 혹은 탭 표시
+        <th:block th:each="page : ${pageList}">
+            <th:block th:if="${page.menuType == 'BAR'}">
+                <span th:text="${page.menuNm}"></span>
+                </th:blcok>
+            </th:block>
+
+            <th:blcok th:if="${page.menuType == 'TAB'}">
+                <span>
+                    <a href th:href="@{|${page.url}|}" th:text="${page.menuNm}">
+                    </a>
+                </span>
+            </th:blcok>
     </div>

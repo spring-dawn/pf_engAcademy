@@ -95,16 +95,28 @@ main{
 }
 
 #pgNav-container{
+    border-bottom: 1px solid gray;
+    align-items: center;
     flex: 0.5;
     display: flex;
 }
+#pgNav-container span{
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+
 #searchBar-container{
     flex: 1;
     display: flex;
 }
+
+
 #btnArea-container{
     flex: 0.5;
     display: flex;
+    justify-content: right;
 }
 
 #grid-container{

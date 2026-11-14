@@ -1,6 +1,7 @@
 package portfolio.eams.controller.view.pages;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -44,7 +45,7 @@ public class PageController {
     }
 
     // 공통코드_목록(탭)
-    @RequestMapping(value = {"/system/commonCode", "/system/commonCode/list"})
+    @RequestMapping( "/system/commonCode/list")
     public String codeList(){
         return "pages/system/commonCode/list";
     }

@@ -24,6 +24,10 @@ public class CommonController {
     private final MenuService menuService;
 
 
+    /**
+     * 로그인 후 전역으로 사용할 세션별 권한메뉴목록 조회
+     * @param model 데이터 매핑 객체
+     */
     @ModelAttribute
     public void menus(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -34,16 +38,39 @@ public class CommonController {
         model.addAttribute("menus", list);
     }
 
+
+    /**
+     * Thymeleaf 3.x 버전 이후로 템플릿에서 requestUri 를 지원하지 않으므로 전역 컨트롤러로 현재 접속 정보 전달
+     * @param model 데이터 매핑 객체
+     * @param request 현재 요청
+     */
     @ModelAttribute
-    public void pageUri(Model model, HttpServletRequest request) {
-        // Thymeleaf 3.x 버전 이후로 템플릿에서 requestUri 를 지원하지 않는다고 해서 전역 컨트롤러로 별도 주소 정보 보내기.
-        model.addAttribute("pageUri", request.getRequestURI());
+    public void pageData(Model model, HttpServletRequest request) {
+        // 1) uri
+        String pageUri = request.getRequestURI();
+
+        // 2) 캐싱된 권한메뉴목록 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long roleId = Long.parseLong(authentication.getAuthorities().toArray()[0].toString());
+        List<MenuDto> list = menuService.selectMyMenu(roleId);
+
+        // 3) 탐색, 현 메뉴 정보 가져오기
+        List<MenuDto> pageList = menuService.getPageNav(list, pageUri);
+
+        // return
+        model.addAttribute("pageUri", pageUri);
+        model.addAttribute("pageList", pageList);
     }
 
+
+    /**
+     * 페이지별 매핑된 공통코드 호출
+     * @param model 데이터 매핑 객체
+     * @param request 현재 요청
+     */
     @ModelAttribute
-    public void commonCodes(Model model) {
-        // TODO: 페이지별 매핑된 공통코드 호출
-        return;
+    public void commonCodes(Model model, HttpServletRequest request) {
+        // TODO:
     }
 
 

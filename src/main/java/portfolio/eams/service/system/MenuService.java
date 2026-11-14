@@ -1,5 +1,6 @@
 package portfolio.eams.service.system;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -11,7 +12,11 @@ import portfolio.eams.entity.system.Menu;
 import portfolio.eams.entity.system.MenuRoleAcs;
 import portfolio.eams.repo.system.MenuRepo;
 import portfolio.eams.repo.system.MenuRoleAcsRepo;
+import portfolio.eams.util.enums.EntityNm;
+import portfolio.eams.util.enums.InfoMsg;
+import portfolio.eams.util.enums.MenuType;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -54,11 +59,14 @@ public class MenuService {
 
     /**
      * 메뉴 단일건 조회
-     *
-     * @param url 메뉴 url
+     * @param url 메뉴 url(uri)
      * @return dto
      */
-//   public MenuDto selectMenu(String url);
+   public MenuDto selectMenu(String url){
+       Menu menu = repo.findByUrl(url)
+               .orElseThrow(() -> new EntityNotFoundException(InfoMsg.ENTITY_NOT_FOUND.format(EntityNm.MENU)));
+       return menu.toRes();
+   };
 
 
     /**
@@ -80,5 +88,39 @@ public class MenuService {
      */
 //    public List<Menu> filterAllowedMenu(List<Menu> rootMenus, Set<Long> allowed);
 
+
+    /**
+     * 캐싱된 트리구조 리스트를 재귀적으로 솎아 각 화면(page) 상단에 출력할 메뉴정보 탐색
+     * @param cacheTree 캐싱된 권한메뉴목록
+     * @param pageUri 현재 접속 화면 메뉴정보목록 or 탭 목록
+     */
+    public List<MenuDto> getPageNav(List<MenuDto> cacheTree, String pageUri) {
+        // 1)
+        if (cacheTree.isEmpty()) return Collections.emptyList();
+
+        // 2) 인자로 받은 cacheTree 깊이에서 uri 일치여부 평면 탐색
+        for (MenuDto dto : cacheTree) {
+            if (dto.getUrl().equals(pageUri)) {
+                // 메뉴타입 검사: TAB 이면 siblings 전부 반환
+                if (MenuType.M2.isEquals(dto.getMenuType())) {
+                    return cacheTree;
+                } else {
+                    // default, sub, bar 타입이며 일치하는 단일값 즉각 반환
+                    return List.of(dto);
+                }
+
+            // 3) 해당 깊이에서 못 찾은 경우, uri 를 포함하는 하위노드로 진입
+            } else {
+                if (pageUri.startsWith(dto.getUrl()) && !dto.getChildren().isEmpty()) {
+//                    log.info("asdf 하위노드로 재귀탐색. 현재 깊이={}, 탐색url={}", dto.getDepth(), dto.getUrl());
+                    List<MenuDto> result = getPageNav(dto.getChildren(), pageUri);
+                    if(!result.isEmpty()) return result;
+                }
+            }
+        }
+
+        // 4) 구색맞추기용 return
+        return Collections.emptyList();
+    }
 
 }

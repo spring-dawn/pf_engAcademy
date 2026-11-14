@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum MenuType {
-    M1("MENU"),
+    M1("BAR"),
     M2("TAB"),
     M3("SUB"),
     M4("DEFAULT"),
