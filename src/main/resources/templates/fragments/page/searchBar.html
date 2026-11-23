@@ -2,6 +2,33 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="searchBar">
     <!-- search bar 는 검색창 및 검색 버튼 포함한 영역 -->
     <div id="searchBar-container">
-        <input type="text" placeholder="검색어를 입력하세요" />
-        <button type="submit">검색</button>
+        <form method="post" id="searchBar-form">
+            <div id="inputBox" class="flex-shrink-0 p-3">
+                <!-- 동적 생성 -->
+                <!-- label, input 세트 -->
+                <div class="input-set">
+                    <th:block th:replace="~{fragments/common/searchBarField/select :: f-select('검색어1', 'searchBar-input1')}"></th:block>
+                </div>
+                <div class="input-set">
+                    <!-- <label for="searchBar-input2">검색어2</label>
+                    <input type="text" id="searchBar-input2" name="searchBar-input2" class="form-control-sm datepicker"> -->
+                    <th:block th:replace="~{fragments/common/searchBarField/input :: f-input('text', '검색어2', 'searchBar-input2', '날짜', false, true, true)}"></th:block>
+                </div>
+                <div class="input-set">
+                    <th:block th:replace="~{fragments/common/searchBarField/input :: f-input('text', '검색어3', 'searchBar-input3', '', false, false, false)}"></th:block>
+                </div>
+                <!-- <input type="text" id="datePicker" class="form-control" value="2019-06-27"> -->
+            </div>
+
+            <div id="btnBox">
+                <!-- <button type="button" class="btn btn-outline-secondary" aria-label="Search"> -->
+                <!-- 동적 생성 -->
+                <button type="button" class="btn btn-secondary" aria-label="Search">
+                    조회
+                </button>
+                <button type="button" class="btn btn-excel" aria-label="Search">
+                    Excel
+                </button>
+            </div>
+        </form>
     </div>

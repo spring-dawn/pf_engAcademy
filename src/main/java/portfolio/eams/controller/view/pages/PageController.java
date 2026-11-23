@@ -1,13 +1,16 @@
 package portfolio.eams.controller.view.pages;
 
+import groovy.util.logging.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Slf4j
 @Controller
 public class PageController {
     /*
-    뷰(화면) 매핑 컨트롤러
+    주로 뷰(화면) 매핑 컨트롤러
     경로 prefix 는 application.yml 에서 디폴트 적용. 현재 : /resource/templates/
     suffix : .html
 

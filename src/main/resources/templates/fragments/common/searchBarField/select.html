@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="f-select(label, name)">
+    <!-- select, option 정의 -->
+    <label th:for="${name}" th:text="${label}">라벨명</label>
+    <select class="form-select-sm" th:name="${name}" th:id="${name}">
+        <!-- 동적 설정 -->
+        <option value="">전체</option>
+        <option value="1">예시1</option>
+        <option value="2">예시2</option>
+    </select>
+
+</html>

@@ -49,13 +49,12 @@ public class CommonController {
         // 1) uri
         String pageUri = request.getRequestURI();
 
-        // 2) 캐싱된 권한메뉴목록 가져오기
+        // 2) pageNav
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long roleId = Long.parseLong(authentication.getAuthorities().toArray()[0].toString());
         List<MenuDto> list = menuService.selectMyMenu(roleId);
-
-        // 3) 탐색, 현 메뉴 정보 가져오기
         List<MenuDto> pageList = menuService.getPageNav(list, pageUri);
+
 
         // return
         model.addAttribute("pageUri", pageUri);

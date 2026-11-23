@@ -12,10 +12,9 @@ body, * {
 ================================ 최상위 layout 분할 ================================
 */
 #layout-container{
-    width: 100%;
+    /* bs 설정에 패딩 12 있어서 임시 제거  */
+    padding: 0; 
     height: 100vh;
-    margin: auto;
-    /* min-width: 600px; */
     display: grid;
     grid-template-columns: 200px 1fr 1fr;
     grid-template-rows: 100px 1fr 1fr;
@@ -69,8 +68,6 @@ header{
 /* header img {flex: 1;} */
 header h2 {flex: 9; margin: auto; text-align: center;}
 
-
-
 #layout-gnbBox{
     flex: 2;
     display: flex;
@@ -108,18 +105,42 @@ main{
 
 
 #searchBar-container{
+    flex: 1; display: flex;
+}
+/* TODO */
+#searchBar-container form{
     flex: 1;
+    background-color: pink;
     display: flex;
 }
+form #inputBox {
+    flex: 9;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
+/* label, input */
+
+
+form #btnBox{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
 
 #btnArea-container{
     flex: 0.5;
     display: flex;
     justify-content: right;
+    align-items: center;
+    gap: 10px;
 }
 
 #grid-container{
+    background-color: rgb(207, 207, 207);
     flex: 8;
     display: flex;
     flex-direction: column;
