@@ -38,25 +38,25 @@ public class PageController {
     // 사용자
     @RequestMapping("/system/user")
     public String user(){
-        return "pages/system/user";
+        return "pages/system/user/page";
     }
 
     // 권한
     @RequestMapping("/system/role")
     public String role(){
-        return "pages/system/role";
+        return "pages/system/role/page";
     }
 
     // 공통코드_목록(탭)
     @RequestMapping( "/system/commonCode/list")
     public String codeList(){
-        return "pages/system/commonCode/list";
+        return "pages/system/commonCode/list/page";
     }
 
     // 공통코드_사용처
     @RequestMapping("/system/commonCode/usage")
     public String codeUsage(){
-        return "pages/system/commonCode/usage";
+        return "pages/system/commonCode/usage/page";
     }
 
     // ===================== 학원: 학생 ============================

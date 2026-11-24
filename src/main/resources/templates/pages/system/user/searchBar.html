@@ -1,0 +1,22 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="searchBar">
+    <!-- search bar 는 검색창 및 검색 버튼 포함한 영역 -->
+    <div id="searchBar-container">
+        <form method="post" id="searchBar-form">
+            <div id="inputBox" class="flex-shrink-0 p-3">
+                <!-- 이하 검색어 조각 구성 -->
+                <th:block th:replace="~{fragments/common/searchBarField/input :: f-input('text', 'ID', 'id', '사용자ID', false, false, false)}"></th:block>
+                <th:block th:replace="~{fragments/common/searchBarField/input :: f-input('text', '이름', 'userNm', '', false, false, false)}"></th:block>
+                <th:block th:with="useYnMap=${ {'전체': '', '재직': 'Y', '퇴직': 'N'} }">
+                 <th:block th:replace="~{fragments/common/searchBarField/select :: f-select('재직여부', 'useYn', ${useYnMap})}"></th:block>
+                </th:block>
+            </div>
+
+
+            <div id="btnBox">
+                <button type="button" class="btn btn-secondary" aria-label="Search">
+                    조회
+                </button>
+            </div>
+        </form>
+    </div>
+</html>

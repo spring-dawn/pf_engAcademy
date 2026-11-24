@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="f-input(type, label, name, placeholder, required, readOnly, isDate)">
     <!-- input 정의 -->
-    <label th:for="${name}" th:text="${label}">라벨명</label>
-    <input 
-    class="form-control-sm"
-    th:type="${type}" 
-    th:id="${name}" th:name="${name}" 
-    th:placeholder="${placeholder}" 
-    th:required="${required}"
-    th:readOnly="${readOnly}"
-    th:classappend="${isDate == true ? 'datepicker': ''}"
-    >
+    <div class="input-set">
+        <label th:for="${name}" th:text="${label}">라벨명</label>
+        <input 
+        class="form-control-sm"
+        th:type="${type}" 
+        th:id="${name}" th:name="${name}" 
+        th:placeholder="${placeholder}" 
+        th:required="${required}"
+        th:readOnly="${readOnly}"
+        th:classappend="${isDate == true ? 'datepicker': ''}"
+        >
+    </div>
 </html>

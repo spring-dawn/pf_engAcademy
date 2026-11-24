@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="sideBar">
 <nav id="sideBar" aria-label="Sidebar">
     <div id="logoBox">
@@ -15,7 +14,7 @@
             <th:block th:each="menu : ${menus}">
                 <th:block th:if="${menu.getChildren().size() == 0 && menu.getMenuType() == 'BAR'}">
                     <li class="mb-1">
-                        <button class="btn bs-color btn-toggle align-items-center" >
+                        <button class="btn bs-color btn-toggle align-items-center">
                             <a class="rounded bs-color" th:href="@{|${menu.url}|}" th:text="${menu.menuNm}" />
                         </button>
                     </li>
@@ -24,28 +23,25 @@
                 <!-- 하위항목 있는 메뉴 -->
                 <th:block th:unless="${menu.getChildren().size() == 0}">
                     <li class="mb-1">
-                    <button
-                    class="btn bs-color btn-toggle align-items-center rounded collapsed" 
-                    th:text="${menu.menuNm}" 
-                    data-bs-toggle="collapse" aria-expanded="false" 
-                    th:attr="
+                        <button class="btn bs-color btn-toggle align-items-center rounded collapsed"
+                            th:text="${menu.menuNm}" data-bs-toggle="collapse" aria-expanded="false" th:attr="
                     data-bs-target=|#${menu.id}|,
                     aria-controls=${menu.id}
                     ">
-                    </button>
+                        </button>
 
-                    <div class="collapse" th:attr="id=${menu.id}">
-                        <ul class="btn-toggle-nav">
-                            <th:block th:each="child : ${menu.getChildren()}">
-                                <th:block th:if="${child.getMenuType() == 'BAR'}">
-                                    <li class="menu">
-                                        <a class="rounded bs-color"
-                                        th:href="@{|${child.url}|}" th:text="${child.menuNm}" />
-                                    </li>
+                        <div class="collapse" th:attr="id=${menu.id}">
+                            <ul class="btn-toggle-nav">
+                                <th:block th:each="child : ${menu.getChildren()}">
+                                    <th:block th:if="${child.getMenuType() == 'BAR'}">
+                                        <li class="menu">
+                                            <a class="rounded bs-color" th:href="@{|${child.url}|}"
+                                                th:text="${child.menuNm}" />
+                                        </li>
+                                    </th:block>
                                 </th:block>
-                            </th:block>
-                        </ul>
-                    </div>
+                            </ul>
+                        </div>
                     </li>
 
                 </th:block>
@@ -53,6 +49,5 @@
         </ul>
     </div>
 </nav>
-
 
 </html>
