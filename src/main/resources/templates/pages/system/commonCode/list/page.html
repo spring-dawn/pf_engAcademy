@@ -5,9 +5,9 @@
 
     <!-- 페이지 조각명을 main 으로 명명해서 레이아웃과 맞춰준다 -->
     <th:block layout:fragment="main">
-        <th:block th:replace="~{fragments/page/pgNav :: pgNav}"></th:block>
-        <th:block th:replace="~{fragments/page/searchBar :: searchBar}"></th:block>
-        <th:block th:replace="~{fragments/page/btnArea :: btnArea}"></th:block>
+        <th:block th:replace="~{fragments/common/pgNav :: pgNav}"></th:block>
+        <th:block th:replace="~{pages/system/commonCode/list/searchBar}"></th:block>
+        <th:block th:replace="~{pages/system/commonCode/list/btnArea :: btnArea}"></th:block>
         <th:block th:replace="~{fragments/page/grid :: grid}"></th:block>
     </th:block>
 </html>

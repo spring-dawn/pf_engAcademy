@@ -4,18 +4,24 @@
         <form method="post" id="searchBar-form">
             <div id="inputBox" class="flex-shrink-0 p-3">
                 <!-- 이하 검색어 조각 구성 -->
-                <th:block th:replace="~{fragments/common/searchBarField/input :: f-input('text', 'ID', 'id', '사용자ID', false, false, false)}"></th:block>
-                <th:block th:replace="~{fragments/common/searchBarField/input :: f-input('text', '이름', 'userNm', '', false, false, false)}"></th:block>
+                <th:block th:replace="~{fragments/common/searchBarField/input :: f-input('search', 'ID', 'id', '사용자ID', false, false)}"></th:block>
+                <th:block th:replace="~{fragments/common/searchBarField/input :: f-input('search', '이름', 'userNm', '', false, false)}"></th:block>
+
                 <th:block th:with="useYnMap=${ {'전체': '', '재직': 'Y', '퇴직': 'N'} }">
                  <th:block th:replace="~{fragments/common/searchBarField/select :: f-select('재직여부', 'useYn', ${useYnMap})}"></th:block>
                 </th:block>
+                <th:block th:replace="~{fragments/common/searchBarField/input :: f-input('date', '입사일자', 'joinDt', '', false, false)}" ></th:block>
+                <!-- ~
+                <th:block th:replace="~{fragments/common/searchBarField/input :: f-input('date', '퇴사일자', 'quitDt', '', false, false)}" ></th:block> 
+                -->
             </div>
 
 
             <div id="btnBox">
-                <button type="button" class="btn btn-secondary" aria-label="Search">
-                    조회
-                </button>
+                <!-- <button type="button" class="btn btn-secondary" aria-label="Search">조회</button> -->
+                <th:block th:replace="~{fragments/common/searchBarField/btn :: f-btn('button', 'btn-secondary', '조회', '')}"></th:block>
+                <!-- <th:block th:replace="~{fragments/common/searchBarField/btn :: f-btn('reset', 'btn-light btn-sm', '초기화', '')}"></th:block> -->
+                <!-- <th:block th:replace="~{fragments/common/searchBarField/btn :: f-btn('button', 'btn-excel', 'Excel', '')}"></th:block> -->
             </div>
         </form>
     </div>

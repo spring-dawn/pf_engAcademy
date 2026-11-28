@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="btnArea">
+    <!-- 버튼 영역. 이쪽은 주로 페이지 이동, 모달창 띄우기 등 js 처리 필요 -->
+    <div id="btnArea-container">
+        <th:block th:replace="~{fragments/common/searchBarField/btn :: f-btn('button', 'btn-primary', '등록', '')}"></th:block>
+    </div>
+</html>

@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="f-btn(type, subClass, text, api)">
+    <!-- 검색창 내부 버튼 정의. 기본 .btn 클래스 포함 -->
+     <!-- TODO: 검색창에서는 화면 번쩍임을 줄이기 위해 submit 가 아닌 이벤트 처리하도록 -->
+    <button th:type="${type}" class="btn" th:classappend="${subClass}" th:text="${text}">버튼명</button>
+</html>
